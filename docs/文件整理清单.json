@@ -1,0 +1,125 @@
+{
+  "date": "2026-10-03",
+  "note": "All original root files backed up before relocation; text links repaired. No files deleted.",
+  "entries": [
+    {
+      "from": "GitHub项目公开快照.json",
+      "to": "data/GitHub项目公开快照.json",
+      "originalSha256": "70110b98c74508406878f341024bf2ff73e2f5c0c892e9f06e2a687904607d2c",
+      "backup": "work/archive-pre-organization/GitHub项目公开快照.json",
+      "organizedSha256": "70110b98c74508406878f341024bf2ff73e2f5c0c892e9f06e2a687904607d2c"
+    },
+    {
+      "from": "GitHub项目核对清单.md",
+      "to": "docs/design/GitHub项目核对清单.md",
+      "originalSha256": "c87a4e878f0a9c8a0124d0e0a4cbe1ce9ae13ed1181c20e987b74c495b526d08",
+      "backup": "work/archive-pre-organization/GitHub项目核对清单.md",
+      "organizedSha256": "c87a4e878f0a9c8a0124d0e0a4cbe1ce9ae13ed1181c20e987b74c495b526d08"
+    },
+    {
+      "from": "personal-home-black-pink-v3.png",
+      "to": "assets/design/archive/personal-home-black-pink-v3.png",
+      "originalSha256": "ecc9663ccbee0c260d6ef877b4d0ef37540dd42571ec8983b430f677ce0b3b32",
+      "backup": "work/archive-pre-organization/personal-home-black-pink-v3.png",
+      "organizedSha256": "ecc9663ccbee0c260d6ef877b4d0ef37540dd42571ec8983b430f677ce0b3b32"
+    },
+    {
+      "from": "personal-home-premium-v2.png",
+      "to": "assets/design/archive/personal-home-premium-v2.png",
+      "originalSha256": "07d363702407692a362bde09f6c71684afe3465342bee19193277a0a75a4199c",
+      "backup": "work/archive-pre-organization/personal-home-premium-v2.png",
+      "organizedSha256": "07d363702407692a362bde09f6c71684afe3465342bee19193277a0a75a4199c"
+    },
+    {
+      "from": "personal-intro-dark-v4.png",
+      "to": "assets/design/current/personal-intro-dark-v4.png",
+      "originalSha256": "f528900a4db7d6bd500190e613b6c72aa968a1c416d73988122c93c2e974f40e",
+      "backup": "work/archive-pre-organization/personal-intro-dark-v4.png",
+      "organizedSha256": "f528900a4db7d6bd500190e613b6c72aa968a1c416d73988122c93c2e974f40e"
+    },
+    {
+      "from": "personal-intro-light-v4.png",
+      "to": "assets/design/current/personal-intro-light-v4.png",
+      "originalSha256": "8c23a12e98177c8f00403458c980b5003de78e217772558c3ef2832a1fa63bd9",
+      "backup": "work/archive-pre-organization/personal-intro-light-v4.png",
+      "organizedSha256": "8c23a12e98177c8f00403458c980b5003de78e217772558c3ef2832a1fa63bd9"
+    },
+    {
+      "from": "personal-ip-chibi-v1.png",
+      "to": "assets/design/archive/personal-ip-chibi-v1.png",
+      "originalSha256": "cf63e42e18060bb2babe6749b27a30f36a773e1eb7ad998da0764ce33ab895aa",
+      "backup": "work/archive-pre-organization/personal-ip-chibi-v1.png",
+      "organizedSha256": "cf63e42e18060bb2babe6749b27a30f36a773e1eb7ad998da0764ce33ab895aa"
+    },
+    {
+      "from": "personal-ip-initial-realistic-draft.png",
+      "to": "assets/design/archive/personal-ip-initial-realistic-draft.png",
+      "originalSha256": "f865735b41afa802eebfb5e8a6b7e0c6d9a6e8a92b4d0856e9673f042d632973",
+      "backup": "work/archive-pre-organization/personal-ip-initial-realistic-draft.png",
+      "organizedSha256": "f865735b41afa802eebfb5e8a6b7e0c6d9a6e8a92b4d0856e9673f042d632973"
+    },
+    {
+      "from": "personal-world-design-v4.md",
+      "to": "docs/design/personal-world-design-v4.md",
+      "originalSha256": "8b6b7c06a822c6091b63cf8730315d90164c2769daca2154e145fb6db73d1dae",
+      "backup": "work/archive-pre-organization/personal-world-design-v4.md",
+      "organizedSha256": "8b6b7c06a822c6091b63cf8730315d90164c2769daca2154e145fb6db73d1dae"
+    },
+    {
+      "from": "project-gallery-dark-preview.png",
+      "to": "assets/previews/project-gallery-dark-preview.png",
+      "originalSha256": "b3000a1a574d6230a540883c3d2595b9671a8505a20d616b3fe1f8229068a1ff",
+      "backup": "work/archive-pre-organization/project-gallery-dark-preview.png",
+      "organizedSha256": "b3000a1a574d6230a540883c3d2595b9671a8505a20d616b3fe1f8229068a1ff"
+    },
+    {
+      "from": "project-gallery-light-preview.png",
+      "to": "assets/previews/project-gallery-light-preview.png",
+      "originalSha256": "9f605756f399e88f61bafa929069ba170ef984e1083a06e3dd00d4b737cd9d7c",
+      "backup": "work/archive-pre-organization/project-gallery-light-preview.png",
+      "organizedSha256": "9f605756f399e88f61bafa929069ba170ef984e1083a06e3dd00d4b737cd9d7c"
+    },
+    {
+      "from": "个人网页完整实现报告.html",
+      "to": "docs/design/个人网页完整实现报告.html",
+      "originalSha256": "365515a09058af47f9e07a3215006eda66ea9e3b27465662a09a750ae29e2d8e",
+      "backup": "work/archive-pre-organization/个人网页完整实现报告.html",
+      "organizedSha256": "d2d3b2ea4b385d30d8451345c77f101390cbad2260e62dfe8b752ec846f6f0cc"
+    },
+    {
+      "from": "个人网页完整实现报告.md",
+      "to": "docs/design/个人网页完整实现报告.md",
+      "originalSha256": "9445022269fb608bd8c239cafd789fe166d6f746d3e811e41ba0e2f941d168f7",
+      "backup": "work/archive-pre-organization/个人网页完整实现报告.md",
+      "organizedSha256": "7ea2de555b6e9ec78be1c36e258ff1c50e3c38ce49d20e989db5b36dd0cea34d"
+    },
+    {
+      "from": "个人网页落地与完善计划.html",
+      "to": "docs/design/个人网页落地与完善计划.html",
+      "originalSha256": "d2a49dc706a18b2453a79e795ca7d57e523da4d34ed581403b87c974082b9021",
+      "backup": "work/archive-pre-organization/个人网页落地与完善计划.html",
+      "organizedSha256": "4cd8c00068c9c07984e06b221cd4fb6ef864def3c39ee89254470a624ea5b997"
+    },
+    {
+      "from": "个人网页落地与完善计划.md",
+      "to": "docs/design/个人网页落地与完善计划.md",
+      "originalSha256": "bf56d7070f9dd46136fe5f05658eb8a78e55c6150cdb77117cd529a746ff1c85",
+      "backup": "work/archive-pre-organization/个人网页落地与完善计划.md",
+      "organizedSha256": "5f3bf057b1b3d0c21ba05316cd665fcdab8ea874f26aba89543079e728907fe2"
+    },
+    {
+      "from": "项目画廊交互原型.html",
+      "to": "prototypes/项目画廊交互原型.html",
+      "originalSha256": "15a762de16021e5a55554818174c58631e55eda8fe9220d1c9e4bec8a0ef4549",
+      "backup": "work/archive-pre-organization/项目画廊交互原型.html",
+      "organizedSha256": "4a0bab3819ee6dbe131b74bbc3cccd8708f66ee13126021625ecb2323282a591"
+    },
+    {
+      "from": "项目画廊交互设计.md",
+      "to": "docs/design/项目画廊交互设计.md",
+      "originalSha256": "a44ecd7f1d45b7db0b9ca20c2f3f027fa02afd550d3592f5fbf91b0636e871a6",
+      "backup": "work/archive-pre-organization/项目画廊交互设计.md",
+      "organizedSha256": "ee290fce6e759c00407425ae115d5f8786c389c9e4d18dd5c2fbb1bce9805b53"
+    }
+  ]
+}

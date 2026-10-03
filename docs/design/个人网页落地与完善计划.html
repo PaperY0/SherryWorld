@@ -1,0 +1,349 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PaperY · 个人网页落地与完善计划</title><style>
+  :root{color-scheme:light;--bg:#faf8f6;--ink:#242025;--muted:#716972;--pink:#efbac9;--line:#e7dfe3}
+  *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:36px}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.85}
+  .masthead{padding:58px max(6vw,24px) 46px;border-bottom:1px solid var(--line);background:linear-gradient(130deg,#fffaf8,#faedf2)}
+  .eyebrow{font-size:12px;letter-spacing:.22em;color:#69525d}.masthead h1{font-size:clamp(34px,5vw,62px);letter-spacing:-.04em;margin:20px 0 12px;line-height:1.15;font-weight:650}.masthead p{max-width:760px;margin:0;color:var(--muted)}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.chips span{font-size:12px;padding:5px 12px;border:1px solid #dec6d0;border-radius:999px;background:#ffffff90}
+  .layout{display:grid;grid-template-columns:250px minmax(0,940px);gap:52px;max-width:1320px;padding:44px 32px 90px;margin:auto}aside{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:12px}aside .toc-title{color:#9c5e76;text-transform:uppercase;letter-spacing:.16em;padding:8px 10px}aside a{display:block;text-decoration:none;color:#746b72;border-left:2px solid transparent;padding:6px 10px;line-height:1.6}aside a:hover{color:#292329;border-left-color:var(--pink);background:#f4e9ee}
+  article{min-width:0;font-size:15px}article>h1{font-size:28px;margin-top:0}h2{font-size:26px;line-height:1.4;letter-spacing:-.02em;padding-top:48px;margin:32px 0 20px;border-top:1px solid var(--line)}h2:first-of-type{padding-top:28px}h3{font-size:18px;margin:28px 0 12px}p{margin:14px 0}a{color:#94546e;text-underline-offset:4px}blockquote{border-left:3px solid var(--pink);padding:10px 20px;margin:24px 0;background:#f4edf0;border-radius:0 12px 12px 0;color:#67525d}blockquote p{margin:4px 0}strong{font-weight:650}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:22px 0;table-layout:auto}th{background:#efe6eb;text-align:left;font-weight:600}th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}tbody tr:nth-child(even){background:#ffffff70}pre{background:#29242b;color:#f5ecf1;padding:22px;border-radius:14px;overflow:auto;font-size:13px;line-height:1.8}code{font-family:Consolas,monospace;font-size:.9em;overflow-wrap:anywhere}p code,td code{background:#eee4e9;padding:2px 5px;border-radius:4px}img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:16px}.theme-previews{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}.theme-previews p{margin:0}.theme-previews img{border-radius:10px}li{margin:9px 0}input[type=checkbox]{accent-color:#bd7894}footer{max-width:940px;margin:0 auto 36px;padding:20px 32px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media(max-width:1000px){.layout{grid-template-columns:1fr;gap:24px;padding:28px 24px 60px}aside{position:static;max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:2px}aside .toc-title{grid-column:1/-1}article{font-size:14px}table{display:block;overflow:auto}h2{font-size:23px}.theme-previews{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{aside,.chips{display:none}.layout{display:block;padding:0}.masthead{padding:16px 0;background:none}body{background:white;font-size:10pt}article{font-size:10pt}h2{break-after:avoid;font-size:18pt;padding-top:20px}table{font-size:9pt}tr,img,pre{break-inside:avoid}.theme-previews{grid-template-columns:1fr 1fr}a{color:inherit}footer{padding:12px 0}@page{size:A4;margin:18mm}}
+  </style></head><body><header class="masthead"><div class="eyebrow">PERSONAL SPACE · DELIVERY ROADMAP</div><h1>从设计，到你的个人世界。</h1><p>12 个交付阶段：正式网站、项目画廊、真实 3D 人物、个人内容与上线验收。<br>以已经确认的黑粉双主题和最新画廊为基线，按阶段交付、检查和完善。</p><div class="chips"><span>12 DELIVERY STAGES</span><span>LIGHT / DARK</span><span>APPROVED GALLERY</span><span>2026.10.03</span></div></header><div class="layout"><aside aria-label="计划目录"><div class="toc-title">PLAN / 目录</div><a href="#phase-01">01 · 当前进度与固定要求</a><a href="#phase-02">02 · 全部阶段与依赖顺序</a><a href="#phase-03">03 · 阶段 1：设计基线与内容结构</a><a href="#phase-04">04 · 阶段 2：正式工程与双主题</a><a href="#phase-05">05 · 阶段 3：个人世界页面</a><a href="#phase-06">06 · 阶段 4：保留并正式化画廊</a><a href="#phase-07">07 · 阶段 5：真实封面与完整项目案例</a><a href="#phase-08">08 · 阶段 6：真实个人 3D 模型</a><a href="#phase-09">09 · 阶段 7：首屏人物与互动</a><a href="#phase-10">10 · 阶段 8：视差滚动和进入个人世界</a><a href="#phase-11">11 · 阶段 9：兴趣、生活、旅行和故事</a><a href="#phase-12">12 · 阶段 10：招聘信息和分享</a><a href="#phase-13">13 · 阶段 11：整站美感和质量</a><a href="#phase-14">14 · 阶段 12：发布与维护</a><a href="#phase-15">15 · 素材清单与责任边界</a><a href="#phase-16">16 · 下一步的具体顺序</a><a href="#phase-17">17 · 对照文件</a></aside><article><h1>PaperY · 个人网页落地与完善计划</h1>
+<p>日期：2026-10-03。这是完整交付路线与验收任务清单，作为后续各阶段实施的依据；本轮不创建正式网站工程。</p>
+<blockquote>
+<p>执行方式：后续使用 executing-plans 按阶段推进。每阶段形成可查看成果，完成验收再进入依赖它的工作。本计划没有安排额外子代理或自动发布。</p>
+</blockquote>
+<p>**目标：**将已确认的黑粉双主题、居中人物入口、滚动叙事、环形项目画廊和个人内容，落地为可访问、可维护、对求职有帮助的个人网站。</p>
+<p>**架构：**正文与详情页使用普通网页结构，项目、照片和文章由结构化内容驱动。3D 人物作为独立场景加载；滚动动画、鼠标响应和主题共享明确状态。项目画廊沿用已经认可的 CSS 3D 方案，完整站点再组件化和优化。</p>
+<p>**拟用技术：**Next.js、TypeScript、React、Three.js / React Three Fiber、GSAP ScrollTrigger、CSS 主题变量、结构化数据与 Markdown 内容。具体稳定版本及兼容性在工程阶段核验后锁定。</p>
+<h2 id="phase-01">01 · 当前进度与固定要求</h2>
+<p>已经具备：人物概念图、Light / Dark 首屏视觉稿、公开项目清单、完整设计报告、可操作画廊原型。尚未具备：正式站点工程、真实可动的个人角色模型、真实项目封面集、生活旅行照片集、正式上线地址。</p>
+<h3>继续沿用的设计</h3>
+<ul>
+<li>展示身份：PaperY · 文书颖，山东科技大学智能科学与技术专业大三；求职方向 AI、后端、Agent。</li>
+<li>左上角 PERSONAL SPACE；双主题按钮 LIGHT / DARK。</li>
+<li>暖白 / 暖调深灰黑背景、柔粉点缀、大面积留白，不增加金属空间装饰。</li>
+<li>人物上半身居中，头顶完整入镜，略拽表情；Light 黑色服装，Dark 珍珠灰服装。</li>
+<li>第一屏只有人物、品牌字和主题按钮；滚动后分组出现 A WORLD / OF / MY OWN 与中央 EXPLORE。</li>
+<li>项目画廊标题为 <strong>BUILT IN MY OWN WAY.</strong>，全部大写且单行；不恢复已经删除的两行中文说明。</li>
+<li>桌面画廊一屏主要展示 4–5 张大封面，边缘增宽增高，整体上沿向上、下沿向下展开。</li>
+<li>画廊封面从上方进入，默认向左循环；鼠标向左 / 向右移动分别推动对应方向；支持拖动、暂停、项目介绍和 GitHub 入口。</li>
+<li>全部公开仓库收录。现有快照是 16 个，其中 4 个 Fork；正式内容更新时以最新快照为准，Fork 标识保留。</li>
+<li>兴趣：羽毛球、舞蹈、音乐；旅游：上海、北京、云南。图片等待你提供，不使用他人照片填充个人经历。</li>
+<li>联系：<a href="mailto:19511635329@163.com">19511635329@163.com</a>、GitHub PaperY0。正式简历未提供，暂不显示空下载入口。</li>
+</ul>
+<h3>已完成不等于最终验收</h3>
+<p>画廊原型已检查循环方向、鼠标反向、拖动防误点、弹窗暂停、主题、目录和手机宽度。卡片大小及弧形也经过浏览器尺寸检查。它还没有完成正式项目截图替换、长期连续运行、所有真实设备手势与整站性能验收。</p>
+<h2 id="phase-02">02 · 全部阶段与依赖顺序</h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>核心交付</th>
+<th>依赖</th>
+<th>完成标志</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 · 设计基线与内容结构</td>
+<td>已确认要求、页面结构、资产清单</td>
+<td>现有方案</td>
+<td>不遗漏已确认设计，所有栏目有位置</td>
+</tr>
+<tr>
+<td>2 · 正式工程与双主题</td>
+<td>可运行网页、内容路由、主题与基础样式</td>
+<td>阶段 1</td>
+<td>运行和构建通过，页面可直接打开</td>
+</tr>
+<tr>
+<td>3 · 个人世界静态页面</td>
+<td>关于、项目、兴趣、生活、旅行、联系</td>
+<td>阶段 2</td>
+<td>全站结构完整，手机与桌面可浏览</td>
+</tr>
+<tr>
+<td>4 · 正式项目画廊</td>
+<td>迁移认可的画廊，接入内容与介绍</td>
+<td>阶段 2、项目数据</td>
+<td>风格不变，循环与点击稳定</td>
+</tr>
+<tr>
+<td>5 · 项目封面与招聘案例</td>
+<td>真实封面、案例、证据与工作方式</td>
+<td>项目访问条件和素材</td>
+<td>访客看得懂作品和你的贡献</td>
+</tr>
+<tr>
+<td>6 · 3D 角色资产</td>
+<td>可操作模型、材质、表情和动作</td>
+<td>已认可造型与制作资源</td>
+<td>模型小样通过相似度和动作检查</td>
+</tr>
+<tr>
+<td>7 · 首屏人物与鼠标交互</td>
+<td>模型加载、静息、视线、转头、换色</td>
+<td>阶段 2、6</td>
+<td>真正操作 3D 模型，加载失败可回退</td>
+</tr>
+<tr>
+<td>8 · 滚动与入场动画</td>
+<td>序幕、欢迎页、EXPLORE、章节过渡</td>
+<td>阶段 3、4、7</td>
+<td>滚动可进可退，动画不阻断阅读</td>
+</tr>
+<tr>
+<td>9 · 真实个人素材</td>
+<td>兴趣照片、生活记录、旅行影像、故事</td>
+<td>你逐步提供素材</td>
+<td>有本人内容，未提供素材不虚构</td>
+</tr>
+<tr>
+<td>10 · 求职与分享入口</td>
+<td>项目直达、GitHub、邮件、分享预览</td>
+<td>阶段 3、5</td>
+<td>求职信息容易找到，链接有效</td>
+</tr>
+<tr>
+<td>11 · 整站质量与美感打磨</td>
+<td>手机适配、性能、可访问性、视觉验收</td>
+<td>核心页面和资产齐备</td>
+<td>关键路径与回退均可用</td>
+</tr>
+<tr>
+<td>12 · 发布与持续维护</td>
+<td>上线版本、内容更新流程、发布记录</td>
+<td>阶段 11、发布配置</td>
+<td>公网复验通过，能继续维护</td>
+</tr>
+</tbody></table>
+<p>建议从阶段 1–4 建立完整网页，同时尽早启动阶段 6 的角色小样。阶段 5 与 9 逐步补齐内容，阶段 7–8 整合角色与滚动动效，最后完成阶段 10–12。</p>
+<p>3D 模型是关键依赖，不等所有页面做完才发现角色无法驱动。照片与故事暂缺时，先做可审阅的版位；素材随后加入，独立于页面动画逻辑。</p>
+<h2 id="phase-03">03 · 阶段 1：设计基线与内容结构</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 将本文件中的固定要求同步至 <code>docs/design-baseline.md</code>，保留当前原型为对照。</li>
+<li><input disabled="" type="checkbox"> 明确访问动线：人物序幕 → 欢迎页 → 个人世界 → 作品 / 生活 / 旅行 / 联系。</li>
+<li><input disabled="" type="checkbox"> 建立资产清单 <code>docs/asset-register.md</code>，分别记录已有图片、模型需求、封面需求和个人照片需求。</li>
+<li><input disabled="" type="checkbox"> 完成个人世界总览及手机的页面布局，说明每个栏目的图片比例、文字位置和留白。</li>
+<li><input disabled="" type="checkbox"> 写出个人介绍和栏目短文，使用已确认信息；未决定的故事不发布。</li>
+</ul>
+<p>**验收：**人物入口、欢迎标题、已认可画廊和所有个人栏目都能在布局中找到；不把原型成果标为最终网站。</p>
+<h2 id="phase-04">04 · 阶段 2：正式工程与双主题</h2>
+<p>建议在当前目录的 <code>site/</code> 中建设正式工程，根目录继续保存设计、报告与原型。工作过程中根据实际文件组织调整工程内部位置，不覆盖现有设计文件。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 初始化正式工程、版本控制与依赖锁文件，确定运行、检查、构建命令。</li>
+<li><input disabled="" type="checkbox"> 建立 <code>site/app/layout.tsx</code> 与 <code>site/styles/tokens.css</code>，统一字体、颜色、间距、圆角和主题。</li>
+<li><input disabled="" type="checkbox"> 建立 <code>site/components/theme/ThemeController.tsx</code>，同步背景、文字与后续场景灯光。</li>
+<li><input disabled="" type="checkbox"> 建立 <code>site/data/profile.ts</code> 和项目、照片、旅行、故事内容类型。</li>
+<li><input disabled="" type="checkbox"> 创建总览及详情页路由；普通内容能够直接访问、刷新和分享。</li>
+<li><input disabled="" type="checkbox"> 主题选择可保留用户偏好，刷新时避免明显闪色；未选择时先采用 Light，与目前主视觉一致。</li>
+</ul>
+<p>**验收：**正式网页可在本地运行并构建；主题切换不重置页面位置；联系方式不依赖图形场景加载。</p>
+<h2 id="phase-05">05 · 阶段 3：个人世界页面</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <code>site/app/page.tsx</code>：总览页面与各章节位置。</li>
+<li><input disabled="" type="checkbox"> <code>site/app/about/page.tsx</code>：学校、专业、个人介绍、INFJ 自述、探索方向。</li>
+<li><input disabled="" type="checkbox"> <code>site/app/projects/page.tsx</code>：画廊与项目目录；<code>site/app/projects/[slug]/page.tsx</code>：案例详情。</li>
+<li><input disabled="" type="checkbox"> <code>site/app/life/page.tsx</code>：羽毛球、舞蹈、音乐与生活照片墙。</li>
+<li><input disabled="" type="checkbox"> <code>site/app/journeys/page.tsx</code> 和详情页：上海、北京、云南及后续实际旅行记录。</li>
+<li><input disabled="" type="checkbox"> 故事文章仅在有真实内容后发布，保留 <code>site/content/stories/</code> 的扩展位置。</li>
+<li><input disabled="" type="checkbox"> 建立联系区域，邮箱可阅读、复制和点击，GitHub 链接正确。</li>
+</ul>
+<p>**美感要求：**页面使用大图、短文、细节图与留白形成节奏，不把所有栏目都做成同一种卡片网格；中文正文清楚，英文标题采用一致的大小写规则。</p>
+<p>**验收：**所有栏目和导航存在合理动线；没有素材的区域以设计版位或未发布状态处理，不出现大量空白文章页面。</p>
+<h2 id="phase-06">06 · 阶段 4：保留并正式化画廊</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 将当前原型拆为 <code>site/components/projects/ProjectGallery.tsx</code>、<code>ProjectCover.tsx</code>、<code>ProjectPanel.tsx</code> 和 <code>ProjectDirectory.tsx</code>。</li>
+<li><input disabled="" type="checkbox"> 项目数据统一来自内容索引；循环位置、封面、目录和介绍引用同一项目 ID。</li>
+<li><input disabled="" type="checkbox"> 保留最新标题、卡片尺寸和弧形；截图对照检查桌面主要呈现 4–5 张封面。</li>
+<li><input disabled="" type="checkbox"> 入场从上方展开；鼠标方向按移动增量判定，停止移动后恢复默认向左循环。</li>
+<li><input disabled="" type="checkbox"> 拖动、点击、键盘与触屏分清；拖动越过点击阈值后不能误开介绍。</li>
+<li><input disabled="" type="checkbox"> 打开介绍暂停、关闭恢复；主题切换不重置顺序或当前参观位置。</li>
+<li><input disabled="" type="checkbox"> 运行时仅更新必要位置；离开可视区域或切至后台时暂停更新，页面卸载时清理动画和事件。</li>
+<li><input disabled="" type="checkbox"> 检查至少两轮完整首尾循环、持续操作、窗口调整和重新进入画廊。</li>
+</ul>
+<p>**验收：**保留你已认可的外观；无首尾跳变、误点击、滚动卡住或主题重置。手机使用一件主体与两侧邻作，不强行塞入五张小图。</p>
+<h2 id="phase-07">07 · 阶段 5：真实封面与完整项目案例</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 根据公开仓库和你提供的运行条件，逐项记录现状、启动方式、访问入口与是否已运行验证。</li>
+<li><input disabled="" type="checkbox"> 能实际运行的项目获取真实截图或录屏；运行条件不齐的项目采用明确标识的项目海报，不能伪装成运行界面。</li>
+<li><input disabled="" type="checkbox"> 封面统一外框比例与裁切规则，保留各项目的辨识度；不把所有封面一律染成粉色。</li>
+<li><input disabled="" type="checkbox"> 所有公开仓库进入目录；Fork 保留来源和学习 / 贡献说明。</li>
+<li><input disabled="" type="checkbox"> 知野、Lumi、zxcvbn-MoonBit 首先补齐详细案例，其余项目按现有证据逐步丰富。</li>
+<li><input disabled="" type="checkbox"> 案例记录：问题、你的全栈职责、Vibe coding 工作方式、技术选择、调试、验证、状态、限制和代码入口。</li>
+<li><input disabled="" type="checkbox"> 公共元数据可在构建时更新；AI 辅助方式、本人贡献和精选顺序由内容文件维护，不被自动同步覆盖。</li>
+</ul>
+<p>**招聘表达：**明确“全栈负责 · AI 辅助开发”。进一步展示你如何提出要求、取舍方案、整合系统、定位错误与验收结果；不把使用 AI 隐藏掉，也不把公开仓库存在本身当成能力验证。</p>
+<p>**验收：**每件作品能打开介绍及准确 GitHub 地址；精选项目有真实材料和清楚边界；没有虚构性能、用户数或未完成能力。</p>
+<h2 id="phase-08">08 · 阶段 6：真实个人 3D 模型</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 以现有概念图为造型依据，明确正面及允许的侧面、上半身范围、略拽表情和两套服装颜色。</li>
+<li><input disabled="" type="checkbox"> 先制作可在网页中加载的小样，检查本人辨识度、头发、眼镜与脸的比例；再完善模型。</li>
+<li><input disabled="" type="checkbox"> 模型具备头颈肩胸控制、眼球视线、眨眼控制与必要表情形变。</li>
+<li><input disabled="" type="checkbox"> 提供静息呼吸、轻微转头、眨眼动作；眼镜与头部正确绑定，镜片不遮挡视线。</li>
+<li><input disabled="" type="checkbox"> 同一模型支持黑色 / 珍珠灰服装材质切换，不通过切换两张截图假装换装。</li>
+<li><input disabled="" type="checkbox"> 交付可编辑源文件、网页 GLB、纹理、动作清单、命名和资源使用范围。</li>
+<li><input disabled="" type="checkbox"> 检查网格、纹理大小、透明发丝开销和手机表现；必要时制作低负担版本。</li>
+</ul>
+<p>**关键边界：**当前 PNG 不能直接提供真实骨骼、眨眼和侧面旋转。建模需要单独的模型制作过程或可操作的现有模型。AI 辅助生成网格也需清理与绑定，不能保证一次输出即可使用。</p>
+<p>**验收：**能实际加载和控制 GLB；像本人、头顶完整、略拽表情自然；侧看不出现眼镜穿模或明显脸部变形。模型不合格时，保留静态首屏预览继续完善内容，但不将其称为最终真 3D。</p>
+<h2 id="phase-09">09 · 阶段 7：首屏人物与互动</h2>
+<ul>
+<li><input disabled="" type="checkbox"> <code>site/components/avatar/AvatarScene.tsx</code>：模型加载、相机与灯光；<code>AvatarRig.tsx</code>：静息、眼球与头部动作。</li>
+<li><input disabled="" type="checkbox"> 根据真实屏幕比例取景，确保头顶、导航与人物不相撞。</li>
+<li><input disabled="" type="checkbox"> 鼠标移动时视线先跟随，头部平滑响应；离开时自然回正。</li>
+<li><input disabled="" type="checkbox"> 拖动限制在已验收的侧看范围；触屏纵向滚动优先。</li>
+<li><input disabled="" type="checkbox"> 主题切换同步服装材质、背景和轮廓光；动作和滚动位置保持连续。</li>
+<li><input disabled="" type="checkbox"> 粉色光晕缓慢流动，避开正文；减少动态时取消持续漂移。</li>
+<li><input disabled="" type="checkbox"> 加入模型加载中、加载失败与不支持图形场景的静态回退。</li>
+</ul>
+<p>**验收：**操作的是实际模型，而不是整张背景图倾斜；没有明显动作冲突、眼睛翻转、穿模或闪色；模型失败也能进入正文与项目。</p>
+<h2 id="phase-10">10 · 阶段 8：视差滚动和进入个人世界</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 用 <code>site/components/intro/IntroExperience.tsx</code> 管理序幕、欢迎页与内容的连续状态。</li>
+<li><input disabled="" type="checkbox"> 先显示居中人物；滚动后人物缓慢后移，为标题让出空间。</li>
+<li><input disabled="" type="checkbox"> A WORLD / OF / MY OWN 全大写分组出现，中央 EXPLORE 随后出现。</li>
+<li><input disabled="" type="checkbox"> 点击 EXPLORE：按钮回应、文字淡出、柔粉扩散、镜头轻推、个人世界进入。</li>
+<li><input disabled="" type="checkbox"> 正常继续滚动也能进入正文；不把访客锁在入口或强制点击动画。</li>
+<li><input disabled="" type="checkbox"> 章节之间采用低幅度视差和进场；正文阅读时保持稳定。</li>
+<li><input disabled="" type="checkbox"> 快速滚动、向上返回、窗口改变和返回详情页都恢复正确状态。</li>
+<li><input disabled="" type="checkbox"> 减少动态路径允许直接进入内容，不播放大幅推进。</li>
+</ul>
+<p>**验收：**所有动效服从用户操作；没有滚动劫持、反复播放排队、页面突然跳位或多个滚动控制器相互冲突。</p>
+<h2 id="phase-11">11 · 阶段 9：兴趣、生活、旅行和故事</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 兴趣：羽毛球、舞蹈、音乐各有代表影像、短介绍及可选细节图。</li>
+<li><input disabled="" type="checkbox"> 生活：建立有节奏的照片墙，支持放大、关闭、左右切换与键盘操作。</li>
+<li><input disabled="" type="checkbox"> 旅行：上海、北京、云南各有封面和组照；云南具体地点在你给出后再细化。</li>
+<li><input disabled="" type="checkbox"> 仅记录你确认的时间、地点和故事，不猜测旅行路线或个人经历。</li>
+<li><input disabled="" type="checkbox"> 音乐可加入你确认的歌单或公开链接，默认不自动播放背景音。</li>
+<li><input disabled="" type="checkbox"> 真实故事到位后再发布文章，以你的口吻整理，不预先编写人生经历。</li>
+<li><input disabled="" type="checkbox"> 每张图片生成合适网页尺寸，记录裁切焦点、尺寸、图注和替代文本。</li>
+</ul>
+<p>**验收：**照片和文字能体现你本人；手机裁切保留主体；图片加载不会造成大幅布局跳动；在素材缺失时保留设计版位供审阅，正式页面不伪造内容。</p>
+<h2 id="phase-12">12 · 阶段 10：招聘信息和分享</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 进入正文后，姓名、学校专业、身份与意向清楚可见。</li>
+<li><input disabled="" type="checkbox"> 招聘者可直接打开项目页或案例页，不必看完全部入场动画。</li>
+<li><input disabled="" type="checkbox"> 技术标签关联实际案例，不使用主观熟练度百分比。</li>
+<li><input disabled="" type="checkbox"> 每个精选案例回答“做什么、你负责什么、怎么做、如何验证”。</li>
+<li><input disabled="" type="checkbox"> GitHub 和邮箱入口稳定可用；正式简历提供后再加入查看与下载。</li>
+<li><input disabled="" type="checkbox"> 加入页面标题、描述、分享预览图、站点图和必要的搜索信息。</li>
+<li><input disabled="" type="checkbox"> 补充实习时间、地点偏好时同步更新个人介绍与简历。</li>
+</ul>
+<p>**验收：**访客能快速找到能力证据与联系方式；直接分享项目链接能显示合理标题与图像；网站与简历口径一致。</p>
+<h2 id="phase-13">13 · 阶段 11：整站美感和质量</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 对照人物视觉稿和当前画廊，检查主题、字体、留白、尺寸和章节节奏。</li>
+<li><input disabled="" type="checkbox"> 检查桌面宽屏、普通笔记本、短屏、手机竖屏与横屏，重点看不裁头、单行标题和画廊比例。</li>
+<li><input disabled="" type="checkbox"> 在手机与桌面上检查实际加载、滚动、手势、主题和模态框，不能仅用模拟尺寸替代所有实机检查。</li>
+<li><input disabled="" type="checkbox"> 测量初始资源、模型大小和连续动画；预算与实际测量一起记录，再决定压缩和降级。</li>
+<li><input disabled="" type="checkbox"> 对页面不可见、离开场景、低性能设备和减少动态偏好采用合适暂停或回退。</li>
+<li><input disabled="" type="checkbox"> 检查键盘焦点、关闭后焦点返回、文字对比度、图片替代文本与触屏手势。</li>
+<li><input disabled="" type="checkbox"> 检查所有页面、项目目录、外链、邮件、直接刷新、返回与模型失败路径。</li>
+<li><input disabled="" type="checkbox"> 完成正式构建和与关键行为对应的检查；小文案调整用针对性验证，不重复堆砌测试。</li>
+</ul>
+<p>**验收：**不仅首页好看，内容页也统一；关键访问路径在正常和失败情况下均能完成。所有性能数值有测量依据，不能预先宣称达到。</p>
+<h2 id="phase-14">14 · 阶段 12：发布与维护</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 根据实际工程和目标访客测试部署环境，准备构建、静态资源与模型加载配置。</li>
+<li><input disabled="" type="checkbox"> 准备可审阅预览链接，再选择正式域名与上线配置；公网发布作为独立步骤执行。</li>
+<li><input disabled="" type="checkbox"> 对上线版本复验主题、项目链接、图片、模型、直达案例和手机体验。</li>
+<li><input disabled="" type="checkbox"> 保存发布版本、检查记录和内容维护说明 <code>docs/content-maintenance.md</code>。</li>
+<li><input disabled="" type="checkbox"> 新项目从内容索引加入；照片、旅行和故事从各自内容目录更新，不改底层动画。</li>
+<li><input disabled="" type="checkbox"> 保留 GitHub 有效快照；同步失败时继续显示旧数据，记录快照日期。</li>
+<li><input disabled="" type="checkbox"> 内容变化后检查相关页面和分享图；持续保留项目真实状态与 Fork 来源。</li>
+</ul>
+<p>**验收：**正式地址实际可访问且核心路径复验通过；内容可以持续更新，而不是只得到一张静态截图或一次性动画演示。</p>
+<h2 id="phase-15">15 · 素材清单与责任边界</h2>
+<table>
+<thead>
+<tr>
+<th>材料</th>
+<th>当前情况</th>
+<th>接下来的处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>个人身份、邮箱与 GitHub</td>
+<td>已提供</td>
+<td>直接用于站点数据</td>
+</tr>
+<tr>
+<td>人物风格、主题与入口动线</td>
+<td>已确认</td>
+<td>沿用，完成实际模型后做视觉核对</td>
+</tr>
+<tr>
+<td>项目画廊</td>
+<td>可操作原型已确认</td>
+<td>正式组件化，保留当前外观与行为</td>
+</tr>
+<tr>
+<td>公开仓库目录</td>
+<td>已读取快照</td>
+<td>构建时更新，具体案例单独维护</td>
+</tr>
+<tr>
+<td>项目封面</td>
+<td>目前是概念海报</td>
+<td>可运行项目获取真实截图，其余保留明确海报</td>
+</tr>
+<tr>
+<td>项目贡献</td>
+<td>已确认全栈负责与 Vibe coding</td>
+<td>补技术取舍、调试和验证细节</td>
+</tr>
+<tr>
+<td>个人 3D 模型</td>
+<td>尚无可操作模型</td>
+<td>尽早确定制作方式并验收小样</td>
+</tr>
+<tr>
+<td>兴趣与生活照片</td>
+<td>后续提供</td>
+<td>先完成照片版位与布局</td>
+</tr>
+<tr>
+<td>上海、北京、云南照片</td>
+<td>后续提供</td>
+<td>先完成旅行结构，等实际素材加入</td>
+</tr>
+<tr>
+<td>个人故事</td>
+<td>尚未选定</td>
+<td>保留内容结构，不发布虚构文章</td>
+</tr>
+<tr>
+<td>简历、实习时间与地点偏好</td>
+<td>后续提供</td>
+<td>先保留 GitHub / 邮件入口</td>
+</tr>
+<tr>
+<td>域名与部署配置</td>
+<td>尚未选择</td>
+<td>完整预览与发布检查准备好后确定</td>
+</tr>
+</tbody></table>
+<p>网站结构、样式、画廊迁移、人物接入、动效、内容整理与验证可按计划推进。真实人物的精细造型和可动资产仍需单独制作或取得，不能把它隐藏在“搭一个 Three.js 页面”的任务里。</p>
+<h2 id="phase-16">16 · 下一步的具体顺序</h2>
+<ol>
+<li>以本计划固定需求，将已确认画廊与双主题作为对照。</li>
+<li>在 <code>site/</code> 建立正式工程，先交付带总览、项目目录和联系方式的双主题网页。</li>
+<li>将当前画廊迁移进去，同时补个人世界各栏目的静态布局。</li>
+<li>优先整理知野、Lumi、MoonBit 的真实封面和案例；尽早验证个人 3D 模型小样。</li>
+<li>接入人物并完成滚动入口，再按你提供的素材填充兴趣、生活和旅行。</li>
+<li>完成设备、性能与视觉验收，形成可发布版本。</li>
+</ol>
+<p>无需重新确认你已经明确的版式和功能。后续只在缺少真实素材、模型制作资源或具体上线信息时，围绕那个缺口提出问题；每次验收都有能查看的结果。</p>
+<h2 id="phase-17">17 · 对照文件</h2>
+<ul>
+<li><a href="个人网页完整实现报告.html">完整实现报告</a>：栏目、内容与技术方案的详细说明。</li>
+<li><a href="../../prototypes/项目画廊交互原型.html">画廊原型</a>：最新标题、卡片、弧形与交互的实际对照。</li>
+<li><a href="项目画廊交互设计.md">画廊交互说明</a>：方向、循环、暂停、主题与项目入口规则。</li>
+<li><a href="GitHub项目核对清单.md">GitHub 项目清单</a>：公开仓库范围与资料证据。</li>
+<li><a href="../../assets/design/current/personal-intro-light-v4.png">Light 人物视觉稿</a> / <a href="../../assets/design/current/personal-intro-dark-v4.png">Dark 人物视觉稿</a>：造型、主题、居中与留白的参考。</li>
+</ul>
+<p>本计划记录完整落地范围；完成情况依据每阶段实际产物与验收更新，不将“计划已写好”计作“网站已完成”。</p>
+</article></div><footer>PaperY · 文书颖 · 阶段完成情况以实际交付和验收为准。</footer></body></html>

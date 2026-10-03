@@ -1,0 +1,26 @@
+# Local working records and original backups
+work/
+
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Environment secrets; a documented example may be committed
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor and operating system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

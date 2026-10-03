@@ -1,0 +1,680 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="PaperY 文书颖的个人网页设计与实现报告，包含双主题 3D 人物、项目展示、兴趣生活与招聘路径。"><title>PaperY · 个人网页完整实现报告</title><style>
+  :root{color-scheme:light;--bg:#faf8f6;--ink:#242025;--muted:#716972;--pink:#efbac9;--line:#e7dfe3}
+  *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:36px}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.85}
+  .masthead{padding:58px max(6vw,24px) 46px;border-bottom:1px solid var(--line);background:linear-gradient(130deg,#fffaf8,#faedf2)}
+  .eyebrow{font-size:12px;letter-spacing:.22em;color:#69525d}.masthead h1{font-size:clamp(34px,5vw,62px);letter-spacing:-.04em;margin:20px 0 12px;line-height:1.15;font-weight:650}.masthead p{max-width:760px;margin:0;color:var(--muted)}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.chips span{font-size:12px;padding:5px 12px;border:1px solid #dec6d0;border-radius:999px;background:#ffffff90}
+  .layout{display:grid;grid-template-columns:250px minmax(0,940px);gap:52px;max-width:1320px;padding:44px 32px 90px;margin:auto}aside{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:12px}aside .toc-title{color:#9c5e76;text-transform:uppercase;letter-spacing:.16em;padding:8px 10px}aside a{display:block;text-decoration:none;color:#746b72;border-left:2px solid transparent;padding:6px 10px;line-height:1.6}aside a:hover{color:#292329;border-left-color:var(--pink);background:#f4e9ee}
+  article{min-width:0;font-size:15px}article>h1{font-size:28px;margin-top:0}h2{font-size:26px;line-height:1.4;letter-spacing:-.02em;padding-top:48px;margin:32px 0 20px;border-top:1px solid var(--line)}h2:first-of-type{padding-top:28px}h3{font-size:18px;margin:28px 0 12px}p{margin:14px 0}a{color:#94546e;text-underline-offset:4px}blockquote{border-left:3px solid var(--pink);padding:10px 20px;margin:24px 0;background:#f4edf0;border-radius:0 12px 12px 0;color:#67525d}blockquote p{margin:4px 0}strong{font-weight:650}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:22px 0;table-layout:auto}th{background:#efe6eb;text-align:left;font-weight:600}th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}tbody tr:nth-child(even){background:#ffffff70}pre{background:#29242b;color:#f5ecf1;padding:22px;border-radius:14px;overflow:auto;font-size:13px;line-height:1.8}code{font-family:Consolas,monospace;font-size:.9em;overflow-wrap:anywhere}p code,td code{background:#eee4e9;padding:2px 5px;border-radius:4px}img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:16px}.theme-previews{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}.theme-previews p{margin:0}.theme-previews img{border-radius:10px}li{margin:9px 0}input[type=checkbox]{accent-color:#bd7894}footer{max-width:940px;margin:0 auto 36px;padding:20px 32px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  @media(max-width:1000px){.layout{grid-template-columns:1fr;gap:24px;padding:28px 24px 60px}aside{position:static;max-height:none;display:grid;grid-template-columns:1fr 1fr;gap:2px}aside .toc-title{grid-column:1/-1}article{font-size:14px}table{display:block;overflow:auto}h2{font-size:23px}.theme-previews{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{aside,.chips{display:none}.layout{display:block;padding:0}.masthead{padding:16px 0;background:none}body{background:white;font-size:10pt}article{font-size:10pt}h2{break-after:avoid;font-size:18pt;padding-top:20px}table{font-size:9pt}tr,img,pre{break-inside:avoid}.theme-previews{grid-template-columns:1fr 1fr}a{color:inherit}footer{padding:12px 0}@page{size:A4;margin:18mm}}
+  </style></head><body><header class="masthead"><div class="eyebrow">PERSONAL SPACE · DESIGN & IMPLEMENTATION REPORT</div><h1>一个有你自己节奏的个人世界。</h1><p>PaperY · 文书颖｜将个人 IP、真实项目、运动、舞蹈、音乐与旅行放进同一个空间。<br>这是实现方案与设计报告，尚未交付可交互网站或真实 3D 模型。</p><div class="chips"><span>BLACK & PINK</span><span>LIGHT / DARK</span><span>AI · BACKEND · AGENT</span><span>V1.1 · 2026.10.03</span></div></header><div class="layout"><aside aria-label="报告目录"><div class="toc-title">CONTENTS / 目录</div><a href="#section-01">01 · 网站定位：让能力和生活都看得见</a><a href="#section-02">02 · 美感方向：黑粉、留白、克制的体积感</a><a href="#section-03">03 · 信息架构与访问路径</a><a href="#section-04">04 · 首屏与滚动叙事</a><a href="#section-05">05 · 项目展示：环形画廊与完整目录</a><a href="#section-06">06 · 关于我与招聘展示</a><a href="#section-07">07 · 兴趣爱好：运动、舞蹈与音乐</a><a href="#section-08">08 · 生活碎片：有节奏的照片墙</a><a href="#section-09">09 · 旅游足迹：地点背后的个人记忆</a><a href="#section-10">10 · 我的故事：从真实经历建立辨识度</a><a href="#section-11">11 · 联系区与页脚</a><a href="#section-12">12 · 真正的 3D 人物制作路线</a><a href="#section-13">13 · 技术架构建议</a><a href="#section-14">14 · 内容数据与维护</a><a href="#section-15">15 · 性能、移动端与可访问性</a><a href="#section-16">16 · 分阶段实施与交付</a><a href="#section-17">17 · 验收清单</a><a href="#section-18">18 · 已确定与后续补充</a><a href="#section-19">19 · 本次资料范围与来源</a></aside><article><h1>PaperY · 个人世界完整实现报告</h1>
+<blockquote>
+<p>文书颖｜山东科技大学 · 智能科学与技术专业 · 大三<br>求职方向：AI 应用、后端、Agent 开发<br>版本：V1.1 · 2026-10-03<br>本报告是设计方案与开发依据。已有角色概念图和双主题视觉稿；网站、真实 3D 模型、动画及部署尚未实现。</p>
+</blockquote>
+<h2 id="section-01">01 · 网站定位：让能力和生活都看得见</h2>
+<p>网站以“PaperY 的个人世界”为核心：进入时先看到有辨识度的个人 IP，继续探索便能看到项目、兴趣、生活和旅行。招聘者能迅速找到项目证据与联系方式，普通访客可以慢慢认识你。</p>
+<p>已确认的信息：姓名文书颖，展示昵称 PaperY；山东科技大学智能科学与技术专业大三；希望申请 AI、后端、Agent 相关岗位；自我描述为 INFJ；兴趣为羽毛球、舞蹈、音乐；旅行照片将覆盖上海、北京、云南。邮箱为 <a href="mailto:19511635329@163.com">19511635329@163.com</a>，GitHub 为 <a href="https://github.com/PaperY0">PaperY0</a>。</p>
+<p>第一版建议定位文案：</p>
+<blockquote>
+<p>我是 PaperY，文书颖。<br>山东科技大学智能科学与技术专业大三，正在探索 AI 应用、后端与 Agent 开发。<br>在项目里把想法落地，也在运动、舞蹈、音乐和旅行中寻找自己的节奏。</p>
+</blockquote>
+<p>这是基于已确认信息的文案草案，不包含未经核实的技术熟练度、成果或性格推断。INFJ 作为你的自我描述放在关于页的小注中；具体的个性由真实经历、照片和表达呈现。</p>
+<h3>展示名与英文名</h3>
+<p>建议主展示名保持 <strong>PaperY · 文书颖</strong>，页面品牌字保留 <strong>PERSONAL SPACE</strong>。PaperY 已与 GitHub 身份有联系，适合作为个人品牌。</p>
+<table>
+<thead>
+<tr>
+<th>候选</th>
+<th>与名字的联系</th>
+<th>使用建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sherry</td>
+<td>与“书颖”的开头音有轻微呼应，英文拼写易读</td>
+<td>优先推荐；只是候选，不自动替换现有昵称</td>
+</tr>
+<tr>
+<td>Shuying</td>
+<td>直接保留“书颖”的拼音</td>
+<td>适合正式英文自我介绍与求职材料</td>
+</tr>
+<tr>
+<td>Wren</td>
+<td>取“文”的开头音作联想，读起来简短</td>
+<td>更偏个人审美选择，和中文名的对应较弱</td>
+</tr>
+</tbody></table>
+<p>正式材料可使用 <strong>Shuying Wen</strong>；网站第一版仍以 PaperY · 文书颖为准，英文别名由你最终选择。</p>
+<h2 id="section-02">02 · 美感方向：黑粉、留白、克制的体积感</h2>
+<p>以 Apple 官方产品页作为视觉参考对象，采用大主体、清楚的文字层级、充足留白和按章节展开的叙事。本方案是针对你的网站做出的设计选择，不代表复制 Apple 的资产、字体授权或具体页面。参考入口：<a href="https://www.apple.com/macbook-air/">Apple MacBook Air</a>。</p>
+<p>个人特色落在三个地方：像你的角色、你自己的项目与故事、贯穿整页的柔粉色。黑色负责秩序与对比，粉色负责温度；两种主题共用同一排版、人物和内容。</p>
+<h3>双主题设计</h3>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>Light</th>
+<th>Dark</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>页面背景</td>
+<td>暖白 #FAF8F6</td>
+<td>暖调深灰黑 #19171B</td>
+</tr>
+<tr>
+<td>主文字</td>
+<td>近黑 #181719</td>
+<td>暖白 #F7F4F6</td>
+</tr>
+<tr>
+<td>次级文字</td>
+<td>深灰 #68636A</td>
+<td>浅灰 #BBB3BC</td>
+</tr>
+<tr>
+<td>柔粉点缀</td>
+<td>#F3B7C5，低透明度光晕</td>
+<td>#D999B0，低透明度烟粉光晕</td>
+</tr>
+<tr>
+<td>首屏服装</td>
+<td>哑光黑色针织</td>
+<td>珍珠灰针织</td>
+</tr>
+<tr>
+<td>EXPLORE</td>
+<td>粉底、深色标签</td>
+<td>粉底、深色标签</td>
+</tr>
+<tr>
+<td>图片版位</td>
+<td>极浅暖灰</td>
+<td>略亮于页面的深灰</td>
+</tr>
+</tbody></table>
+<p>普通标题、品牌字和正文在 Dark 模式中采用白色系；选中的粉色主题按钮与粉色 EXPLORE 用深色文字，确保阅读清晰。次级文字、按钮状态与正文的实际对比度在开发时检查，以上色值是起始设计值。</p>
+<div class="theme-previews"><p><img src="../../assets/design/current/personal-intro-light-v4.png" alt="Light 首屏设计"></p><p><img src="../../assets/design/current/personal-intro-dark-v4.png" alt="Dark 首屏设计"></p></div>
+<h3>排版和空间</h3>
+<p>桌面内容区建议最大宽度 1120–1200px，页面两侧留出呼吸空间；手机采用约 20–24px 安全边距。章节之间用明显的纵向留白建立节奏，标题比正文更有存在感，正文保持舒服的行距。</p>
+<p>主标题采用清楚的无衬线字，中文正文使用可靠的系统字体回退。字体选择先检查中英文一致性和实际授权，不把某个商业字体的使用当作默认条件。中文内容为主，英文用于栏目名、品牌和简短标题；后续有英文求职需求再加入完整英文版本。</p>
+<p>项目区采用大图与短文并排的编辑式布局，生活区采用照片与小段文字交错排列。照片墙有视觉节奏，也保留稳定的阅读顺序。页面不堆砌大面积毛玻璃、金属环、过多标签和持续闪烁的光效。</p>
+<h2 id="section-03">03 · 信息架构与访问路径</h2>
+<p>整个网站由沉浸式入口、个人世界总览、独立详情页组成。内容页能通过链接直接打开，不要求每位访客先走完动画。</p>
+<pre><code class="language-text">人物序幕
+  ↓ 向下滚动
+欢迎首页：A WORLD / OF / MY OWN + EXPLORE
+  ↓ 点击，也可继续正常滚动进入
+个人世界总览
+  ├─ 关于我：身份、个人介绍、INFJ 自述
+  ├─ 项目展示：精选案例 + 全部仓库目录
+  ├─ 兴趣爱好：羽毛球 / 舞蹈 / 音乐
+  ├─ 生活碎片：照片、短句、日常记录
+  ├─ 旅游足迹：上海 / 北京 / 云南
+  ├─ 我的故事：真实经历与成长转折
+  └─ 联系我：邮箱 / GitHub / 后续可加入简历
+</code></pre>
+<p>建议路由：<code>/</code> 总览，<code>/projects</code> 全部项目，<code>/projects/[slug]</code> 项目案例，<code>/about</code> 关于我，<code>/life</code> 生活与兴趣，<code>/journeys</code> 旅行总览，<code>/journeys/[slug]</code> 单次旅行，<code>/stories/[slug]</code> 故事文章。小体量兴趣内容先放在生活页，避免产生大量空白页面。</p>
+<p>初始序幕只保留 PERSONAL SPACE 和 LIGHT / DARK；进入个人世界后显示轻量导航：项目、关于、生活、足迹、联系。项目、联系方式与未来的简历入口保持容易找到。</p>
+<p>招聘链接可以直接指向 <code>/projects</code> 或精选项目详情页；正常主页链接保留完整视觉体验。这样既保留你的入口设计，也允许访客按自己的目的访问。</p>
+<h2 id="section-04">04 · 首屏与滚动叙事</h2>
+<h3>场景 A：人物序幕</h3>
+<p>角色上半身居中，头部和眼镜是视觉焦点，胸口以下自然裁切。根据相机和屏幕比例保证头顶完整可见，桌面初始顶端建议留出约 8%–12% 的视觉余量，且不与顶部控制相撞。手机和短屏按实际可视高度重新取景。</p>
+<p>角色保留深色长发、轻薄中分刘海、黑框眼镜、微眯眼与克制嘴角，表现略拽而从容的态度。Light 与 Dark 使用同一模型、姿态和取景，只切换服装材质颜色及灯光。</p>
+<p>首屏没有原先的 MY OWN WAY、介绍文案、EXPLORE 和导航菜单。PERSONAL SPACE 与主题按钮是实际网页文字，人物和背景使用独立素材，避免把 UI 固定在整张图中。</p>
+<h3>场景 B：滚动进入欢迎首页</h3>
+<p>用一段与滚动进度对应的连续时间线：人物缓慢缩小、后移，粉色光晕轻微扩散；标题按 <strong>A WORLD → OF → MY OWN</strong> 三组出现，全部大写。最后中央出现 EXPLORE。这里采用“一句话分组浮现”，不重复铺满整屏。</p>
+<p>文字是可选择、可访问的网页元素；移动端随屏宽缩放，不能溢出。向上滚动时可返回人物序幕；快速滚动直接得到对应位置的状态，避免排队播放多个入场动画。</p>
+<h3>场景 C：进入个人世界</h3>
+<p>点击 EXPLORE 后，按钮短暂回应，标题淡出，镜头轻微推进，柔粉光晕扩散，然后关于我与精选项目进入。转场建议 900–1200ms，最终定位到个人世界内容起点。</p>
+<p>继续向下滚动也能进入内容，不用按钮把页面锁住。减少动态偏好下取消大幅镜头推进，保留短淡入或直接定位。返回首页时恢复合理的滚动位置和当前主题。</p>
+<h3>动效建议值</h3>
+<table>
+<thead>
+<tr>
+<th>行为</th>
+<th>初始建议</th>
+<th>约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>柔粉光晕</td>
+<td>16–24 秒缓慢漂移一轮</td>
+<td>不闪烁，不覆盖正文</td>
+</tr>
+<tr>
+<td>静息呼吸</td>
+<td>4–6 秒低幅度循环</td>
+<td>肩部与胸腔自然变化</td>
+</tr>
+<tr>
+<td>自然眨眼</td>
+<td>约 3–7 秒随机间隔</td>
+<td>与既有表情兼容</td>
+</tr>
+<tr>
+<td>鼠标跟随</td>
+<td>视线先动，头部平滑跟随</td>
+<td>头部水平约 ±8°、垂直约 ±5°</td>
+</tr>
+<tr>
+<td>拖动观察</td>
+<td>水平约 ±20°的小范围侧看</td>
+<td>纵向页面滚动优先</td>
+</tr>
+<tr>
+<td>主题切换</td>
+<td>400–600ms</td>
+<td>不重载模型，不重置滚动</td>
+</tr>
+<tr>
+<td>内容进入</td>
+<td>300–500ms，小幅上移</td>
+<td>正文不持续移动</td>
+</tr>
+</tbody></table>
+<p>这些是设计起点，不是已经测量或验收的结果。模型完成后根据观感调整，尤其检查眼镜穿模、眼睛翻转和头发与肩膀相撞。</p>
+<h2 id="section-05">05 · 项目展示：环形画廊与完整目录</h2>
+<p>项目区采用用户参考图中的横向弧形封面带，保留简洁留白和黑粉双主题。作品封面从上方依次落入弧形一横排，中央正面、两侧略有透视；默认从右向左循环。鼠标向左移动就向左流动，向右移动就反向，停止移动后平滑恢复默认向左。按住可拖动，纵向滚轮保持正常网页滚动。</p>
+<p>点击作品封面暂停循环并打开介绍面板，包含项目名称、说明、本人职责、当前状态、GitHub 和可用的 Demo；关闭后回到原参观位置。面板的 GitHub 按钮打开仓库，封面本身不会在拖动时误跳转。保留暂停、前后切换和目录入口，手机与减少动态偏好也可正常参观。</p>
+<p>全部 16 个公开仓库收录，12 个非 Fork 作品和 4 个学习 / Fork 分组清楚标明。主画廊先展示知野、Lumi、zxcvbn-MoonBit，余下作品连续参观；完整目录承担快速查找。精选案例仍提供深入内容，画廊封面替代原先普通项目卡片。</p>
+<p>用户已确认所讨论的作品由本人全栈负责，采用 Vibe coding 工作方式。建议案例标为“全栈负责 · AI 辅助开发”，并写清产品定义、整合、技术选择、调试、测试与迭代中的实际工作。该角色为用户自述，不等同于全部代码纯手工编写或本次已验证项目成果；Fork 来源继续保留。</p>
+<p>详见<a href="项目画廊交互设计.md">画廊交互设计</a>与<a href="../../prototypes/项目画廊交互原型.html">可操作原型</a>。当前封面为明确标识的概念海报；正式版本应换成真实截图、录屏关键帧或确认后的项目海报。原型采用 CSS 3D 平面，尚未实现完整网站或个人角色模型。</p>
+<p>精选案例采用：一句话问题 → 实际界面或运行画面 → 本人贡献 → 关键技术选择 → 结果与证据 → 当前限制。文字短而具体，点击后进入详情页查看代码、结构图与复现说明。</p>
+<h3>建议首批精选</h3>
+<table>
+<thead>
+<tr>
+<th>候选</th>
+<th>展示价值</th>
+<th>展示前需补齐</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>知野 Zhiye</td>
+<td>AI 教育应用、课堂录音到结构化内容的流程、前后端边界</td>
+<td>全栈负责已由你确认；补具体决策、录屏与公网 AI 状态</td>
+</tr>
+<tr>
+<td>Lumi 恋语</td>
+<td>AI 产品与 React / Express 的前后端结合</td>
+<td>全栈负责已由你确认；补改动、AI 调用证据与部署状态</td>
+</tr>
+<tr>
+<td>zxcvbn-MoonBit</td>
+<td>算法移植、API 设计、边界处理与测试</td>
+<td>全栈负责已由你确认；补移植决策、当前 CI 与复现记录</td>
+</tr>
+</tbody></table>
+<p>面向 Agent 岗位时，可把第三个精选替换为 PRES、MoodWeaver 或 JourneyVault 中最能说明你本人设计与实现的一个。Skill 的指令设计、导出脚本与状态管理应分别描述；只有确实存在自主任务执行、工具调用和验证链路时才采用相应 Agent 表述。</p>
+<h3>当前公开仓库目录</h3>
+<p>2026-10-03 读取 GitHub 公开仓库元数据，共 16 个：12 个非 Fork 仓库、4 个 Fork。非 Fork 标记不等于全部内容由你独立原创。12 个非 Fork 仓库中，读取到 9 份 README；其余 3 个本次在默认分支根目录读取 README.md 返回 404。它们的功能仍需补充，不据仓库名猜测。</p>
+<table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>本次可确认的介绍</th>
+<th>网站展示处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/PaperY0/Zhiye">Zhiye</a></td>
+<td>README 描述面向乡村小学教师的课堂复盘与精准补讲原型；列出 React、FastAPI 等模块</td>
+<td>AI 应用案例候选；保留本地原型与多用户边界</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/Lumi">Lumi</a></td>
+<td>README 描述本地优先的 AI 关系沟通伙伴，含 React 前端与 Express API</td>
+<td>AI 应用与后端案例候选；部署与效果需复核</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/zxcvbn-MoonBit">zxcvbn-MoonBit</a></td>
+<td>README 描述 Dropbox zxcvbn 的 MoonBit 移植、模式匹配、估计结果与测试</td>
+<td>工程与算法案例候选；标明上游来源与本人贡献</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/journeyvault-obsidian-travel-os">journeyvault-obsidian-travel-os</a></td>
+<td>README 描述旅行规划、行李与 Obsidian 项目导出 Skill</td>
+<td>Skill / 工具项目；可与旅行内容做主题联动</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/pres-zero-basics-navigation">pres-zero-basics-navigation</a></td>
+<td>README 描述零基础项目学习导航 Skill、能力地图与断点续学</td>
+<td>Skill / 学习工具项目；展示状态设计与导出示例</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/moodweaver-life-orchestrator">moodweaver-life-orchestrator</a></td>
+<td>README 描述基于时间、预算与能量的三轨生活规划 Skill</td>
+<td>Skill / 产品思考项目；展示条件变化的处理</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/Realm">Realm</a></td>
+<td>README 描述藏梦书境的 Windows 本地单实例 Web Demo，并明确生图链路未验收、整书目标未完成</td>
+<td>原型探索；呈现已实现流程与未验证边界</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/algorithm-visualizer">algorithm-visualizer</a></td>
+<td>README 描述 HTML 与 Streamlit 排序可视化、暂停及单步等能力</td>
+<td>算法学习工具；运行演示后再写实测结果</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/ShengXinGO">ShengXinGO</a></td>
+<td>README 仅提供 GO 代码包、Figma 来源与前后端启动命令</td>
+<td>已收录；具体业务和本人贡献需确认</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/project-weekly-closure">project-weekly-closure</a></td>
+<td>本次只有仓库元数据，根目录 README.md 未读取到</td>
+<td>已收录；补充真实介绍后制作卡片</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/Cheng">Cheng</a></td>
+<td>本次只有仓库元数据，根目录 README.md 未读取到</td>
+<td>已收录；功能、角色与演示材料需确认</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/Skills">Skills</a></td>
+<td>本次只有仓库元数据，默认分支 pres-v5 的根目录 README.md 未读取到</td>
+<td>已收录；与其他 Skill 项目关系需确认</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/tools">tools</a></td>
+<td>GitHub 标记为 Fork</td>
+<td>收录在学习 / Fork 分组；贡献确认后单独标明</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/moonvault">moonvault</a></td>
+<td>GitHub 标记为 Fork</td>
+<td>收录在学习 / Fork 分组；不作为独立原创成果</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/eino-examples">eino-examples</a></td>
+<td>GitHub 标记为 Fork；元数据描述为 Eino 示例</td>
+<td>学习 / Fork；可链接自己的实验记录</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PaperY0/eino">eino</a></td>
+<td>GitHub 标记为 Fork；元数据描述为 Go LLM / AI 框架</td>
+<td>学习 / Fork；如有上游 PR，可另列贡献</td>
+</tr>
+</tbody></table>
+<p>以上介绍来自公开元数据与 README，并非本次完整代码审计、实际运行验收或作者贡献认定。Zhiye 的 README 列出 <a href="https://zhiye-demo.vercel.app">公开演示地址</a>，本次未测试其当前可用性。README 中的测试数量、性能或效果声明在获得复现材料前不作为本站已验证成绩。</p>
+<p>全目录支持“全部、AI 应用、后端与工程、Skill / 工具、算法学习、探索原型、学习 / Fork”筛选。分类由审核后的内容数据决定，允许一个项目多个标签。Fork 分组可折叠，保持明确入口和数量提示；仓库列表不等同于精选案例列表。</p>
+<h3>项目详情页模板</h3>
+<ol>
+<li>项目名、简短摘要、当前状态、角色和时间。</li>
+<li>一个真实界面大图或可播放演示，注明录制时间。</li>
+<li>谁遇到什么问题，你为什么做这个项目。</li>
+<li>你具体负责什么；团队、上游、AI 工具辅助分别说明。</li>
+<li>一张精简结构图或数据流图。</li>
+<li>一项重要技术选择：约束、备选、选择与代价。</li>
+<li>测试、复现步骤、错误处理和结果；数据附环境与日期。</li>
+<li>当前限制、下一步、GitHub、已验证的 Demo 链接。</li>
+</ol>
+<p>AI 项目重点讲输入、处理、输出、评估和失败处理；后端项目重点讲接口、数据、权限、异常与部署；Agent 项目重点讲工具与状态、完成条件、人工介入和任务失败后的行为。不要用抽象技术词代替实际职责。</p>
+<h2 id="section-06">06 · 关于我与招聘展示</h2>
+<p>进入个人世界后的第一个简短介绍明确显示姓名、学校专业、大三状态和意向方向。随后直接出现精选项目，避免把招聘所需的信息藏在较远的生活页后面。</p>
+<p>关于页由人物介绍、项目经历、技能证据和个人侧面组成。技能不使用“Java 90%”一类主观进度条；每个技术标签连接到能够证明使用经历的项目或记录。公开仓库的主要语言仅说明代码组成，不自动证明该语言的熟练程度。</p>
+<p>目前可用的求职入口为 GitHub 和邮箱；正式简历尚未提供，第一版不能出现空下载链接。补充简历后加入“查看简历”和“下载 PDF”，网站中的学校、时间、项目状态与简历保持一致。</p>
+<p>建议招聘快速路径：访问项目页 → 查看精选案例 → 查看本人贡献与证据 → 点击邮箱或 GitHub。目标是在一分钟内能回答“你是谁、想做什么、做过什么、怎么联系”，这是信息设计目标，不是已验证的招聘效果承诺。</p>
+<h2 id="section-07">07 · 兴趣爱好：运动、舞蹈与音乐</h2>
+<p>栏目名建议 <strong>OFF THE CLOCK / 工作之外</strong>，说明你在项目之外的生活节奏。三组内容平行呈现，各有一个主要影像位置和一段个人文字，不编造比赛成绩、舞蹈类型或音乐偏好。</p>
+<table>
+<thead>
+<tr>
+<th>兴趣</th>
+<th>照片版位建议</th>
+<th>未来补充材料</th>
+<th>可加入的交互</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>羽毛球</td>
+<td>一张横向运动照片 + 一张细节小图</td>
+<td>打球场景、喜欢它的原因、想记录的瞬间</td>
+<td>点击看图，展示简短图注</td>
+</tr>
+<tr>
+<td>舞蹈</td>
+<td>一张竖向动作照片，配充足留白</td>
+<td>舞种、练习或舞台照片；可选短视频</td>
+<td>用户点击后播放，默认静音</td>
+</tr>
+<tr>
+<td>音乐</td>
+<td>一张情境照片 + 精选歌单文字区域</td>
+<td>喜欢的类型、曲目或你与音乐的故事</td>
+<td>指向合法公开歌单，不自动播放背景音</td>
+</tr>
+</tbody></table>
+<p>文案可以很短，例如“我喜欢羽毛球，原因是……”。照片和你自己的叙述提供特色，不用模板化的性格描述。</p>
+<h2 id="section-08">08 · 生活碎片：有节奏的照片墙</h2>
+<p>生活区建议 <strong>LITTLE MOMENTS / 生活碎片</strong>。用一张大图、两张较小图和一段短句构成一组，下一组反转图文位置；整体统一留白和图注位置，让不同内容自然变化。</p>
+<p>桌面采用三列或图文交错布局，手机回到清晰的一列或两列排列。每张图支持放大、左右切换、关闭与键盘操作；图片容器预留固定比例，防止加载后推挤页面。</p>
+<p>每个记录可包含日期、照片、标题、20–80 字短记和可选标签。生活素材只取自你明确提供的内容，先不推断日常作息、家庭关系或具体事件。</p>
+<p>当前没有照片时，设计预览保留 6 个中性浅灰或深灰版位：一张横幅、两张竖图、三张小图，用“照片位置”标识；不使用他人照片填充你的生活。真实上线时只呈现已有内容，未上传位置可保留为空白构图区，不批量展示空卡片。</p>
+<h2 id="section-09">09 · 旅游足迹：地点背后的个人记忆</h2>
+<p>栏目名建议 <strong>PLACES I CARRY / 留在记忆里的地方</strong>。首批三组为上海、北京、云南，全部预留照片位置。上海和北京按城市组织，云南按区域组织，不把云南当作一个城市。</p>
+<p>主视觉采用大幅旅行照片与地名，下面是一句你的记忆和进入旅行详情的链接。轻量地图作为辅助：上海、北京可标城市位置；云南先标区域，等你给出昆明、大理或其他实际地点后再细化，不能猜测你去过哪里。</p>
+<p>每组预留一张封面和 3–5 张组照。详情页可记录旅行时间、同行方式（仅愿意公开时）、喜欢的瞬间、照片与短记。当前不能填写旅行日期、停留天数和具体路线，也不生成“去过多少座城市”的虚构统计。</p>
+<p>旅行与项目可有自然联系：JourneyVault 的案例旁链接你的旅行栏目，旅行栏目也可介绍“我如何记录一次旅程”；只有你确实使用过这个工具时，才写具体使用经历。</p>
+<h2 id="section-10">10 · 我的故事：从真实经历建立辨识度</h2>
+<p>栏目名建议 <strong>IN MY OWN WORDS / 用我的话说</strong>。第一版准备文章结构，不编故事。你尚未选定愿意公开的经历时，总览不放空白“故事卡”，该模块保持未发布。</p>
+<p>后续可以从一个具体问题开始：为什么选择智能科学与技术；第一次把项目跑起来的瞬间；一个做项目时改变想法的经历；学习与舞蹈之间如何切换；一次旅行留下的记忆。这些是采访题目，不是已发生的事实。</p>
+<p>文章采用“一个具体场景 → 当时的想法 → 做了什么 → 现在怎么看”的短篇结构。每篇有明确日期、正文和可选影像，文字保留你的口吻。INFJ 可以解释你的自我感受，但不替代这些真实故事。</p>
+<h2 id="section-11">11 · 联系区与页脚</h2>
+<p>结尾建议一句温和且清楚的邀请：<strong>关于项目、合作或实习机会，欢迎联系我。</strong></p>
+<p>主入口为 <a href="mailto:19511635329@163.com">19511635329@163.com</a>，提供复制邮箱按钮；第二入口为 <a href="https://github.com/PaperY0">GitHub · PaperY0</a>。页脚显示 PaperY · 文书颖、内容年份和当前主题入口。</p>
+<p>网站只公开你已指定的邮箱与 GitHub。初版无需联系表单、注册登录或访客数据库；简历入口在文件准备好后加入。邮箱可直接阅读，不依赖动效或 3D 成功加载。</p>
+<h2 id="section-12">12 · 真正的 3D 人物制作路线</h2>
+<p>现有 PNG 是造型与灯光参考，不能直接提供眼球跟随、眨眼、头部骨骼动作和真实侧面旋转。图片倾斜与分层动画适合先验证页面节奏，但必须标为视觉原型。</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>能交付的效果</th>
+<th>适用位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>图片分层或 2.5D 视觉原型</td>
+<td>浮动、轻微视差、整体倾斜</td>
+<td>先验证首屏比例和转场；不算最终真实 3D</td>
+</tr>
+<tr>
+<td>基础头像模型定制</td>
+<td>较快获得可旋转角色，需调整发型与脸部</td>
+<td>作为候选，先比较本人辨识度与风格</td>
+</tr>
+<tr>
+<td>根据概念稿定制 3D 模型</td>
+<td>控制脸、发型、眼镜、材质和表情</td>
+<td>推荐最终路线；外形与网页表现最可控</td>
+</tr>
+</tbody></table>
+<p>建议先完成定制造型和动作的小样，再投入全站动效。使用 AI 辅助生成网格时，仍需检查拓扑、眼睛、发丝、背面、材质和骨骼，不能把自动输出当作最终可用模型。</p>
+<h3>模型交付清单</h3>
+<ul>
+<li>可编辑模型源文件及网页用 GLB；同一模型共用 Light / Dark 材质方案。</li>
+<li>头、颈、肩、胸部的必要骨骼；眼球可独立控制；眼皮包含眨眼形变或等效控制。</li>
+<li>深色头发采用适合网页的发束造型；眼镜独立对象，与头骨绑定；镜片不遮挡眼睛。</li>
+<li>两套服装颜色：哑光黑与珍珠灰，材质可直接切换。</li>
+<li>静息呼吸、眨眼、轻转头动作；现有略拽表情作为基准。</li>
+<li>正面及允许侧看角度的校验图；手机与桌面取景参考。</li>
+<li>纹理、材质、对象与动作命名清晰，提供资源使用权说明和必要的压缩解码配置。</li>
+</ul>
+<p>网页加载使用 glTF / GLB 资产。Three.js 的官方 <a href="https://threejs.org/docs/pages/GLTFLoader.html">GLTFLoader 文档</a>提供 glTF 2.0 加载及压缩资源相关接口。加载器能读取模型，不会自动补出缺失的骨骼、动作或表情。</p>
+<h2 id="section-13">13 · 技术架构建议</h2>
+<p>推荐 <strong>Next.js + TypeScript + React Three Fiber / Three.js + GSAP ScrollTrigger</strong>。内容以本地结构化数据与 Markdown / MDX 管理，先不建设账号系统和后台。开始开发时根据当前稳定版及官方兼容范围锁定依赖，不在报告里猜测未来的小版本号。</p>
+<p>React Three Fiber 是 Three.js 的 React 渲染器，适合把人物场景作为独立组件；React 与 Fiber 的主要版本需要配套，见 <a href="https://r3f.docs.pmnd.rs/">官方介绍</a>。ScrollTrigger 可将动画与滚动进度关联，支持固定区段和随滚动推进的时间线，见 <a href="https://www.gsap.com/docs/v3/Plugins/ScrollTrigger/">官方文档</a>。</p>
+<p>Next.js 用于内容路由、详情页与分享信息；项目案例与文章不依赖 Canvas 才能显示。其 <a href="https://nextjs.org/docs/app/getting-started/metadata-and-og-images">Metadata 与 OG 图片文档</a>可作为分享标题、描述和预览图的实现依据。</p>
+<p>替代方案是 React + Vite：适合较小的纯前端展示，基础结构更直接；多详情页的预渲染、分享信息与路由需另行规划。考虑长期维护项目案例、故事与旅行详情，本报告优先建议 Next.js。这个选择不意味着你已经具备相应框架能力。</p>
+<pre><code class="language-text">审核后的项目 / 生活 / 旅行 / 故事数据
+                ↓
+内容页面与详情路由 ───→ 项目证据 / GitHub / 邮箱
+                ↓
+主题状态 ─────→ 页面颜色 + 模型服装颜色 + 灯光
+滚动进度 ────→ 欢迎时间线 + 标题 + 相机取景
+鼠标 / 拖动 ─→ 视线跟随 + 有限角度转头
+模型加载状态 ─→ 真 3D 场景或清楚的静态回退
+</code></pre>
+<p>第一版采用原生页面滚动，由一套动画时间线负责序幕到欢迎页，避免同时接入多个平滑滚动控制器。正文区不长期固定全屏 Canvas，人物离开可见区域后暂停渲染。</p>
+<h3>建议文件职责</h3>
+<p>以下均为未来开发目录，本次只生成报告，没有创建这些应用文件。</p>
+<table>
+<thead>
+<tr>
+<th>建议路径</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>app/page.tsx</td>
+<td>序幕、欢迎页和个人世界总览</td>
+</tr>
+<tr>
+<td>app/projects/page.tsx</td>
+<td>项目全目录与筛选</td>
+</tr>
+<tr>
+<td>app/projects/[slug]/page.tsx</td>
+<td>项目案例详情</td>
+</tr>
+<tr>
+<td>app/about/page.tsx</td>
+<td>关于我、求职介绍与真实经历</td>
+</tr>
+<tr>
+<td>app/life/page.tsx</td>
+<td>兴趣、照片墙与生活记录</td>
+</tr>
+<tr>
+<td>app/journeys/page.tsx</td>
+<td>上海、北京、云南旅行总览</td>
+</tr>
+<tr>
+<td>app/journeys/[slug]/page.tsx</td>
+<td>旅行详情</td>
+</tr>
+<tr>
+<td>app/stories/[slug]/page.tsx</td>
+<td>已发布故事文章</td>
+</tr>
+<tr>
+<td>components/intro/IntroExperience.tsx</td>
+<td>序幕到欢迎页的状态与时间线</td>
+</tr>
+<tr>
+<td>components/avatar/AvatarScene.tsx</td>
+<td>模型加载、相机与灯光</td>
+</tr>
+<tr>
+<td>components/avatar/AvatarRig.tsx</td>
+<td>静息、眨眼、视线与转头控制</td>
+</tr>
+<tr>
+<td>components/theme/ThemeController.tsx</td>
+<td>双主题偏好与颜色切换</td>
+</tr>
+<tr>
+<td>components/gallery/PhotoGallery.tsx</td>
+<td>生活与旅行照片布局、放大与键盘操作</td>
+</tr>
+<tr>
+<td>components/projects/ProjectGallery.tsx</td>
+<td>项目弧形轨道、循环、鼠标方向与拖动</td>
+</tr>
+<tr>
+<td>components/projects/ProjectPanel.tsx</td>
+<td>作品介绍、GitHub 入口、暂停与关闭恢复</td>
+</tr>
+<tr>
+<td>content/projects/、life/、journeys/、stories/</td>
+<td>审核后的内容文件</td>
+</tr>
+<tr>
+<td>data/profile.ts、data/repos.snapshot.json</td>
+<td>个人信息与公开仓库快照</td>
+</tr>
+<tr>
+<td>styles/tokens.css</td>
+<td>主题、字体、尺寸与动效变量</td>
+</tr>
+<tr>
+<td>public/models/、images/、resume/</td>
+<td>模型、照片与后续正式简历</td>
+</tr>
+<tr>
+<td>scripts/sync-github.mjs</td>
+<td>开发或构建时读取并更新仓库快照</td>
+</tr>
+</tbody></table>
+<h2 id="section-14">14 · 内容数据与维护</h2>
+<p>内容与样式分离，换照片或增加项目无需改动画逻辑。每条内容拥有稳定的 slug、发布状态和排序；没有真实内容的模块不发布。</p>
+<table>
+<thead>
+<tr>
+<th>内容类型</th>
+<th>必需信息</th>
+<th>可选信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>个人档案</td>
+<td>展示名、中文名、学校、专业、身份、意向、邮箱、GitHub</td>
+<td>英文名、简历、实习时间与地点偏好</td>
+</tr>
+<tr>
+<td>项目</td>
+<td>名称、摘要、仓库、类型、本人贡献、状态、证据来源</td>
+<td>Demo、案例封面、技术图、复现结果</td>
+</tr>
+<tr>
+<td>兴趣</td>
+<td>羽毛球 / 舞蹈 / 音乐之一、个人介绍、发布状态</td>
+<td>照片、视频、歌单</td>
+</tr>
+<tr>
+<td>生活碎片</td>
+<td>标题、日期或日期不公开、短记、发布状态</td>
+<td>图片、标签</td>
+</tr>
+<tr>
+<td>旅行</td>
+<td>区域或城市名、实际旅行信息、发布状态</td>
+<td>封面、组照、回忆、具体地点</td>
+</tr>
+<tr>
+<td>故事</td>
+<td>标题、日期、正文、发布状态</td>
+<td>封面、关联项目或旅程</td>
+</tr>
+<tr>
+<td>图片</td>
+<td>路径、宽高、替代文本、公开许可</td>
+<td>主体裁切焦点、图注、时间与地点</td>
+</tr>
+</tbody></table>
+<p>GitHub 采用“快照 + 编辑补充”策略：读取仓库名称、链接、Fork 等元数据，人工补充本人贡献、案例文本与精选排序。网站访问时不依赖 GitHub API 成功才展示项目；同步失败保留上次有效快照和更新时间。本次 API 在读取部分详情时已遇到限流，后改用公开原始 README 阅读，因此这个回退策略有现实依据。</p>
+<p>公开仓库索引已保存在本目录；未读取到 README 的项目仍列入完整目录。用户指定“全部展示”，所以不因缺少封面或状态不完整直接删除；改为清楚显示仓库名、链接及内容补充状态。</p>
+<p>照片提供后依次完成：按栏目归类 → 选择封面与主体裁切 → 生成不同尺寸 → 写替代文本和图注 → 预览双主题与手机排版。原图不直接作为所有屏幕尺寸的网页资源。</p>
+<h2 id="section-15">15 · 性能、移动端与可访问性</h2>
+<p>美感需要稳定的加载与阅读体验。先显示文字、基础布局和角色静态预览，模型与动作加载成功后再替换。模型失败时保留角色图与全部内容入口，清楚区分静态回退和真实 3D。</p>
+<p>建议首轮性能预算：压缩模型争取约 5–8MB，初始可见纹理和模型合计争取不超过约 12MB；桌面动画目标接近 60fps，常见手机争取稳定 30fps；这些都需要真实设备测试，不能当作已达到的成绩。若超预算，先降低不可见网格、纹理分辨率、透明材质层数和像素比。</p>
+<p>只创建必要的 3D 渲染实例；看不到人物、页面切到后台或开启减少动态时暂停无必要的持续更新。退出场景时释放图形资源。项目与旅行图片按需加载，模型解码资产正确部署，照片占位提前保留尺寸。</p>
+<p>手机保持人物头顶与主题按钮安全间距，不照搬桌面人物大小。移动设备使用低负担灯光、适度纹理和拖动观察；手势优先保证页面纵向滚动。照片放大层有关闭入口与返回焦点，主题切换和 EXPLORE 可用键盘操作。</p>
+<p>减少动态通过标准 <code>prefers-reduced-motion</code> 检测，采用静态或轻淡入路径，参见 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion">MDN 文档</a>。正文、项目详情、联系方式和搜索分享信息都在普通网页结构中，不写在 Canvas 里。</p>
+<h2 id="section-16">16 · 分阶段实施与交付</h2>
+<p>阶段按成果推进，先验证人物可用性和页面美感，再叠加完整交互。本报告不承诺未经估算的工期或建模费用。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>工作内容</th>
+<th>阶段交付与通过条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 · 内容与页面定稿</td>
+<td>确认姓名、栏目、精选与所有项目目录；画内容总览和手机布局</td>
+<td>页面结构、项目清单、文案、图片版位可审阅；未知材料明确列出</td>
+</tr>
+<tr>
+<td>2 · 静态站与双主题</td>
+<td>搭建内容路由，完成留白、排版、照片墙和主题</td>
+<td>手机与桌面可读；全部仓库可找到；邮箱和 GitHub 正常；没有空下载链接</td>
+</tr>
+<tr>
+<td>3 · 3D 人物小样</td>
+<td>建模、材质、骨骼、眨眼、头部控制；输出 GLB</td>
+<td>角色像本人、略拽表情自然、侧看不穿模、双主题服装可切换</td>
+</tr>
+<tr>
+<td>4 · 动画整合</td>
+<td>加入静息、鼠标响应、滚动标题、EXPLORE 转场与光晕</td>
+<td>动画连贯、可回退、快速滚动正确；弱设备与减少动态路径可用</td>
+</tr>
+<tr>
+<td>5 · 项目案例与真实照片</td>
+<td>补本人贡献和证据；替换已提供照片；发布真实故事</td>
+<td>精选有清楚事实与当前限制；实际照片没有错误裁切；未提供内容不虚构</td>
+</tr>
+<tr>
+<td>6 · 上线检查与维护</td>
+<td>构建、设备测试、分享信息、域名与发布配置</td>
+<td>发布后复测链接、直达详情、主题、资源加载和回退；保留维护记录</td>
+</tr>
+</tbody></table>
+<p>阶段 2 的静态预览可以先使用当前设计图分离后的角色素材，但页面必须标注开发阶段状态；阶段 3–4 才验收真正的 3D。人物资产是关键依赖，前端框架搭好并不能代替它。</p>
+<p>首次上线可以暂不发布故事与旅行详情，保留可扩展结构；兴趣和旅行在材料未齐时保留精致版位的设计稿。增加照片或文章后，以内容更新发布，无需重做入口。</p>
+<h2 id="section-17">17 · 验收清单</h2>
+<ul>
+<li><input disabled="" type="checkbox"> 人物在 Light / Dark、桌面、手机和短屏中居中且完整露出头顶。</li>
+<li><input disabled="" type="checkbox"> 初始首屏仅有 PERSONAL SPACE、主题切换与人物，无旧标题和菜单。</li>
+<li><input disabled="" type="checkbox"> Dark 普通文字为白色，服装变为珍珠灰；切换不重置人物或滚动。</li>
+<li><input disabled="" type="checkbox"> 柔粉光晕低幅度移动，静息动作自然；鼠标跟随、拖动和页面滚动不冲突。</li>
+<li><input disabled="" type="checkbox"> A WORLD / OF / MY OWN 按顺序浮现，全部大写，EXPLORE 位于中央。</li>
+<li><input disabled="" type="checkbox"> 点击和继续滚动都能进入个人世界，动画不会阻断内容入口。</li>
+<li><input disabled="" type="checkbox"> 16 个已核对的公开仓库全部进入目录，4 个 Fork 明确标注。</li>
+<li><input disabled="" type="checkbox"> 项目封面从上方进入弧形横排，默认向左循环；鼠标移动方向、拖动和暂停正确。</li>
+<li><input disabled="" type="checkbox"> 项目介绍打开时画廊暂停，关闭后恢复；真实封面与概念海报明确区分。</li>
+<li><input disabled="" type="checkbox"> 精选案例有本人贡献、真实证据、状态与限制，不把 README 声明写成本站实测。</li>
+<li><input disabled="" type="checkbox"> 羽毛球、舞蹈、音乐，以及上海、北京、云南均有对应内容结构。</li>
+<li><input disabled="" type="checkbox"> 未提供的照片和故事不使用他人素材或编造信息替代。</li>
+<li><input disabled="" type="checkbox"> 邮箱和 GitHub 正常；正式简历准备好才显示下载入口。</li>
+<li><input disabled="" type="checkbox"> 任意详情页可直接访问与刷新，不依赖走完首页动画。</li>
+<li><input disabled="" type="checkbox"> 模型加载失败与无 3D 支持时，文字、项目、联系入口仍可用。</li>
+<li><input disabled="" type="checkbox"> 减少动态、键盘操作、图片替代文本、触屏手势完成检查。</li>
+<li><input disabled="" type="checkbox"> 构建、内容链接、真实设备性能和双主题视觉检查通过后再报告上线成功。</li>
+</ul>
+<h2 id="section-18">18 · 已确定与后续补充</h2>
+<p>目前已经确定：品牌字、姓名昵称、学校专业与大三身份、求职方向、邮箱和 GitHub；黑粉双主题、居中上半身、不裁头、柔粉流动、静息与鼠标交互；滚动标题和 EXPLORE 转场；全项目展示；三项兴趣与三组旅游地点。</p>
+<p>后续材料按优先级补齐即可，不需要一次交齐：</p>
+<table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>材料</th>
+<th>为什么需要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一批</td>
+<td>精选项目中本人负责的内容、现状、截图或短录屏</td>
+<td>将公开仓库转化为可信的招聘案例</td>
+</tr>
+<tr>
+<td>第一批</td>
+<td>3D 人物模型小样或明确的制作方式</td>
+<td>验证真正的 3D 交互和相似度</td>
+</tr>
+<tr>
+<td>第二批</td>
+<td>羽毛球、舞蹈、音乐各 1–3 张照片；上海、北京、云南各一组照片</td>
+<td>让照片墙与旅行页体现你的生活</td>
+</tr>
+<tr>
+<td>第二批</td>
+<td>预期实习时间、工作地点偏好与正式简历</td>
+<td>完善招聘入口；目前不猜测毕业年份</td>
+</tr>
+<tr>
+<td>第三批</td>
+<td>一个愿意公开的故事、音乐偏好、旅行日期与具体地点</td>
+<td>丰富个人特色，形成持续更新内容</td>
+</tr>
+<tr>
+<td>可选</td>
+<td>英文名字最终选择</td>
+<td>保持网站、GitHub、英文介绍的一致性</td>
+</tr>
+</tbody></table>
+<p>你已经确认全栈负责及 Vibe coding 工作方式。下一轮更适合补充：“这三个项目里，你最满意的一项技术选择、亲自定位过的问题、以及用于验收的方式分别是什么？”随后一起挑封面截图。INFJ、兴趣标签和视觉风格已经足以启动页面设计，实际决策与真实故事会继续形成个人特色。</p>
+<h2 id="section-19">19 · 本次资料范围与来源</h2>
+<p>用户在本聊天中提供的身份、偏好、联系方式、兴趣和旅行地点是个人内容依据；现有 V4 设计文件是视觉依据。当前 GitHub 核对范围为公开仓库元数据、9 个非 Fork 仓库 README 和 Realm 根目录条目；没有访问私有仓库、运行项目、核验全部源码或测量成果。</p>
+<p>公开仓库完整目录见 <a href="GitHub项目核对清单.md">GitHub 项目核对清单</a>。原始读取记录放在 <code>work/</code>，本报告中的仓库表已提供可点击的一手来源。</p>
+<p>设计参考与技术来源分别在相关章节就近列出：<a href="https://www.apple.com/macbook-air/">Apple 官方产品页</a>、<a href="https://threejs.org/docs/pages/GLTFLoader.html">Three.js GLTFLoader</a>、<a href="https://r3f.docs.pmnd.rs/">React Three Fiber</a>、<a href="https://www.gsap.com/docs/v3/Plugins/ScrollTrigger/">GSAP ScrollTrigger</a>、<a href="https://nextjs.org/docs/app/getting-started/metadata-and-og-images">Next.js Metadata</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion">MDN 减少动态</a>。Apple 页面用于参考方向，本次浏览接口未成功返回完整页面正文，因此不声称完成了逐屏视觉审计。</p>
+</article></div><footer>PaperY · Personal World · 本地报告；原始 Markdown 与项目清单位于同一文件夹。图片均引用本地文件，可离线阅读。</footer></body></html>
