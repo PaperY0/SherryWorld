@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "asset": "sherry-avatar-v1.glb",
+  "source": "site/scripts/build-avatar.mjs",
+  "license": "Project-authored procedural geometry; no external assets, photos, textures or downloaded meshes.",
+  "status": "blockout-not-likeness-approved",
+  "description": "Dimensional stylized collectible woman bust with swept long charcoal hair, image-right inner silver streak, black rounded square glasses and closed subtle smirk.",
+  "sha256": "4d6c785538abb72ff92a2e91d61cb99e8b9ce8e7dcc5b7255c54fa46d903ec95",
+  "stats": {
+    "meshes": 82,
+    "vertices": 17833,
+    "triangles": 31024,
+    "bytes": 671300,
+    "bounds": {
+      "min": [
+        -1.0139151903827495,
+        0,
+        -0.595
+      ],
+      "max": [
+        1.0139151903827495,
+        2.875,
+        0.532
+      ]
+    }
+  },
+  "materials": [
+    "SkinWarmMatte",
+    "LipsMutedRose",
+    "EyeIvory",
+    "IrisEspresso",
+    "Pupil",
+    "HairCharcoal",
+    "GlassesBlack",
+    "MouthLine",
+    "HairContour",
+    "SilverInnerStreak",
+    "Sweater"
+  ],
+  "controls": {
+    "AvatarRoot": "Whole bust transform; breathe or rotate.",
+    "HeadPivot": "Head-local transform, origin at world [0, 2.12, 0]; hair, face and spectacles rotate together.",
+    "Sweater": "PBR material shared by torso, sleeves and collar; recolorable black or pearl grey."
+  },
+  "rigType": "Transform hierarchy; no skeleton, skinning or eyelid blink rig.",
+  "limitations": [
+    "Procedural first blockout; likeness and premium visual quality require rendered review and user approval.",
+    "Hair is swept volumetric geometry with tapered tips, not simulated strands.",
+    "No hand meshes, full body, facial blendshapes, textures or pre-baked animations."
+  ],
+  "validation": {
+    "glbVersion": 2,
+    "finitePositions": true,
+    "requiredNodes": [
+      "AvatarRoot",
+      "HeadPivot"
+    ],
+    "copyBytesIdentical": true
+  }
+}
