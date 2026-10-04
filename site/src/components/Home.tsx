@@ -1,6 +1,7 @@
 'use client';
 import { messages } from '@/content/messages';
 import { usePreferences } from './settings/PreferencesProvider';
+import { ProjectGallery } from './gallery/ProjectGallery';
 
 export function Home() {
   const { locale, theme } = usePreferences();
@@ -26,13 +27,7 @@ export function Home() {
         <div className="about-description"><p className="lead">{copy.intro}</p><p className="muted">{copy.aboutText}</p><div className="tags"><span>{copy.role}</span><span>{copy.personality}</span></div></div>
       </div>
     </section>
-    <section className="projects section" id="projects">
-      <div className="section-caption"><span>02 /</span><h2>{copy.projectsLabel}</h2></div>
-      <p className="eyebrow">PAPERY · SELECTED WORKS</p>
-      <h3 className="projects-title">BUILT IN MY OWN WAY.</h3>
-      <p className="project-intro">{copy.projectsText}</p>
-      <a className="text-link" href="https://github.com/PaperY0" target="_blank" rel="noreferrer">{copy.projectsAction}<span aria-hidden="true"> ↗</span></a>
-    </section>
+    <ProjectGallery />
     <section className="section" id="interests">
       <div className="section-caption"><span>03 /</span><h2>{copy.interests}</h2></div>
       <p className="section-lead">{copy.interestLead}</p>

@@ -8,7 +8,7 @@ export default defineConfig({
     launchOptions: { ...(process.env.PLAYWRIGHT_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH } : { channel: 'msedge' }) },
     trace: 'retain-on-failure'
   },
-  webServer: {
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
     command: 'npm run dev -- --port 3100', url: baseURL,
     reuseExistingServer: !process.env.CI, timeout: 120000
   }

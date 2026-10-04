@@ -7,7 +7,7 @@ test('Chinese and English content switch together and survive reload', async ({ 
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await expect(page.getByRole('heading', { name: 'ABOUT ME', exact: true })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'VIEW PROJECTS', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'PROJECT DIRECTORY', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('heading', { name: 'ABOUT ME', exact: true })).toBeVisible();
