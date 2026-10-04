@@ -1,7 +1,7 @@
 const zh = {
   title: 'PaperY · 文书颖的个人世界',
   skip: '跳到个人世界', themeLabel: '页面主题', languageLabel: '页面语言',
-  portraitAlt: 'PaperY 人物视觉参考：黑发、黑框眼镜与针织上衣',
+  portraitAlt: 'PaperY 人物视觉参考：黑发配银白色挂耳染、黑框眼镜与针织上衣',
   about: '关于我', name: '文书颖', identity: '山东科技大学 · 智能科学与技术 · 大三',
   intro: '我在探索 AI、后端与 Agent，也在收集生活里那些值得记住的瞬间。',
   aboutText: '技术是我的一种表达方式。羽毛球、舞蹈、音乐和旅行，是另外几种。这里有我的作品，也有作品之外的我。',
@@ -18,7 +18,7 @@ type Messages = { [K in keyof typeof zh]: typeof zh[K] extends string[] ? string
 const en: Messages = {
   title: 'PaperY · A world of my own',
   skip: 'Skip to my world', themeLabel: 'Color theme', languageLabel: 'Page language',
-  portraitAlt: 'PaperY character concept with dark hair, black glasses and a knit top',
+  portraitAlt: 'PaperY character concept with dark hair, silver-white ear-side highlights, black glasses and a knit top',
   about: 'ABOUT ME', name: '文书颖', identity: 'Shandong University of Science and Technology · Intelligent Science & Technology · Third year',
   intro: 'Exploring AI, backend systems and agents. Collecting moments worth remembering along the way.',
   aboutText: 'Technology is one way I express myself. Badminton, dance, music and travel are a few others. This space holds my work, and the person behind it.',

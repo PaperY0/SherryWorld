@@ -11,7 +11,7 @@ export function Home() {
       <div className="portrait-frame">
         {/* Static concept reference; replace this isolated leaf with a real model scene. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="portrait-image" src={`/images/intro-${theme}.png`} width="1672" height="941" alt={copy.portraitAlt} fetchPriority="high" />
+        <img className="portrait-image" src={`/images/intro-${theme}-silver-v5.png`} width="1672" height="941" alt={copy.portraitAlt} fetchPriority="high" />
       </div>
     </section>
     <section className="welcome" aria-labelledby="world-title">

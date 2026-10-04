@@ -10,8 +10,10 @@ GitHub 仓库：[PaperY0/SherryWorld](https://github.com/PaperY0/SherryWorld)。
 - [完整落地计划](docs/design/个人网页落地与完善计划.html)
 - [完整实现报告](docs/design/个人网页完整实现报告.html)
 - [已确认的项目画廊](prototypes/项目画廊交互原型.html)
-- [当前 Light 视觉稿](assets/design/current/personal-intro-light-v4.png)
-- [当前 Dark 视觉稿](assets/design/current/personal-intro-dark-v4.png)
+- [当前 Light 视觉稿](assets/design/current/personal-intro-light-silver-v5.png)
+- [当前 Dark 视觉稿](assets/design/current/personal-intro-dark-silver-v5.png)
+
+当前人物为 V5 银白色挂耳染（2026-10-04 更新）；V4 原件保留供历史方案对照。
 
 ## 目录用途
 
