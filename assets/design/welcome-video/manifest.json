@@ -1,0 +1,49 @@
+{
+  "status": "static-light-keyframes-video-pending",
+  "reference": "../current/personal-intro-light-silver-v5.png",
+  "generator": "built-in imagegen",
+  "assets": [
+    {
+      "file": "01-closed-light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1657798,
+      "sha256": "8ac11c4dde82ccf1c1b57de3d32d4a2c7127747623c26f78fc3bfc14613c3296"
+    },
+    {
+      "file": "02-open-light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1694268,
+      "sha256": "ef8760633636313141b6de12fe9ca8fb23e322b629b12d9970f902c6bbe7bfcf"
+    },
+    {
+      "file": "03-wink-light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1661387,
+      "sha256": "28baa133c9df19e30c989a9c2b97f610c63d1bdf2ddf70a398391edd74e9a5bc"
+    },
+    {
+      "file": "04-temple-light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1759361,
+      "sha256": "5b1529321c399c142617ede0b9bb7662aff437a9d21aa04146ce88723bd92226"
+    },
+    {
+      "file": "05-arc-light.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1557240,
+      "sha256": "72ba7127b541912f34354cc2075852041317d7ab2796fdfe12098b4f4d1b627a"
+    },
+    {
+      "file": "06-point-light-v2.png",
+      "width": 1672,
+      "height": 941,
+      "bytes": 1630663,
+      "sha256": "d3e10e39cc2b202b0a8b47eff0dd05aa2d16f69b824306b8e2930e7c05da974f"
+    }
+  ]
+}

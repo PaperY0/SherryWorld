@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PaperY · 欢迎页分镜</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#faf7f5;color:#242126;font-family:Arial,"Microsoft YaHei",sans-serif}header{padding:24px 5vw;display:flex;justify-content:space-between;gap:20px;font-size:12px;letter-spacing:.16em}header span{letter-spacing:0;color:#777}main{max-width:1440px;margin:auto;padding:0 4vw 40px}.stage{position:relative;aspect-ratio:1672/941;overflow:hidden;background:#faf7f5;border-radius:8px}.stage img{width:100%;height:100%;object-fit:contain;display:block}.world{position:absolute;left:8%;top:16%;max-width:30%;display:none}.world.visible{display:block}.world h1{font-size:clamp(24px,5.4vw,80px);letter-spacing:-.055em;margin:0 0 25px;font-weight:600;line-height:1.1}.world a{display:inline-block;padding:14px 24px;border-radius:40px;background:#f5c2cc;font-size:12px;letter-spacing:.14em;text-decoration:none;color:#242126}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}button{border:1px solid #ddd5d5;background:transparent;border-radius:30px;padding:12px 18px;cursor:pointer;color:inherit}button[aria-pressed=true]{background:#f5c2cc;border-color:#f5c2cc}button:focus-visible,a:focus-visible{outline:2px solid #9b6270;outline-offset:4px}#caption{font-size:14px;line-height:1.8;min-height:54px}.note{font-size:12px;color:#777;line-height:1.9;max-width:850px}@media(max-width:600px){header{flex-direction:column;gap:10px}.controls{gap:6px}button{padding:10px 12px;font-size:11px}.world{left:5%;top:25%}.world h1{font-size:21px;margin-bottom:10px}.world a{padding:9px 12px;font-size:9px}}
+</style>
+<header><strong>PERSONAL SPACE</strong><span>欢迎页分镜 · 静态关键帧，视频待生成</span></header>
+<main>
+<div class="stage"><img id="frame" src="01-closed-light.png" alt="原封面人物，闭眼半身"><div id="world" class="world"><h1>MY<br>WORLD</h1><a href="http://127.0.0.1:3000/#about">EXPLORE ↗</a></div></div>
+<div class="controls" aria-label="选择动作关键帧"></div>
+<p id="caption" aria-live="polite"></p>
+<p class="note">本页用于检查人物、手势、构图和文字落点，不是成品视频。开场三帧保持原封面姿态；手势段镜头退远并逐步为文字让位，视频生成时需要保证动作连续。终点改为左手从头顶半圆转到胸前，再指向左上方，文字落在指尖延伸方向。Dark 关键帧与视频尚未制作。</p>
+</main>
+<script>
+const frames=[
+ ['01-closed-light.png','01 闭眼','0–1.5 秒：人物半身居中，闭眼入场；背景留白，柔粉舞台光缓慢亮起。'],
+ ['02-open-light.png','02 睁眼','1.5–3.5 秒：缓缓睁眼看向镜头，眼镜、脸型和发色保持稳定。'],
+ ['03-wink-light.png','03 WINK','3.5–4.5 秒：人物右眼轻轻 wink，随后恢复睁眼静息。'],
+ ['04-temple-light.png','04 指向头侧','滚动起点：人物左手从画面右侧抬起，手枪手势指向太阳穴附近，不遮眼睛。'],
+ ['05-arc-light.png','05 半圆中段','滚动中段：左手抬至头顶上方，沿半圆转向画面左斜上方；镜头略退远。'],
+ ['06-point-light-v2.png','06 MY WORLD','滚动终点：人物为左侧留白，手指指向左上方；网页文字与 EXPLORE 出现。']
+];
+const image=document.querySelector('#frame'),caption=document.querySelector('#caption'),controls=document.querySelector('.controls');
+frames.forEach((frame,index)=>{const button=document.createElement('button');button.textContent=frame[1];button.setAttribute('aria-pressed',String(index===0));button.onclick=()=>select(index);controls.append(button)});
+function select(index){image.src=frames[index][0];image.alt=frames[index][1]+'：原封面人物动作关键帧';caption.textContent=frames[index][2];document.querySelector('#world').classList.toggle('visible',index===5);[...controls.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)))}select(0);
+</script>
+</html>
