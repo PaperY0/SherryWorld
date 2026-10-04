@@ -12,6 +12,7 @@ GitHub 仓库：[PaperY0/SherryWorld](https://github.com/PaperY0/SherryWorld)。
 - [已确认的项目画廊](prototypes/项目画廊交互原型.html)
 - [当前 Light 视觉稿](assets/design/current/personal-intro-light-silver-v5.png)
 - [当前 Dark 视觉稿](assets/design/current/personal-intro-dark-silver-v5.png)
+- [人物建模三视图 V6](assets/design/current/personal-avatar-turnaround-v6.png)
 
 当前人物为 V5 银白色挂耳染（2026-10-04 更新）；V4 原件保留供历史方案对照。
 
@@ -37,7 +38,7 @@ GitHub 仓库：[PaperY0/SherryWorld](https://github.com/PaperY0/SherryWorld)。
 
 已完成：设计资料归档、画廊原型、项目资料快照、路线图；正式网站骨架、中英切换、双主题与曲面项目画廊。画廊包含 13 个非 Fork 作品和 4 个学习 Fork，支持自动循环、拖动、双语详情与 GitHub 入口。见 [正式画廊验收记录](docs/plans/正式项目画廊验收记录.md)。
 
-未完成：真实项目截图、完整案例、最终人物精修与首屏接入、视差镜头与整站发布。当前画廊封面是概念海报，首页人物 PNG 是静态视觉参考。独立 `/avatar-lab` 为未认可相似度的真实几何试验，不替代首页人物。Blender 与 MCP 已安装；最新要求先生成三视图再建模，生成服务两次连接失败，详见 [人物进度](docs/plans/人物小样与Blender环境进度.md)。启动和验证方式见 [网站工程说明](site/README.md)。
+未完成：真实项目截图、完整案例、最终人物精修与首屏接入、视差镜头与整站发布。当前画廊封面是概念海报，首页人物 PNG 是静态视觉参考。独立 `/avatar-lab` 为未认可相似度的真实几何试验，不替代首页人物。Blender 与 MCP 已安装；V6 三视图已生成，接下来按图建模，详见 [人物进度](docs/plans/人物小样与Blender环境进度.md)。启动和验证方式见 [网站工程说明](site/README.md)。
 
 整理记录在 [文件整理清单](docs/文件整理清单.json)。原图和项目 JSON 移动时保留原字节；文档、HTML 与脚本只修复归档后的引用路径。没有删除文件，也没有把个人照片从外部聊天目录自动复制进来。
 
