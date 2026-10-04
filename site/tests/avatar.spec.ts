@@ -50,7 +50,7 @@ test('context loss offers a retry that recreates the model scene', async ({ page
 test('a late model response cannot hide context-loss fallback', async ({ page }) => {
   let release!: () => void;
   const pending = new Promise<void>(resolve => { release = resolve; });
-  await page.route('**/models/sherry-avatar-v1.glb', async route => {
+  await page.route('**/models/sherry-avatar-blender-v2.glb', async route => {
     await pending; await route.continue();
   });
   try {
@@ -79,7 +79,7 @@ test('reduced motion starts paused and keyboard rotation stays available', async
 });
 
 test('model load failure keeps a readable fallback and navigation', async ({ page }) => {
-  await page.route('**/models/sherry-avatar-v1.glb', route => route.abort());
+  await page.route('**/models/sherry-avatar-blender-v2.glb', route => route.abort());
   await page.goto('/avatar-lab');
   await expect(page.locator('.avatar-canvas')).toHaveAttribute('data-state', 'error', { timeout: 20000 });
   await expect(page.getByText('模型暂时无法加载，已显示造型参考。')).toBeVisible();

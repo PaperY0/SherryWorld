@@ -20,7 +20,7 @@
 
 三视图要求：完整头顶、对齐比例的上半身正/侧/背视角；一致黑针织、黑框眼镜、略拽闭口表情、黑色层次长发与人物左侧银白挂耳染。后脑与侧面设计是生成参考，需要检查一致性，不能视为照片直接证据。
 
-Blender 精修脚本仅为草稿，保存在忽略目录 `work/model-drafts/`，没有执行导出，不登记为完成的 Blender 模型。下一阶段需以新三视图重新核对并修改脚本，导出可编辑 `.blend` 与网页 GLB。
+已按 V6 方向修改并通过 Blender MCP 实际执行建模脚本，导出可编辑 `assets/models/sherry-avatar-blender-v2.blend` 与同名 GLB。独立 `/avatar-lab` 已切换到 V2，支持原有双主题、中英文与鼠标交互。实际双主题四视角渲染保存在 `assets/previews/avatar-blender-v2/`。完整说明见 [Blender 人物小样 V2](../design/Blender人物小样V2.md)。这仍是粗模，脸、发型和针织细节与 V6 存在明显差距，未认定为最终人物，也未替换首页。
 
 内置生成失败时可改用 API/CLI 路径，但 imagegen 技能要求用户明确选择该替代路径且配置本机 `OPENAI_API_KEY`。不在聊天或公开仓库保存 API Key。
 

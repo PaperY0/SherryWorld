@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "asset": "sherry-avatar-blender-v2.glb",
+  "source": "assets/models/source/refine-avatar-blender.py",
+  "blend": "assets/models/sherry-avatar-blender-v2.blend",
+  "reference": "assets/design/current/personal-avatar-turnaround-v6.png",
+  "status": "blender-refined-blockout-not-likeness-approved",
+  "provenance": "Project-authored v1 geometry refined in Blender 4.5.14 through MCP; no external meshes or photo textures.",
+  "sha256": "215b31734c6c50af6632e588dda4c01417a6e6c7e9fffc0b9ce8c0d2666d2333",
+  "stats": {
+    "meshes": 136,
+    "vertices": 63927,
+    "triangles": 120368,
+    "bytes": 1795632,
+    "bounds": {
+      "min": [
+        -1.0114057504796112,
+        0.0043817948844093735,
+        -0.589158218717273
+      ],
+      "max": [
+        1.0091884019323758,
+        2.8703975390185406,
+        0.5310263777136299
+      ]
+    }
+  },
+  "materials": [
+    "Sweater",
+    "HairCharcoal",
+    "MouthLine",
+    "LipsMutedRose",
+    "EyeIvory",
+    "SkinWarmMatte",
+    "GlassesBlack",
+    "IrisEspresso",
+    "Pupil",
+    "HairContour",
+    "SilverInnerStreak"
+  ],
+  "validation": {
+    "glbVersion": 2,
+    "finitePositions": true,
+    "copyBytesIdentical": true,
+    "requiredNodes": [
+      "AvatarRoot",
+      "HeadPivot"
+    ],
+    "studioExcluded": true
+  },
+  "limitations": [
+    "Early blockout: face, hair and clothing still differ substantially from V6.",
+    "Transform hierarchy only; no skeleton, facial blendshapes, blink rig or simulated hair."
+  ]
+}

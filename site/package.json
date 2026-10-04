@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit",
     "test": "playwright test",
     "sync:projects": "node scripts/sync-projects.mjs",
-    "build:avatar": "node scripts/build-avatar.mjs"
+    "build:avatar": "node scripts/build-avatar.mjs",
+    "validate:avatar": "node scripts/validate-blender-avatar.mjs"
   },
   "engines": {
     "node": ">=20.9.0"

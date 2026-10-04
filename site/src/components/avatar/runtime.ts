@@ -110,7 +110,7 @@ export function createAvatar(host: HTMLElement, initialTheme: Theme, initialPaus
   const observer=new ResizeObserver(resize); observer.observe(host);
   const intersection=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting; if(visible){last=0;schedule();}else{cancelAnimationFrame(raf);raf=0;} }); intersection.observe(host);
   wardrobe(); resize();
-  new GLTFLoader().load('/models/sherry-avatar-v1.glb', gltf=>{
+  new GLTFLoader().load('/models/sherry-avatar-blender-v2.glb', gltf=>{
     if(disposed || failed){release(gltf.scene);return;}
     model=gltf.scene; model.updateMatrixWorld(true);
     const bounds=new THREE.Box3().setFromObject(model); bounds.getSize(size);
