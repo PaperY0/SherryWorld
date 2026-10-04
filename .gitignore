@@ -10,6 +10,8 @@ coverage/
 playwright-report/
 test-results/
 *.tsbuildinfo
+__pycache__/
+*.pyc
 
 # Environment secrets; a documented example may be committed
 .env
