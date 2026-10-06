@@ -10,16 +10,16 @@
 <div class="stage"><img id="frame" src="01-closed-light.png" alt="原封面人物，闭眼半身"><div id="world" class="world"><h1>MY<br>WORLD</h1><a href="http://127.0.0.1:3000/#about">EXPLORE ↗</a></div></div>
 <div class="controls" aria-label="选择动作关键帧"></div>
 <p id="caption" aria-live="polite"></p>
-<p class="note">本页用于检查人物、手势、构图和文字落点，不是成品视频。开场三帧保持原封面姿态；手势段镜头退远并逐步为文字让位，视频生成时需要保证动作连续。终点改为左手从头顶半圆转到胸前，再指向左上方，文字落在指尖延伸方向。Dark 关键帧与视频尚未制作。</p>
+<p class="note">本页用于检查人物、手势、构图和文字落点，不是成品视频。开场三帧保持原封面姿态；手势段镜头退远并逐步为文字让位，视频生成时需要保证动作连续。终点改为右手沿头侧半圆转向左上方，手心朝向观众，文字落在指尖延伸方向。Dark 关键帧与视频尚未制作。</p>
 </main>
 <script>
 const frames=[
  ['01-closed-light.png','01 闭眼','0–1.5 秒：人物半身居中，闭眼入场；背景留白，柔粉舞台光缓慢亮起。'],
  ['02-open-light.png','02 睁眼','1.5–3.5 秒：缓缓睁眼看向镜头，眼镜、脸型和发色保持稳定。'],
  ['03-wink-light.png','03 WINK','3.5–4.5 秒：人物右眼轻轻 wink，随后恢复睁眼静息。'],
- ['04-temple-light.png','04 指向头侧','滚动起点：人物左手从画面右侧抬起，手枪手势指向太阳穴附近，不遮眼睛。'],
- ['05-arc-light.png','05 半圆中段','滚动中段：左手抬至头顶上方，沿半圆转向画面左斜上方；镜头略退远。'],
- ['06-point-light-v2.png','06 MY WORLD','滚动终点：人物为左侧留白，手指指向左上方；网页文字与 EXPLORE 出现。']
+ ['04-temple-right-palm-light.png','04 指向头侧','滚动起点：人物右手从画面左侧抬起，手枪手势手心朝向观众，指向人物右侧太阳穴（画面左侧）附近，不遮眼睛。'],
+ ['05-arc-right-palm-light.png','05 半圆中段','滚动中段：右手抬至头顶上方，手心朝向观众，沿半圆转向画面左斜上方；镜头略退远。'],
+ ['06-point-right-palm-light.png','06 MY WORLD','滚动终点：人物为左侧留白，手指指向左上方；网页文字与 EXPLORE 出现。']
 ];
 const image=document.querySelector('#frame'),caption=document.querySelector('#caption'),controls=document.querySelector('.controls');
 frames.forEach((frame,index)=>{const button=document.createElement('button');button.textContent=frame[1];button.setAttribute('aria-pressed',String(index===0));button.onclick=()=>select(index);controls.append(button)});

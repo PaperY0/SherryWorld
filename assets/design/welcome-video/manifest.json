@@ -1,5 +1,7 @@
 {
   "status": "static-light-keyframes-video-pending",
+  "updated": "2026-10-06",
+  "gesture": "character-right-hand-palm-facing-viewer-upper-left-point",
   "reference": "../current/personal-intro-light-silver-v5.png",
   "generator": "built-in imagegen",
   "assets": [
@@ -25,25 +27,25 @@
       "sha256": "28baa133c9df19e30c989a9c2b97f610c63d1bdf2ddf70a398391edd74e9a5bc"
     },
     {
-      "file": "04-temple-light.png",
+      "file": "04-temple-right-palm-light.png",
       "width": 1672,
       "height": 941,
-      "bytes": 1759361,
-      "sha256": "5b1529321c399c142617ede0b9bb7662aff437a9d21aa04146ce88723bd92226"
+      "bytes": 1739021,
+      "sha256": "9b7e85ab5207b19596c6304708e333ce439b2c9f84a4287ea0d93cd76ef7d51c"
     },
     {
-      "file": "05-arc-light.png",
+      "file": "05-arc-right-palm-light.png",
       "width": 1672,
       "height": 941,
-      "bytes": 1557240,
-      "sha256": "72ba7127b541912f34354cc2075852041317d7ab2796fdfe12098b4f4d1b627a"
+      "bytes": 1618676,
+      "sha256": "7809797542147d3caa6d481a2f0266d4f2fb8cec8aba1feb40d7dde5e4b861ab"
     },
     {
-      "file": "06-point-light-v2.png",
+      "file": "06-point-right-palm-light.png",
       "width": 1672,
       "height": 941,
-      "bytes": 1630663,
-      "sha256": "d3e10e39cc2b202b0a8b47eff0dd05aa2d16f69b824306b8e2930e7c05da974f"
+      "bytes": 1700094,
+      "sha256": "a375825a09c2842978adbf0d2c7b176c1131ac035bc3a057579404832694a96a"
     }
   ]
 }
