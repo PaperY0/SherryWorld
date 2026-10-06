@@ -1,7 +1,7 @@
 {
   "status": "static-light-keyframes-video-pending",
   "updated": "2026-10-06",
-  "gesture": "character-right-hand-palm-facing-viewer-index-middle-parallel-upper-left-point",
+  "gesture": "character-right-hand-index-middle-parallel-temple-back-facing-arc-palm-facing-upper-left-point",
   "reference": "../current/personal-intro-light-silver-v5.png",
   "generator": "built-in imagegen",
   "assets": [
@@ -27,11 +27,11 @@
       "sha256": "28baa133c9df19e30c989a9c2b97f610c63d1bdf2ddf70a398391edd74e9a5bc"
     },
     {
-      "file": "04-temple-right-two-fingers-light.png",
+      "file": "04-temple-right-two-fingers-back-light.png",
       "width": 1672,
       "height": 941,
-      "bytes": 1684638,
-      "sha256": "516a818a9ed67e67382ffacb70efe859bee4cf47c66b39053fe2ab44e5c4d42d"
+      "bytes": 1668705,
+      "sha256": "aef1a9cd23f6fddef8971f72032e4ce61a26cb17d64bbe8943ca34b3974ade21"
     },
     {
       "file": "05-arc-right-two-fingers-light.png",
