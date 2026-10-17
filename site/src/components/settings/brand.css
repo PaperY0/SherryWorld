@@ -1,0 +1,3 @@
+.display-name,.gallery-heading h3{background:linear-gradient(110deg,#dfa5b9,#b86c8e 53%,#e4aec3);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.display-name span{color:var(--ink);-webkit-text-fill-color:var(--ink)}
+:root[data-theme=dark] .display-name,:root[data-theme=dark] .gallery-heading h3{background-image:linear-gradient(110deg,#f4d3de,#dda0ba 53%,#efc2d4)}

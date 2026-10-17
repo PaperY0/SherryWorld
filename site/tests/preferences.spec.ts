@@ -41,11 +41,11 @@ test('switching back to Chinese updates content, title and control labels', asyn
   await enterWorld(page);
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await expect(page.getByRole('group', { name: 'Page language', exact: true })).toBeVisible();
-  await expect(page).toHaveTitle('PaperY · A world of my own');
+  await expect(page).toHaveTitle('Sherry · A world of my own');
   await page.getByRole('button', { name: '中文', exact: true }).click();
   await expect(page.getByRole('heading', { name: '关于我', exact: true })).toBeVisible();
   await expect(page.getByRole('group', { name: '页面语言', exact: true })).toBeVisible();
-  await expect(page).toHaveTitle('PaperY · 文书颖的个人世界');
+  await expect(page).toHaveTitle('Sherry · 文书颖的个人世界');
 });
 
 test('system changes apply until a visitor makes an explicit theme choice', async ({ page }) => {

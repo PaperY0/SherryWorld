@@ -17,6 +17,7 @@ test('scroll plays the real gesture once, then reveals title and Explore', async
   await page.keyboard.press('PageDown');
   expect(await page.evaluate(() => scrollY)).toBe(0);
   await page.screenshot({ path: '../work/welcome-desktop-ready.png' });
+  await page.locator('.welcome-signature').screenshot({ path: '../work/sherry-signature-preview.png' });
   await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
   await expect(page.getByRole('heading', { name: '关于我', exact: true })).toBeInViewport();
 });

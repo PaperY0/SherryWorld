@@ -151,18 +151,18 @@ export function Welcome({ onEnter }: { onEnter: () => void }) {
 
   const ready = phase === 'ready';
   return <section ref={stage} className={`welcome-stage${entering ? ' is-entering' : ''}`} id="top" data-phase={phase}
-    aria-label={zh ? '欢迎来到 PaperY 的个人世界' : 'Welcome to PaperY’s world'}>
+    aria-label={zh ? '欢迎来到 Sherry 的个人世界' : 'Welcome to Sherry’s world'}>
     <div className="welcome-sticky">
       <div className="welcome-canvas">
         <video ref={video} className="welcome-film" data-clip="welcome" src="/videos/welcome/welcome-light.mp4"
           poster="/videos/welcome/poster-start.jpg" muted playsInline preload="auto" disablePictureInPicture
-          aria-label={zh ? 'PaperY 睁眼、单眼 wink 与双指手势欢迎视频' : 'PaperY opening, wink and two-finger gesture'}
+          aria-label={zh ? 'Sherry 睁眼、单眼 wink 与双指手势欢迎视频' : 'Sherry opening, wink and two-finger gesture'}
           onCanPlay={onReady} onEnded={() => changePhase('ready')} onError={onError}
           style={{ visibility: mediaFailed || motionReduced ? 'hidden' : 'visible' }} />
         {(mediaFailed || motionReduced) && /* eslint-disable-next-line @next/next/no-img-element */
-          <img className="welcome-poster" src="/videos/welcome/poster-end.jpg" alt={zh ? 'PaperY 双指指向左上方' : 'PaperY pointing diagonally upward'} />}
+          <img className="welcome-poster" src="/videos/welcome/poster-end.jpg" alt={zh ? 'Sherry 双指指向左上方' : 'Sherry pointing diagonally upward'} />}
         <div className="welcome-invitation" aria-hidden={!ready} inert={!ready}>
-          <p className="eyebrow">PAPERY · PERSONAL SPACE</p>
+          <p className="eyebrow">SHERRY · PERSONAL SPACE</p>
           <h1 aria-label="MY WORLD">MY<br />WORLD<span aria-hidden="true">.</span></h1>
           <a className="pill" href="#about" onClick={event => {
             event.preventDefault();
@@ -175,6 +175,9 @@ export function Welcome({ onEnter }: { onEnter: () => void }) {
           }}>EXPLORE <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+      {/* Authored vector lettering, independent of installed script fonts. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="welcome-signature" src="/images/sherry-signature.svg" width="340" height="135" alt="Sherry" />
       {!ready && <div className="welcome-cue">
         <button type="button" onClick={() => {
           if (phase === 'blocked') { changePhase(requested.current ? 'gesture' : 'opening'); play(); }

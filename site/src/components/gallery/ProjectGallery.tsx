@@ -34,7 +34,7 @@ export function ProjectGallery() {
   }, [items, cards]);
   const modeText = {auto:copy.auto,left:copy.pointerLeft,right:copy.pointerRight,paused:copy.paused,drag:copy.drag}[status.mode];
   return <section className="gallery-section" id="projects" aria-labelledby="gallery-title">
-    <div className="gallery-heading"><div className="section-caption"><span>02 /</span><h2>{messages[locale].projectsLabel}</h2></div><p className="eyebrow">PAPERY · SELECTED WORKS</p><h3 id="gallery-title">BUILT IN MY OWN WAY.</h3></div>
+    <div className="gallery-heading"><div className="section-caption"><span>02 /</span><h2>{messages[locale].projectsLabel}</h2></div><p className="eyebrow">SHERRY · SELECTED WORKS</p><h3 id="gallery-title">BUILT IN MY OWN WAY.</h3></div>
     <div className="gallery-stage" ref={stage} aria-label={copy.stage}><div className="gallery-glow" aria-hidden="true" />{cards.map((project, i) => <ProjectCard key={`${project.slug}-${i}`} project={project} index={i % items.length} locale={locale} onOpen={() => { setSelected(project); setDirectory(false); }} />)}</div>
     <div className="gallery-controls"><button onClick={() => motion.current?.step(-1)} aria-label={copy.previous}>←</button><span className="gallery-count" aria-hidden="true">{String(status.index + 1).padStart(2,'0')} / {String(items.length).padStart(2,'0')}</span><button onClick={() => motion.current?.step(1)} aria-label={copy.next}>→</button><button aria-pressed={paused} aria-label={paused ? copy.play : copy.pause} onClick={() => setPaused(p => !p)}>{paused ? '▶' : 'Ⅱ'}</button><span className="gallery-mode" aria-hidden="true">{modeText}</span></div>
     <p className="gallery-hint">{copy.hint}</p>

@@ -1,4 +1,4 @@
-# PaperY · Personal World
+# Sherry · Personal World
 
 个人网页工作目录。所有设计与工程均在本目录维护。
 

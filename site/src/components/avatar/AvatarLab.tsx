@@ -33,7 +33,7 @@ export function AvatarLab() {
   useEffect(()=>{controller.current?.setTheme(theme);},[theme]);
   useEffect(()=>{controller.current?.setPaused(paused);},[paused]);
   return <main className="avatar-lab">
-    <div className="avatar-lab-heading"><p className="eyebrow">PAPERY · {text.note}</p><h1>{text.title}</h1><p>{text.description}</p></div>
+    <div className="avatar-lab-heading"><p className="eyebrow">SHERRY · {text.note}</p><h1>{text.title}</h1><p>{text.description}</p></div>
     <div className="avatar-canvas" ref={host} data-state={state} tabIndex={0} role="region" aria-label={text.label}>
       {state!=='ready'&&<div className="avatar-fallback">
         {state==='error'&&<img src={`/images/intro-${theme}-silver-v5.png`} alt={text.reference} />}

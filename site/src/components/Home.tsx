@@ -28,7 +28,7 @@ export function Home() {
     <section className="about section" id="about" tabIndex={-1}>
       <div className="section-caption"><span>01 /</span><h2>{copy.about}</h2></div>
       <div className="about-grid">
-        <div><p className="display-name">PaperY<span>{copy.name}</span></p><p className="identity">{copy.identity}</p></div>
+        <div><p className="display-name">Sherry<span>{copy.name}</span></p><p className="identity">{copy.identity}</p></div>
         <div className="about-description"><p className="lead">{copy.intro}</p><p className="muted">{copy.aboutText}</p><div className="tags"><span>{copy.role}</span><span>{copy.personality}</span></div></div>
       </div>
     </section>
@@ -54,9 +54,9 @@ export function Home() {
       <div className="section-caption"><span>06 /</span><h2>{copy.contact}</h2></div>
       <p className="section-lead">{copy.contactLead}</p>
       <a className="contact-email" href="mailto:19511635329@163.com">19511635329@163.com <span aria-hidden="true">↗</span></a>
-      <a className="text-link" href="https://github.com/PaperY0" target="_blank" rel="noreferrer">GITHUB · PAPERY0 ↗</a>
+      <a className="text-link" href="https://github.com/PaperY0" target="_blank" rel="noreferrer">GITHUB · SHERRY ↗</a>
     </section>
-    <footer className="footer"><div><strong>PaperY</strong><span>{copy.footer}</span></div><a href="#top">{copy.back} ↑</a></footer>
+    <footer className="footer"><div><strong>Sherry</strong><span>{copy.footer}</span></div><a href="#top">{copy.back} ↑</a></footer>
     </>}
   </main>;
 }
