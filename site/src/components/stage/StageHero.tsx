@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePreferences } from '../settings/PreferencesProvider';
 import { Signature } from './Signature';
 import { PinkFluid } from './PinkFluid';
+import { StageLoader } from './StageLoader';
 import './stage.css';
 
 export function StageHero() {
@@ -10,6 +11,8 @@ export function StageHero() {
   const zh = locale === 'zh';
   const [replay, setReplay] = useState(0);
   const [reduced, setReduced] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const finishLoading = useCallback(() => setLoading(false), []);
   const rail = useRef<HTMLDivElement>(null);
   const portrait = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -19,7 +22,7 @@ export function StageHero() {
     return () => query.removeEventListener('change', sync);
   }, []);
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || loading) return;
     let frame = 0, offset = 0, previous = 0, speed = 1, targetSpeed = 1;
     let pointerX = 0, pointerY = 0, x = 0, y = 0;
     const tick = (time: number) => {
@@ -46,8 +49,8 @@ export function StageHero() {
     window.addEventListener('wheel', wheel, { passive: true });
     window.addEventListener('pointermove', move);
     return () => { cancelAnimationFrame(frame); window.removeEventListener('wheel', wheel); window.removeEventListener('pointermove', move); };
-  }, [reduced]);
-  return <main className="stage-page" id="top">
+  }, [reduced, loading]);
+  return <main className="stage-page" id="top" data-loading={loading}>
     <section className="stage-hero" aria-labelledby="stage-heading">
       <svg className="stage-filter-defs" aria-hidden="true" width="0" height="0"><defs><filter id="stage-solid-alpha" colorInterpolationFilters="sRGB"><feComponentTransfer><feFuncA type="linear" slope="1.04" intercept="0" /></feComponentTransfer></filter></defs></svg>
       <div className="stage-grain" aria-hidden="true" />
@@ -67,10 +70,11 @@ export function StageHero() {
         <a href="mailto:19511635329@163.com">{zh ? '联系我' : 'CONTACT'} <span>↗</span></a>
       </nav>
       <div className="stage-identity"><span>SHERRY · 文书颖</span><p>AI · BACKEND · AGENT</p><span>{zh ? '智能科学与技术 · 大三' : 'INTELLIGENT SCIENCE & TECHNOLOGY'}</span></div>
-      <Signature replay={replay} reduced={reduced} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
+      <Signature replay={replay} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
       <button className="stage-replay" onClick={() => setReplay(n => n + 1)} aria-label={zh ? '重播签名' : 'Replay signature'}>↻ <span>{zh ? '重播签名' : 'REPLAY SIGNATURE'}</span></button>
       <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>BUILD</span><span>＋</span><span>FEEL</span><span>＋</span><span>EXPLORE</span><span>＋</span></div>
-      <PinkFluid reduced={reduced} />
+      {!loading && <PinkFluid reduced={reduced} />}
+      {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
   </main>;
 }

@@ -35,3 +35,12 @@ body:has(.stage-page) .skip-link{display:none}
 .stage-filter-defs{position:absolute;pointer-events:none}
 @media(pointer:fine){body:has(.stage-page),body:has(.stage-page) *{cursor:url('/effects/pink-cursor.svg') 3 2,auto!important}}
 @media(max-width:700px){.stage-signature{top:44%;width:96vw}.stage-signature[data-state=complete]{top:71%;left:6%;width:200px}}
+@font-face{font-family:StageLoadingScript;src:url('/effects/ruthie.woff2') format('woff2');font-display:swap}
+html[data-stage-loading=true]{overflow:hidden}
+body:has(.stage-page[data-loading=true]) .site-header{visibility:hidden}
+.stage-page[data-loading=true] .stage-portrait img,.stage-page[data-loading=true] .stage-marquee,.stage-page[data-loading=true] .stage-intro,.stage-page[data-loading=true] .stage-nav,.stage-page[data-loading=true] .stage-identity{animation-play-state:paused}
+.stage-loader{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:#aa698b;color:#fce6ef;overflow:hidden}
+.stage-loader canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.stage-loader-count{position:relative;font-family:StageLoadingScript,cursive;font-size:clamp(170px,36vw,540px);font-weight:400;line-height:1;letter-spacing:.015em;user-select:none;transition:opacity .9s}
+.stage-loader-caption{position:absolute;bottom:6%;font-size:9px;letter-spacing:.3em;transition:opacity .6s}
+.stage-loader[data-phase=dissolving] .stage-loader-count,.stage-loader[data-phase=dissolving] .stage-loader-caption{opacity:0}

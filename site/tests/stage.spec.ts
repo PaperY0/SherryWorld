@@ -32,6 +32,7 @@ test('mobile reduced-motion stage is complete and fits the viewport', async ({ p
 
 test('pink fluid receives mouse movement without blocking controls', async ({ page }) => {
   await page.goto('/stage');
+  await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
   const effect = page.frameLocator('.stage-fluid');
   await expect(effect.locator('canvas')).toHaveAttribute('data-state', 'ready');
   await page.mouse.move(80, 280);

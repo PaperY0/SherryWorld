@@ -9,15 +9,16 @@ const strokes = [
   'M554 487 C565 452 573 425 594 418 C620 407 623 421 608 444 C594 465 573 479 552 490 C541 510 561 512 580 503 L644 471 L681 446',
   'M677 448 L724 412 L681 505 C714 462 752 435 784 421 L821 407 C838 412 821 428 816 437 L794 482 C779 519 801 493 827 464',
   'M827 464 C856 431 901 398 933 391 C947 388 931 411 920 427 C902 452 881 485 897 494 C924 514 971 451 1002 426',
-  'M1002 426 C1006 457 977 538 946 603 C918 666 887 720 856 729 C831 738 852 689 878 649 C923 582 1010 476 1122 398',
+  'M1002 426 C1001 467 982 499 973 520 C960 558 949 599 931 626 C921 653 910 682 893 701 C883 718 872 730 857 732 C842 737 842 724 850 706',
+  'M850 706 C863 668 890 627 913 596 C933 567 951 543 972 522 C1016 477 1074 429 1124 398',
 ];
-const durations = [680, 480, 480, 480, 480, 620];
-export function Signature({ replay, reduced, label }: { replay: number; reduced: boolean; label: string }) {
+const durations = [680, 480, 480, 480, 480, 400, 340];
+export function Signature({ replay, reduced, label, enabled = true }: { replay: number; reduced: boolean; label: string; enabled?: boolean }) {
   const id = useId().replaceAll(':', '');
   const paths = useRef<(SVGPathElement | null)[]>([]);
   const [complete, setComplete] = useState(false);
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !enabled) return;
     let active = true;
     setComplete(false);
     const animations = paths.current.map((path, i) => {
@@ -28,13 +29,17 @@ export function Signature({ replay, reduced, label }: { replay: number; reduced:
     const last = animations.at(-1);
     last?.finished.then(() => { if (active) setComplete(true); }).catch(() => {});
     return () => { active = false; animations.forEach(a => a?.cancel()); };
-  }, [replay, reduced]);
+  }, [replay, reduced, enabled]);
   const done = reduced || complete;
   return <div className="stage-signature" data-state={done ? 'complete' : 'writing'}>
     <svg viewBox="140 190 1020 570" role="img" aria-label={label}>
-      <defs><mask id={`pen-${id}`} maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="961">
+      <defs>
+        {/* Disjoint lower-loop regions stop the descending pen revealing the return stroke. */}
+        <clipPath id={`down-${id}`}><path d="M0 0H1280V961H820V739L857 735L872 720L879 700L886 680L896 660L906 640L916 620L926 600L935 580L943 560H0Z" /></clipPath>
+        <clipPath id={`return-${id}`}><path d="M0 0H1280V560H943L935 580L926 600L916 620L906 640L896 660L886 680L879 700L872 720L857 735L820 739V961H0Z" /></clipPath>
+        <mask id={`pen-${id}`} maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="961">
         <g fill="none" stroke="white" strokeWidth="40" strokeLinecap="round" strokeLinejoin="round">
-          {strokes.map((d, i) => <path key={d} d={d} ref={el => { paths.current[i] = el; }} />)}
+          {strokes.map((d, i) => <g key={d} clipPath={i === 5 ? `url(#down-${id})` : i === 6 ? `url(#return-${id})` : undefined}><path d={d} data-pen={i} ref={el => { paths.current[i] = el; }} /></g>)}
         </g>
       </mask></defs>
       <image href="/images/sherry-signature-selected.png" width="1280" height="961" mask={done ? undefined : `url(#pen-${id})`} />
