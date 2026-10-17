@@ -21,5 +21,5 @@ export function PinkFluid({ reduced }: { reduced: boolean }) {
   }, [fine, reduced]);
   // Separate browsing context owns the upstream library's RAF/listeners/GL.
   // Removing it disposes that runtime without leaking global event handlers.
-  return fine && !reduced ? <iframe ref={frame} className="stage-fluid" src="/effects/pink-fluid.html" title="Pink mouse trail" tabIndex={-1} aria-hidden="true" /> : null;
+  return fine && !reduced ? <iframe ref={frame} className="stage-fluid" src="/effects/pink-fluid.html" onLoad={event => { event.currentTarget.dataset.ready = 'true'; }} title="Pink mouse trail" tabIndex={-1} aria-hidden="true" /> : null;
 }

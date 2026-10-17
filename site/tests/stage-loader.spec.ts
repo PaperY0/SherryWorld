@@ -22,6 +22,21 @@ test('reduced motion does not wait for the count or dissolve', async ({ page }) 
   await expect(page.getByRole('progressbar')).toHaveCount(0);
 });
 
+test('loading overlay reaches transparency before removal', async ({ page }) => {
+  await page.goto('/stage');
+  const lastOpacity = await page.evaluate(() => new Promise<number>(resolve => {
+    let last = 1;
+    const sample = () => {
+      const loader = document.querySelector('.stage-loader');
+      if (!loader) { resolve(last); return; }
+      last = Number(getComputedStyle(loader).opacity);
+      requestAnimationFrame(sample);
+    };
+    sample();
+  }));
+  expect(lastOpacity).toBeLessThan(.02);
+});
+
 test('the descending y does not expose its return stroke early', async ({ page }) => {
   await page.goto('/stage');
   await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false', { timeout: 12000 });

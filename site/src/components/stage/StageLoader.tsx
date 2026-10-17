@@ -29,11 +29,11 @@ export function StageLoader({ onComplete, zh }: { onComplete: () => void; zh: bo
             float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
             float noise(vec2 p){vec2 q=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(q),hash(q+vec2(1.,0.)),f.x),mix(hash(q+vec2(0.,1.)),hash(q+1.),f.x),f.y)*2.-1.;}
             void main(){vec2 uv=(p-.5)*vec2(aspect,1.)+.5;
-              float n=noise(uv*4.+time*.15)*.35+noise(uv*12.+time*.3)*.18+noise(uv*24.+time*.5)*.08;
+              float n=noise(uv*4.)*.35+noise(uv*12.)*.18+noise(uv*24.)*.08;
               float boundary=mix(-1.5,1.5,uv.y)+n-mix(-3.,2.,phase);
               float glow=pow(clamp(1.-abs(boundary),0.,1.),8.)*phase;
               vec3 color=mix(vec3(.38,.15,.27),vec3(.82,.44,.61),p.y);
-              color+=vec3(1.,.5,.73)*glow*.85;
+              color+=vec3(1.,.5,.73)*glow*.35*(1.-phase);
               color+=(hash(gl_FragCoord.xy)-.5)*.045;
               gl_FragColor=vec4(color,clamp(max(boundary,glow),0.,1.));}`
         });
@@ -53,17 +53,24 @@ export function StageLoader({ onComplete, zh }: { onComplete: () => void; zh: bo
       if (!dissolveStart && t === 1 && (assetsReady || elapsed > 5500)) { dissolveStart = now; setPhase('dissolving'); }
       const progress = dissolveStart ? Math.min((now - dissolveStart) / 2200, 1) : 0;
       const dissolve = progress * progress * (3 - 2 * progress);
-      if (draw) { if (root.current) root.current.style.background = 'transparent'; draw(dissolve, elapsed / 1000); }
-      else if (root.current) root.current.style.opacity = String(1 - dissolve);
-      if (progress === 1) { onComplete(); return; }
+      if (draw) {
+        draw(dissolve, elapsed / 1000);
+        // Keep the matching CSS surface until the GL canvas has actually painted.
+        if (root.current && dissolveStart) root.current.style.background = 'transparent';
+      }
+      const fade = draw ? Math.max(0, Math.min((progress - .55) / .45, 1)) : progress;
+      if (root.current) root.current.style.opacity = String(1 - fade * fade * (3 - 2 * fade));
+      // Paint a fully transparent frame before React removes the overlay/GL context.
+      if (progress === 1) { frame = requestAnimationFrame(() => { if (alive) onComplete(); }); return; }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => { alive = false; cancelAnimationFrame(frame); release(); delete document.documentElement.dataset.stageLoading; };
   }, [onComplete]);
   return <div ref={root} className="stage-loader" data-phase={phase} role="progressbar" aria-label={zh ? '首屏加载' : 'Loading your world'} aria-valuenow={count} aria-valuemin={0} aria-valuemax={100}>
+    <link rel="preload" as="font" href="/effects/ruthie.woff2" type="font/woff2" crossOrigin="anonymous" />
     <canvas ref={canvas} aria-hidden="true" />
-    <span className="stage-loader-count" aria-hidden="true">{String(count).padStart(3, '0')}</span>
+    <span className="stage-loader-count" aria-hidden="true">{String(count).padStart(3, '0').split('').map((digit, i) => <span key={i}>{digit}</span>)}</span>
     <span className="stage-loader-caption">{zh ? '正在加载你的世界' : 'LOADING YOUR WORLD'}</span>
   </div>;
 }
