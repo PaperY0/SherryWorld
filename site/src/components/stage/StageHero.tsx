@@ -9,7 +9,6 @@ import './stage.css';
 export function StageHero() {
   const { locale } = usePreferences();
   const zh = locale === 'zh';
-  const [replay, setReplay] = useState(0);
   const [reduced, setReduced] = useState(false);
   const [loading, setLoading] = useState(true);
   const finishLoading = useCallback(() => setLoading(false), []);
@@ -63,16 +62,8 @@ export function StageHero() {
         <img src="/images/stage/sherry-cutout-v1.png" width="1671" height="941" alt="Sherry" fetchPriority="high" />
       </div>
       <div className="stage-floor" aria-hidden="true" />
-      <p className="stage-intro">{zh ? <>把想法变成作品，<br />也把生活过成自己的样子。</> : <>Turning ideas into things.<br />Making a world that feels like me.</>}</p>
-      <nav className="stage-nav" aria-label={zh ? '首屏导航' : 'Stage navigation'}>
-        <a href="/">{zh ? '进入我的世界' : 'EXPLORE MY WORLD'} <span>↗</span></a>
-        <a href="https://github.com/PaperY0" target="_blank" rel="noreferrer">GITHUB <span>↗</span></a>
-        <a href="mailto:19511635329@163.com">{zh ? '联系我' : 'CONTACT'} <span>↗</span></a>
-      </nav>
-      <div className="stage-identity"><span>SHERRY · 文书颖</span><p>AI · BACKEND · AGENT</p><span>{zh ? '智能科学与技术 · 大三' : 'INTELLIGENT SCIENCE & TECHNOLOGY'}</span></div>
-      <Signature replay={replay} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
-      <button className="stage-replay" onClick={() => setReplay(n => n + 1)} aria-label={zh ? '重播签名' : 'Replay signature'}>↻ <span>{zh ? '重播签名' : 'REPLAY SIGNATURE'}</span></button>
-      <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>BUILD</span><span>＋</span><span>FEEL</span><span>＋</span><span>EXPLORE</span><span>＋</span></div>
+      <Signature replay={0} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
+      <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>CRAFTER</span><span>＋</span><span>DESIGNER</span><span>＋</span><span>WEAVER</span><span>＋</span></div>
       {!loading && <PinkFluid reduced={reduced} />}
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
