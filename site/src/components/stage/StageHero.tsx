@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePreferences } from '../settings/PreferencesProvider';
 import { Signature } from './Signature';
+import { PinkFluid } from './PinkFluid';
 import './stage.css';
 
 export function StageHero() {
@@ -48,6 +49,7 @@ export function StageHero() {
   }, [reduced]);
   return <main className="stage-page" id="top">
     <section className="stage-hero" aria-labelledby="stage-heading">
+      <svg className="stage-filter-defs" aria-hidden="true" width="0" height="0"><defs><filter id="stage-solid-alpha" colorInterpolationFilters="sRGB"><feComponentTransfer><feFuncA type="linear" slope="1.04" intercept="0" /></feComponentTransfer></filter></defs></svg>
       <div className="stage-grain" aria-hidden="true" />
       <h1 id="stage-heading" className="stage-sr">A WORLD OF MY OWN.</h1>
       <div className="stage-marquee" aria-hidden="true"><div ref={rail} className="stage-rail">
@@ -68,6 +70,7 @@ export function StageHero() {
       <Signature replay={replay} reduced={reduced} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
       <button className="stage-replay" onClick={() => setReplay(n => n + 1)} aria-label={zh ? '重播签名' : 'Replay signature'}>↻ <span>{zh ? '重播签名' : 'REPLAY SIGNATURE'}</span></button>
       <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>BUILD</span><span>＋</span><span>FEEL</span><span>＋</span><span>EXPLORE</span><span>＋</span></div>
+      <PinkFluid reduced={reduced} />
     </section>
   </main>;
 }

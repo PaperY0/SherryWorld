@@ -11,7 +11,7 @@ const strokes = [
   'M827 464 C856 431 901 398 933 391 C947 388 931 411 920 427 C902 452 881 485 897 494 C924 514 971 451 1002 426',
   'M1002 426 C1006 457 977 538 946 603 C918 666 887 720 856 729 C831 738 852 689 878 649 C923 582 1010 476 1122 398',
 ];
-const durations = [900, 650, 650, 650, 650, 800];
+const durations = [680, 480, 480, 480, 480, 620];
 export function Signature({ replay, reduced, label }: { replay: number; reduced: boolean; label: string }) {
   const id = useId().replaceAll(':', '');
   const paths = useRef<(SVGPathElement | null)[]>([]);
@@ -22,7 +22,7 @@ export function Signature({ replay, reduced, label }: { replay: number; reduced:
     setComplete(false);
     const animations = paths.current.map((path, i) => {
       const length = path?.getTotalLength() ?? 1;
-      const delay = 900 + durations.slice(0, i).reduce((a, b) => a + b, 0);
+      const delay = 600 + durations.slice(0, i).reduce((a, b) => a + b, 0);
       return path?.animate([{ strokeDasharray: `${length}`, strokeDashoffset: length }, { strokeDasharray: `${length}`, strokeDashoffset: 0 }], { duration: durations[i], delay, fill: 'both', easing: 'linear' });
     });
     const last = animations.at(-1);
@@ -31,9 +31,9 @@ export function Signature({ replay, reduced, label }: { replay: number; reduced:
   }, [replay, reduced]);
   const done = reduced || complete;
   return <div className="stage-signature" data-state={done ? 'complete' : 'writing'}>
-    <svg viewBox="0 0 1280 961" role="img" aria-label={label}>
+    <svg viewBox="140 190 1020 570" role="img" aria-label={label}>
       <defs><mask id={`pen-${id}`} maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="961">
-        <g fill="none" stroke="white" strokeWidth="28" strokeLinecap="round" strokeLinejoin="round">
+        <g fill="none" stroke="white" strokeWidth="40" strokeLinecap="round" strokeLinejoin="round">
           {strokes.map((d, i) => <path key={d} d={d} ref={el => { paths.current[i] = el; }} />)}
         </g>
       </mask></defs>

@@ -15,6 +15,7 @@ test('stage keeps the selected character and signature, with working preferences
   await page.waitForTimeout(2200);
   await page.screenshot({ path: '../work/stage-dark-desktop.png' });
   await page.getByRole('button', { name: 'LIGHT', exact: true }).click();
+  await page.waitForTimeout(600);
   await page.screenshot({ path: '../work/stage-light-desktop.png' });
 });
 
@@ -27,4 +28,16 @@ test('mobile reduced-motion stage is complete and fits the viewport', async ({ p
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
   expect(overflow).toBe(false);
   await page.screenshot({ path: '../work/stage-mobile.png' });
+});
+
+test('pink fluid receives mouse movement without blocking controls', async ({ page }) => {
+  await page.goto('/stage');
+  const effect = page.frameLocator('.stage-fluid');
+  await expect(effect.locator('canvas')).toHaveAttribute('data-state', 'ready');
+  await page.mouse.move(80, 280);
+  for (let i = 0; i < 18; i++) await page.mouse.move(80 + i * 18, 280 + Math.sin(i / 3) * 45);
+  await expect.poll(() => effect.locator('canvas').getAttribute('data-inputs')).not.toBe('0');
+  await expect(page.locator('.stage-page')).toHaveCSS('cursor', /pink-cursor/);
+  await page.getByRole('button', { name: 'DARK', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });

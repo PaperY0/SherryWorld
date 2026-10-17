@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pink pointer effect</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}canvas{display:block;width:100%;height:100%}</style></head>
+<body><canvas data-inputs="0" aria-hidden="true"></canvas>
+<!-- webgl-fluid 0.4.0, MIT; license distributed beside this document. -->
+<script src="/effects/webgl-fluid.umd.js"></script>
+<script>
+const canvas=document.querySelector('canvas');
+try{
+  WebGLFluid(canvas,{TRIGGER:'hover',IMMEDIATE:false,AUTO:false,SIM_RESOLUTION:48,DYE_RESOLUTION:384,DENSITY_DISSIPATION:5.5,VELOCITY_DISSIPATION:3.8,PRESSURE:.12,PRESSURE_ITERATIONS:6,CURL:1.2,SPLAT_RADIUS:.035,SPLAT_FORCE:1700,SPLAT_COLOR:{r:1,g:.24,b:.48},SHADING:false,COLORFUL:false,TRANSPARENT:true,BLOOM:false,SUNRAYS:false});
+  canvas.dataset.state='ready';
+}catch(error){canvas.dataset.state='unsupported';}
+let inputs=0;
+addEventListener('message',event=>{
+  if(event.source!==parent||event.origin!==location.origin||canvas.dataset.state!=='ready')return;
+  const d=event.data;
+  if(d?.type!=='sherry-pointer'||!Number.isFinite(d.x)||!Number.isFinite(d.y))return;
+  canvas.dispatchEvent(new MouseEvent('mousemove',{clientX:d.x,clientY:d.y,bubbles:false}));
+  canvas.dataset.inputs=String(++inputs);
+});
+</script></body></html>
