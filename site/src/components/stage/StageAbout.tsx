@@ -38,7 +38,8 @@ export function StageAbout({ reduced, enabled }: { reduced: boolean; enabled: bo
     }), { threshold: .15, rootMargin: '0px 0px -10% 0px' });
     groups.forEach(group => reveal.observe(group));
     const headerZone = new IntersectionObserver(entries => {
-      document.documentElement.dataset.stageSection = entries[0].isIntersecting ? 'about' : 'hero';
+      if (entries[0].isIntersecting) document.documentElement.dataset.stageSection = 'about';
+      else if (document.documentElement.dataset.stageSection === 'about') document.documentElement.dataset.stageSection = 'hero';
     }, { rootMargin: '-8% 0px -82% 0px' });
     headerZone.observe(host);
     return () => {

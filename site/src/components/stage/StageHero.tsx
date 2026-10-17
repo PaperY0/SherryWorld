@@ -5,6 +5,7 @@ import { Signature } from './Signature';
 import { PinkFluid } from './PinkFluid';
 import { StageLoader } from './StageLoader';
 import { StageAbout } from './StageAbout';
+import { StageFacts } from './StageFacts';
 import './stage.css';
 
 export function StageHero() {
@@ -69,5 +70,6 @@ export function StageHero() {
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
     <StageAbout reduced={reduced} enabled={!loading} />
+    <StageFacts reduced={reduced} enabled={!loading} zh={zh} />
   </main>;
 }
