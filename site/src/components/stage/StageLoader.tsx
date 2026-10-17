@@ -71,6 +71,5 @@ export function StageLoader({ onComplete, zh }: { onComplete: () => void; zh: bo
     <link rel="preload" as="font" href="/effects/ruthie.woff2" type="font/woff2" crossOrigin="anonymous" />
     <canvas ref={canvas} aria-hidden="true" />
     <span className="stage-loader-count" aria-hidden="true">{String(count).padStart(3, '0').split('').map((digit, i) => <span key={i}>{digit}</span>)}</span>
-    <span className="stage-loader-caption">{zh ? '正在加载你的世界' : 'LOADING YOUR WORLD'}</span>
   </div>;
 }

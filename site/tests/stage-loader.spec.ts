@@ -5,12 +5,15 @@ test('initial count gates the signature until the loading transition finishes', 
   await page.goto('/stage');
   const loader = page.getByRole('progressbar');
   await expect(loader).toBeVisible();
+  await expect(page.locator('.site-header')).toHaveCSS('opacity', '0');
+  await expect(page.locator('.stage-loader-caption')).toHaveCount(0);
   const initial = Number(await loader.getAttribute('aria-valuenow'));
   await expect.poll(async () => Number(await loader.getAttribute('aria-valuenow'))).toBeGreaterThan(initial);
   await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'true');
   await expect(page.locator('[data-pen="6"]')).toHaveJSProperty('tagName', 'path');
   await expect(loader).toHaveCount(0, { timeout: 12000 });
   await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false');
+  await expect(page.locator('.site-header')).toHaveCSS('opacity', '1');
   await expect(page.locator('.stage-signature')).toHaveAttribute('data-state', 'writing');
   await expect(page.locator('.stage-signature')).toHaveAttribute('data-state', 'complete', { timeout: 7000 });
 });
