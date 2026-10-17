@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 135" fill="none" role="img" aria-labelledby="title">
+  <title id="title">Sherry handwritten signature</title>
+  <defs><linearGradient id="pink" x1="10" y1="30" x2="315" y2="110" gradientUnits="userSpaceOnUse"><stop stop-color="#d39aac"/><stop offset=".5" stop-color="#dfa9ba"/><stop offset="1" stop-color="#c98b9f"/></linearGradient></defs>
+  <g stroke="url(#pink)" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-5 170 68)">
+    <path d="M77 31C65 9 31 25 29 43C27 58 64 52 64 71C64 91 29 108 16 93C7 82 22 71 41 76"/>
+    <path d="M53 94C68 76 93 24 109 21C126 17 100 62 82 79C91 62 105 59 108 68C111 77 96 94 106 95C114 96 124 83 130 76C149 64 157 77 136 84C121 89 128 103 145 95L157 81C162 73 167 65 173 67C179 69 174 77 171 80C183 68 191 66 193 71C195 77 183 88 189 91C195 95 205 81 211 75C218 67 224 65 228 69C232 74 222 81 220 82C232 70 241 67 244 72C247 78 233 93 241 96C250 99 264 75 269 68C259 93 243 130 226 125C211 119 243 103 279 95L323 83"/>
+    <path d="M48 113C100 102 150 103 198 107" stroke-width="1.65" opacity=".58"/>
+  </g>
+</svg>

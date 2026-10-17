@@ -6,4 +6,4 @@
 
 EXPLORE 使用半透明白粉玻璃底、18px背景模糊、细白色高光边框和轻柔粉灰投影。鼠标悬停轻微抬起，键盘焦点仍保留。
 
-签名：`site/public/images/sherry-signature.svg`，340×135 viewBox，独立矢量曲线绘制的 Sherry 连笔标识，淡粉渐变笔画，轻微倾斜与收笔下划线，透明背景，不依赖客户端字体。放在欢迎页左下角，手机位置避开底部滚轮提示。
+签名：`site/public/images/sherry-signature.svg`，独立矢量曲线绘制、透明背景，不依赖客户端字体。最新版本按用户提供的亲笔稿重绘：保留大写S的大弧、h的直长上挑、连续的erry和y的长下行回环，去掉旧版额外下划线。淡粉渐变颜色保持原有 `#d39aac` / `#dfa9ba` / `#c98b9f`。放在欢迎页左下角，手机位置避开底部滚轮提示。原版保存为 `assets/design/signature/sherry-signature-v1.svg`。
