@@ -40,6 +40,9 @@ export function subscribe(listener: () => void) {
   window.addEventListener(eventName, listener);
   window.addEventListener('storage', storageChanged);
   media.addEventListener('change', systemChanged);
+  // A system change can occur between the head bootstrap and hydration.
+  // Reconcile once on subscription so that event is not lost.
+  systemChanged();
   return () => {
     window.removeEventListener(eventName, listener);
     window.removeEventListener('storage', storageChanged);

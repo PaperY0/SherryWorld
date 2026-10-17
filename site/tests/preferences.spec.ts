@@ -87,9 +87,11 @@ test('mobile controls, portrait and translated content fit the screen', async ({
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await page.getByRole('button', { name: 'DARK', exact: true }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const image = page.locator('.portrait-image');
-  await expect(image).toBeVisible();
-  expect(await image.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  const video = page.locator('.welcome-film');
+  await expect(video).toBeVisible();
+  await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.videoWidth)).toBeGreaterThan(0);
+  await page.getByRole('button', { name: 'Enter my world', exact: true }).click();
+  await expect(page.getByRole('link', { name: 'EXPLORE', exact: true })).toBeVisible({ timeout: 12000 });
   await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'ABOUT ME', exact: true })).toBeInViewport();
 });

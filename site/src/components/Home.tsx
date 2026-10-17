@@ -2,25 +2,14 @@
 import { messages } from '@/content/messages';
 import { usePreferences } from './settings/PreferencesProvider';
 import { ProjectGallery } from './gallery/ProjectGallery';
+import { Welcome } from './welcome/Welcome';
 
 export function Home() {
-  const { locale, theme } = usePreferences();
+  const { locale } = usePreferences();
   const copy = messages[locale];
   return <main>
-    <section className="hero" id="top" aria-label={copy.portraitAlt}>
-      <div className="soft-glow" aria-hidden="true" />
-      <div className="portrait-frame">
-        {/* Static concept reference; replace this isolated leaf with a real model scene. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="portrait-image" src={`/images/intro-${theme}-silver-v5.png`} width="1672" height="941" alt={copy.portraitAlt} fetchPriority="high" />
-      </div>
-    </section>
-    <section className="welcome" aria-labelledby="world-title">
-      <p className="eyebrow">PAPERY · SHERRY WORLD</p>
-      <h1 id="world-title">A WORLD<br /><span>OF</span><br />MY OWN</h1>
-      <a className="pill" href="#about">EXPLORE <span aria-hidden="true">↗</span></a>
-    </section>
-    <section className="about section" id="about">
+    <Welcome />
+    <section className="about section" id="about" tabIndex={-1}>
       <div className="section-caption"><span>01 /</span><h2>{copy.about}</h2></div>
       <div className="about-grid">
         <div><p className="display-name">PaperY<span>{copy.name}</span></p><p className="identity">{copy.identity}</p></div>
