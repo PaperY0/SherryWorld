@@ -1,0 +1,5 @@
+内置imagegen背景生成提示词，参考site/public/videos/welcome/poster-start.jpg：
+
+Create a full bleed 16:9 BACKGROUND-ONLY texture plate matching this reference image's existing background exactly in mood/material: warm luminous ivory-white softly mottled fine cloudy paper-like studio texture, extremely pale blush pink diffused fog at left and right, generous clean warm-white center, very low contrast, sophisticated minimal luxury. REMOVE the entire woman including hair glasses clothing and all shadows of her. NO person, no face, no body silhouette, no objects, no petals, no text, no border, no vignette. A seamless atmospheric background that can fill a website viewport behind a foreground video of the original woman. Keep center and top almost warm white, blush extremely soft not saturated. Match reference texture scale and brightness.
+
+输出：site/public/videos/welcome/background-texture.png。原始视频未修改。

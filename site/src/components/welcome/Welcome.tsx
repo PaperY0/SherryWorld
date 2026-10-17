@@ -6,9 +6,8 @@ import './welcome.css';
 
 type Phase = 'opening' | 'idle' | 'gesture' | 'ready' | 'blocked';
 const IDLE_START = 3.65;
-const GESTURE_START = 4.75;
 
-export function Welcome() {
+export function Welcome({ onEnter }: { onEnter: () => void }) {
   const { locale } = usePreferences();
   const zh = locale === 'zh';
   const stage = useRef<HTMLElement>(null);
@@ -44,7 +43,6 @@ export function Welcome() {
     if (phaseRef.current === 'gesture' || phaseRef.current === 'ready') return;
     const el = video.current;
     if (!el || el.readyState < 1) return;
-    el.currentTime = GESTURE_START;
     changePhase('gesture');
     play();
   }, [changePhase, play]);
@@ -52,6 +50,9 @@ export function Welcome() {
   useEffect(() => {
     const el = video.current;
     if (!el) return;
+    const root = document.documentElement;
+    root.dataset.welcome = 'locked';
+    window.scrollTo({ top: 0, behavior: 'instant' });
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     const applyMotion = () => {
       reduced.current = preference.matches;
@@ -66,27 +67,46 @@ export function Welcome() {
       if (cancelled) return;
       if (!reduced.current && !failed.current) {
         if (phaseRef.current === 'opening' && el.currentTime >= IDLE_START) {
+          el.pause();
           changePhase('idle');
+          el.currentTime = IDLE_START;
           if (requested.current) startGesture();
         }
-        if (phaseRef.current === 'idle' && el.currentTime >= GESTURE_START) el.currentTime = IDLE_START;
       }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
-    const onScroll = () => {
-      const rect = stage.current?.getBoundingClientRect();
-      if (rect && rect.top < -70 && rect.bottom > innerHeight) startGesture();
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey) return;
+      event.preventDefault();
+      if (event.deltaY > 4) startGesture();
+    };
+    let touchY = 0;
+    const onTouchStart = (event: TouchEvent) => { if (event.touches.length === 1) touchY = event.touches[0].clientY; };
+    const onTouchMove = (event: TouchEvent) => {
+      if (event.touches.length !== 1) return;
+      event.preventDefault();
+      if (touchY - event.touches[0].clientY > 20) startGesture();
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.altKey || event.metaKey) return;
+      if ((event.target as HTMLElement)?.closest('button,a,input,textarea,select')) return;
+      if (['ArrowDown', 'PageDown', ' ', 'End'].includes(event.key)) { event.preventDefault(); startGesture(); }
     };
     const onHash = () => {
       if (location.hash !== '#top') return;
+      if (transitionTimer.current) clearTimeout(transitionTimer.current);
+      setEntering(false);
       requested.current = false;
       if (reduced.current || failed.current) return;
       el.currentTime = 0;
       changePhase('opening');
       play();
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKey);
     window.addEventListener('hashchange', onHash);
     // Media can finish loading (or fail) before React hydrates its event handlers.
     const fallback = () => {
@@ -105,7 +125,11 @@ export function Welcome() {
       cancelled = true;
       cancelAnimationFrame(frame);
       preference.removeEventListener('change', applyMotion);
-      window.removeEventListener('scroll', onScroll);
+      delete root.dataset.welcome;
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKey);
       window.removeEventListener('hashchange', onHash);
       el.removeEventListener('error', fallback);
       clearTimeout(loadTimeout);
@@ -115,7 +139,7 @@ export function Welcome() {
   }, [changePhase, play, startGesture]);
 
   function onReady() {
-    if (reduced.current || failed.current || phaseRef.current === 'ready') return;
+    if (reduced.current || failed.current || phaseRef.current === 'ready' || phaseRef.current === 'idle') return;
     play();
   }
 
@@ -141,16 +165,12 @@ export function Welcome() {
           <p className="eyebrow">PAPERY · PERSONAL SPACE</p>
           <h1 aria-label="MY WORLD">MY<br />WORLD<span aria-hidden="true">.</span></h1>
           <a className="pill" href="#about" onClick={event => {
-            if (reduced.current) return;
             event.preventDefault();
+            if (reduced.current) { onEnter(); return; }
             if (entering) return;
             setEntering(true);
             transitionTimer.current = setTimeout(() => {
-              const about = document.getElementById('about');
-              history.pushState(null, '', '#about');
-              about?.scrollIntoView({ behavior: 'smooth' });
-              about?.focus({ preventScroll: true });
-              setEntering(false);
+              onEnter();
             }, 480);
           }}>EXPLORE <span aria-hidden="true">↗</span></a>
         </div>
@@ -164,8 +184,7 @@ export function Welcome() {
           <span className="cue-line" aria-hidden="true" />
         </button>
       </div>}
-      <a className="welcome-skip" href="#about">{zh ? '直接进入' : 'SKIP INTRO'} ↗</a>
-      <noscript><a href="#about">EXPLORE ↗</a></noscript>
+      {phase === 'blocked' && <button className="welcome-skip" type="button" onClick={() => { video.current?.pause(); changePhase('ready'); }}>{zh ? '跳过动画' : 'SKIP ANIMATION'}</button>}
     </div>
   </section>;
 }

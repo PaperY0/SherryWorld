@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test';
 
 async function enter(page: import('@playwright/test').Page) {
-  await page.goto('/#projects');
+  const reduced = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
+  await page.emulateMedia({ reducedMotion: reduced ? 'reduce' : 'no-preference' });
   await page.locator('.gallery-stage').scrollIntoViewIfNeeded();
   await expect(page.locator('.gallery-stage')).toHaveAttribute('data-ready', 'true');
   await page.waitForTimeout(800);

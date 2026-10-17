@@ -1,14 +1,30 @@
 'use client';
+import { useCallback, useEffect, useState } from 'react';
 import { messages } from '@/content/messages';
 import { usePreferences } from './settings/PreferencesProvider';
 import { ProjectGallery } from './gallery/ProjectGallery';
 import { Welcome } from './welcome/Welcome';
 
 export function Home() {
+  const [entered, setEntered] = useState(false);
+  const enterWorld = useCallback(() => {
+    setEntered(true);
+    history.replaceState(null, '', '#about');
+    requestAnimationFrame(() => {
+      document.getElementById('about')?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  }, []);
+  useEffect(() => {
+    const returnToWelcome = () => { if (location.hash === '#top') setEntered(false); };
+    window.addEventListener('hashchange', returnToWelcome);
+    return () => window.removeEventListener('hashchange', returnToWelcome);
+  }, []);
   const { locale } = usePreferences();
   const copy = messages[locale];
   return <main>
-    <Welcome />
+    {!entered && <Welcome onEnter={enterWorld} />}
+    {entered && <>
     <section className="about section" id="about" tabIndex={-1}>
       <div className="section-caption"><span>01 /</span><h2>{copy.about}</h2></div>
       <div className="about-grid">
@@ -41,5 +57,6 @@ export function Home() {
       <a className="text-link" href="https://github.com/PaperY0" target="_blank" rel="noreferrer">GITHUB · PAPERY0 ↗</a>
     </section>
     <footer className="footer"><div><strong>PaperY</strong><span>{copy.footer}</span></div><a href="#top">{copy.back} ↑</a></footer>
+    </>}
   </main>;
 }

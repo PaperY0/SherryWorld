@@ -1,7 +1,13 @@
 import { test, expect } from '@playwright/test';
 
-test('Chinese and English content switch together and survive reload', async ({ page }) => {
+async function enterWorld(page: import('@playwright/test').Page) {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
+  await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
+}
+
+test('Chinese and English content switch together and survive reload', async ({ page }) => {
+  await enterWorld(page);
   await expect(page.locator('html')).toHaveAttribute('lang', 'zh-CN');
   await expect(page.getByRole('heading', { name: '关于我', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'English', exact: true }).click();
@@ -10,13 +16,14 @@ test('Chinese and English content switch together and survive reload', async ({ 
   await expect(page.getByRole('button', { name: 'PROJECT DIRECTORY', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('button', { name: 'English', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('link', { name: 'EXPLORE', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'ABOUT ME', exact: true })).toBeVisible();
 });
 
 test('theme and locale are independent and switching preserves position', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
   page.on('console', message => { if (message.type() === 'error' && /hydration|hydrated|server rendered/i.test(message.text())) errors.push(message.text()); });
-  await page.goto('/');
+  await enterWorld(page);
   await page.getByRole('button', { name: 'DARK', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.locator('#about').scrollIntoViewIfNeeded();
@@ -31,7 +38,7 @@ test('theme and locale are independent and switching preserves position', async 
 });
 
 test('switching back to Chinese updates content, title and control labels', async ({ page }) => {
-  await page.goto('/');
+  await enterWorld(page);
   await page.getByRole('button', { name: 'English', exact: true }).click();
   await expect(page.getByRole('group', { name: 'Page language', exact: true })).toBeVisible();
   await expect(page).toHaveTitle('PaperY · A world of my own');
