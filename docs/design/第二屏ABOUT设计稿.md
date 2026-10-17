@@ -1,6 +1,6 @@
 # 第二屏 ABOUT 设计稿
 
-2026-10-17。设计阶段，尚未接入网页。用户希望依次设计、尽量保留参考站，不大改结构。本稿以本地 Meer-Mohsin-Replica 的 index.html、layout.css、scroll.js 与 about 截图为依据。
+2026-10-17。用户已确认采用下列原站英文正文，正在接入 `/stage`。用户希望依次设计、尽量保留参考站，不大改结构。本稿以本地 Meer-Mohsin-Replica 的 index.html、layout.css、scroll.js 与 about 截图为依据。下文个人介绍候选稿仅保留为历史提案，不用于本轮页面。
 
 ## 保留的原设计
 

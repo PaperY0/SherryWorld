@@ -4,6 +4,7 @@ import { usePreferences } from '../settings/PreferencesProvider';
 import { Signature } from './Signature';
 import { PinkFluid } from './PinkFluid';
 import { StageLoader } from './StageLoader';
+import { StageAbout } from './StageAbout';
 import './stage.css';
 
 export function StageHero() {
@@ -67,5 +68,6 @@ export function StageHero() {
       {!loading && <PinkFluid reduced={reduced} />}
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
+    <StageAbout reduced={reduced} enabled={!loading} />
   </main>;
 }

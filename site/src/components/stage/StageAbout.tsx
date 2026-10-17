@@ -1,0 +1,60 @@
+'use client';
+import { useEffect, useRef } from 'react';
+import './stage-about.css';
+
+export const aboutCopy = "I don't just build websites I create experiences that people enjoy exploring. From the first impression to the smallest interaction, I care about the details that make a website feel smooth, memorable, and worth coming back to.";
+
+export function StageAbout({ reduced, enabled }: { reduced: boolean; enabled: boolean }) {
+  const section = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const host = section.current;
+    if (!host || !enabled) return;
+    let alive = true;
+    const animations: Animation[] = [];
+    const groups = [host.querySelector<HTMLElement>('.stage-about-heading')!, host.querySelector<HTMLElement>('.stage-about-copy')!];
+    const motion = !reduced && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prepared = new Map<Element, Animation[]>();
+    if (motion) groups.forEach((group, groupIndex) => {
+      const current = [...group.querySelectorAll<HTMLElement>('[data-reveal-piece]')].map((piece, index) => {
+        const animation = piece.animate([
+          { opacity: 0, transform: 'translateY(35px)', filter: 'blur(5px)' },
+          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' },
+        ], { duration: 1100, delay: index * (groupIndex ? 22 : 45), fill: 'both', easing: 'cubic-bezier(.16,1,.3,1)' });
+        animation.pause(); animation.currentTime = 0;
+        animations.push(animation);
+        return animation;
+      });
+      prepared.set(group, current);
+    });
+    const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const group = entry.target as HTMLElement;
+      const current = prepared.get(group) ?? [];
+      current.forEach(animation => animation.play());
+      Promise.all(current.map(animation => animation.finished)).then(() => {
+        if (alive) group.dataset.revealed = 'true';
+      }).catch(() => {});
+      reveal.unobserve(group);
+    }), { threshold: .15, rootMargin: '0px 0px -10% 0px' });
+    groups.forEach(group => reveal.observe(group));
+    const headerZone = new IntersectionObserver(entries => {
+      document.documentElement.dataset.stageSection = entries[0].isIntersecting ? 'about' : 'hero';
+    }, { rootMargin: '-8% 0px -82% 0px' });
+    headerZone.observe(host);
+    return () => {
+      alive = false; reveal.disconnect(); headerZone.disconnect();
+      animations.forEach(animation => animation.cancel());
+      delete document.documentElement.dataset.stageSection;
+    };
+  }, [enabled, reduced]);
+  return <section className="stage-about" id="stage-about" ref={section} aria-labelledby="stage-about-title">
+    <div className="stage-about-title-zone">
+      <h2 className="stage-about-heading" id="stage-about-title" aria-label="THIS WILL FEEL DIFFERENT">
+        <span className="stage-about-line" aria-hidden="true">{[...'THIS WILL'].map((char, i) => <span data-reveal-piece key={i}>{char === ' ' ? '\u00a0' : char}</span>)}</span>
+        <span className="stage-about-feel" data-reveal-piece aria-hidden="true">FEEL</span>
+        <span className="stage-about-line" aria-hidden="true">{[...'DIFFERENT'].map((char, i) => <span data-reveal-piece key={i}>{char}</span>)}</span>
+      </h2>
+    </div>
+    <p className="stage-about-copy">{aboutCopy.split(/(\s+)/).map((word, i) => /^\s+$/.test(word) ? word : <span data-reveal-piece key={i}>{word}</span>)}</p>
+  </section>;
+}
