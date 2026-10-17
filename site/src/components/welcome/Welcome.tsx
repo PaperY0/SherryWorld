@@ -175,9 +175,9 @@ export function Welcome({ onEnter }: { onEnter: () => void }) {
           }}>EXPLORE <span aria-hidden="true">↗</span></a>
         </div>
       </div>
-      {/* Authored vector lettering, independent of installed script fonts. */}
+      {/* Exact transparent signature selected by Sherry. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="welcome-signature" src="/images/sherry-signature.svg" width="340" height="135" alt="Sherry" />
+      <img className="welcome-signature" src="/images/sherry-signature-selected.png" width="1280" height="961" alt="Sherry" />
       {!ready && <div className="welcome-cue">
         <button type="button" onClick={() => {
           if (phase === 'blocked') { changePhase(requested.current ? 'gesture' : 'opening'); play(); }

@@ -1,5 +1,7 @@
 # Sherry 视觉标识
 
+当前正式签名已改为用户亲自选定的透明PNG原图：`site/public/images/sherry-signature-selected.png`。原件备份在 `assets/design/signature/sherry-signature-selected.png`，不重绘、不改颜色，页面不加透明度或滤镜。下面SVG描绘记录作为历史保留。
+
 当前网站展示名统一为 Sherry / SHERRY，包含欢迎页、人物替代文字、关于我、画廊海报标签、页脚、页面标题与元信息，浏览器图标字母更新为 S。GitHub 真实账号和仓库 URL 保留 PaperY0，避免改变外链目标和数据来源。
 
 主标题采用静态柔粉渐变：浅粉 `#e6b5c4` → 玫瑰粉 `#c37697` → 柔粉 `#dc9db4` → 淡粉 `#edc6d2`。正文继续使用清晰的主题文字颜色。
