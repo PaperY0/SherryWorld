@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prepareTextReveal } from './textReveal';
 import './stage-legacy.css';
 
-const introduction = 'Design attracts attention. Development brings it to life. I combine both to create websites that not only look exceptional but also feel fast, intuitive, and memorable.';
+const introduction = 'Vision shapes the narrative. Engineering breathes life into the void.';
 
 export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
   const section = useRef<HTMLElement>(null);
