@@ -7,6 +7,7 @@ import { StageLoader } from './StageLoader';
 import { StageAbout } from './StageAbout';
 import { StageFacts } from './StageFacts';
 import { StageLegacy } from './StageLegacy';
+import { StagePortfolio } from './StagePortfolio';
 import { StageLedger } from './StageLedger';
 import './stage.css';
 
@@ -81,6 +82,7 @@ export function StageHero() {
     <StageAbout reduced={reduced} enabled={!loading} />
     <StageFacts reduced={reduced} enabled={!loading} zh={zh} />
     <StageLegacy enabled={!loading} />
+    <StagePortfolio enabled={!loading} />
     <StageLedger reduced={reduced} enabled={!loading} />
   </main>;
 }
