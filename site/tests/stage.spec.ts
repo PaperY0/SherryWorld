@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('stage keeps the selected character and signature, with working preferences and minimal copy', async ({ page }) => {
   await page.goto('/stage');
   await expect(page.getByRole('heading', { name: 'A WORLD OF MY OWN.' })).toBeVisible();
-  await expect(page.getByAltText('Sherry')).toBeVisible();
+  await expect(page.getByAltText('Sherry')).toBeVisible({ timeout: 20000 });
   await page.getByRole('button', { name: 'DARK', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.getByRole('button', { name: 'English', exact: true }).click();
@@ -22,7 +22,7 @@ test('mobile reduced-motion stage is complete and fits the viewport', async ({ p
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/stage');
   await expect(page.locator('.stage-signature')).toHaveAttribute('data-state', 'complete');
-  await expect(page.getByAltText('Sherry')).toBeVisible();
+  await expect(page.getByAltText('Sherry')).toBeVisible({ timeout: 20000 });
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
   expect(overflow).toBe(false);
   await page.screenshot({ path: '../work/stage-mobile.png' });

@@ -13,7 +13,7 @@ const strokes = [
   'M850 706 C863 668 890 627 913 596 C933 567 951 543 972 522 C1016 477 1074 429 1124 398',
 ];
 const durations = [680, 480, 480, 480, 480, 400, 340];
-export function Signature({ replay, reduced, label, enabled = true }: { replay: number; reduced: boolean; label: string; enabled?: boolean }) {
+export function Signature({ replay, reduced, label, enabled = true, onWritten }: { replay: number; reduced: boolean; label: string; enabled?: boolean; onWritten?: () => void }) {
   const id = useId().replaceAll(':', '');
   const paths = useRef<(SVGPathElement | null)[]>([]);
   const [complete, setComplete] = useState(false);
@@ -27,9 +27,9 @@ export function Signature({ replay, reduced, label, enabled = true }: { replay: 
       return path?.animate([{ strokeDasharray: `${length}`, strokeDashoffset: length }, { strokeDasharray: `${length}`, strokeDashoffset: 0 }], { duration: durations[i], delay, fill: 'both', easing: 'linear' });
     });
     const last = animations.at(-1);
-    last?.finished.then(() => { if (active) setComplete(true); }).catch(() => {});
+    last?.finished.then(() => { if (active) { setComplete(true); onWritten?.(); } }).catch(() => {});
     return () => { active = false; animations.forEach(a => a?.cancel()); };
-  }, [replay, reduced, enabled]);
+  }, [replay, reduced, enabled, onWritten]);
   const done = reduced || complete;
   return <div className="stage-signature" data-state={done ? 'complete' : 'writing'}>
     <svg viewBox="140 190 1020 570" role="img" aria-label={label}>

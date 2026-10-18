@@ -14,6 +14,14 @@ export function StageHero() {
   const zh = locale === 'zh';
   const [reduced, setReduced] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [signed, setSigned] = useState(false);
+  const [entering, setEntering] = useState(false);
+  const finishSignature = useCallback(() => setSigned(true), []);
+  useEffect(() => {
+    if (loading || (!signed && !reduced)) return;
+    const timer = window.setTimeout(() => setEntering(true), reduced ? 0 : 650);
+    return () => clearTimeout(timer);
+  }, [signed, loading, reduced]);
   const finishLoading = useCallback(() => setLoading(false), []);
   const rail = useRef<HTMLDivElement>(null);
   const portrait = useRef<HTMLDivElement>(null);
@@ -24,7 +32,7 @@ export function StageHero() {
     return () => query.removeEventListener('change', sync);
   }, []);
   useEffect(() => {
-    if (reduced || loading) return;
+    if (reduced || loading || !entering) return;
     let frame = 0, offset = 0, previous = 0, speed = 1, targetSpeed = 1;
     let pointerX = 0, pointerY = 0, x = 0, y = 0;
     const tick = (time: number) => {
@@ -51,10 +59,10 @@ export function StageHero() {
     window.addEventListener('wheel', wheel, { passive: true });
     window.addEventListener('pointermove', move);
     return () => { cancelAnimationFrame(frame); window.removeEventListener('wheel', wheel); window.removeEventListener('pointermove', move); };
-  }, [reduced, loading]);
-  return <main className="stage-page" id="top" data-loading={loading}>
+  }, [reduced, loading, entering]);
+  return <main className="stage-page" id="top" data-loading={loading} data-intro={entering ? 'entering' : 'signing'}>
     <section className="stage-hero" aria-labelledby="stage-heading">
-      <svg className="stage-filter-defs" aria-hidden="true" width="0" height="0"><defs><filter id="stage-solid-alpha" colorInterpolationFilters="sRGB"><feComponentTransfer><feFuncA type="linear" slope="1.04" intercept="0" /></feComponentTransfer></filter></defs></svg>
+      <svg className="stage-filter-defs" aria-hidden="true" width="0" height="0"><defs><filter id="stage-solid-alpha" colorInterpolationFilters="sRGB"><feComponentTransfer result="solid"><feFuncA type="linear" slope="1.04" intercept="0" /></feComponentTransfer><feGaussianBlur in="solid" stdDeviation=".75" result="soft" /><feComposite in="solid" in2="soft" operator="in" /></filter></defs></svg>
       <div className="stage-grain" aria-hidden="true" />
       <h1 id="stage-heading" className="stage-sr">A WORLD OF MY OWN.</h1>
       <div className="stage-marquee" aria-hidden="true"><div ref={rail} className="stage-rail">
@@ -65,7 +73,7 @@ export function StageHero() {
         <img src="/images/stage/sherry-cutout-v1.png" width="1671" height="941" alt="Sherry" fetchPriority="high" />
       </div>
       <div className="stage-floor" aria-hidden="true" />
-      <Signature replay={0} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
+      <Signature replay={0} reduced={reduced} enabled={!loading} onWritten={finishSignature} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
       {!loading && <PinkFluid reduced={reduced} />}
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>

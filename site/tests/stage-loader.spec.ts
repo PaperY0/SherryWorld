@@ -69,22 +69,32 @@ test('the descending y does not expose its return stroke early', async ({ page }
 });
 
 
-test('background type enters before the opaque portrait', async ({ page }) => {
+test('signature leads the clipped type entrance and full-color portrait', async ({ page }) => {
   await page.goto('/stage');
-  await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
+  const host = page.locator('.stage-page');
+  await expect(host).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
+  await expect(host).toHaveAttribute('data-intro', 'signing');
+  await expect(page.locator('.stage-portrait img')).toHaveCSS('visibility', 'hidden');
+  await expect(page.locator('.stage-signature')).toHaveAttribute('data-state', 'writing');
+  await page.screenshot({ path: '../work/stage-signature-first.png' });
+  await expect(page.locator('.stage-signature')).toHaveAttribute('data-state', 'complete', { timeout: 7000 });
+  await expect(host).toHaveAttribute('data-intro', 'entering');
   const sequence = await page.evaluate(() => {
-    const type = document.querySelector('.stage-marquee')!;
+    const type = document.querySelector('.stage-rail span')!;
     const person = document.querySelector('.stage-portrait img')!;
-    const typeAnimation = type.getAnimations()[0];
-    const personAnimation = person.getAnimations()[0];
-    typeAnimation.pause(); personAnimation.pause();
-    typeAnimation.currentTime = 250; personAnimation.currentTime = 250;
-    const early = { person: getComputedStyle(person).visibility, opacity: getComputedStyle(person).opacity };
-    personAnimation.currentTime = 1500;
-    return { early, later: getComputedStyle(person).visibility, delay: personAnimation.effect!.getTiming().delay };
+    const ta = type.getAnimations()[0];
+    const pa = person.getAnimations()[0];
+    ta.pause(); pa.pause();
+    ta.currentTime = 250; pa.currentTime = 250;
+    const early = { person: getComputedStyle(person).visibility, type: getComputedStyle(type).transform };
+    pa.currentTime = 1800;
+    return { early, filter: getComputedStyle(person).filter, later: getComputedStyle(person).visibility, delay: pa.effect!.getTiming().delay };
   });
-  expect(sequence.delay).toBe(500);
+  expect(sequence.delay).toBe(600);
   expect(sequence.early.person).toBe('hidden');
-  expect(sequence.early.opacity).toBe('1');
+  expect(sequence.early.type).not.toBe('none');
+  expect(sequence.filter).not.toContain('brightness');
   expect(sequence.later).toBe('visible');
+  await page.evaluate(() => document.querySelectorAll('.stage-rail span,.stage-portrait img').forEach(el => el.getAnimations().forEach(a => a.finish())));
+  await page.screenshot({ path: '../work/stage-soft-portrait.png' });
 });
