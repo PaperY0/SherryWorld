@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import './stage-facts.css';
+import { prepareTextReveal } from './textReveal';
 
 function FireEdge({ reduced, bottom = false }: { reduced: boolean; bottom?: boolean }) {
   const edge = useRef<HTMLDivElement>(null);
@@ -29,11 +30,9 @@ export function StageFacts({ reduced, enabled, zh }: { reduced: boolean; enabled
     const rows = [...section.current.querySelectorAll<HTMLElement>('.stage-direction')];
     const animations = rows.map(row => {
       if (reduced || matchMedia('(prefers-reduced-motion: reduce)').matches) return [];
-      return [...row.querySelectorAll<HTMLElement>('[data-fact-piece]')].map((piece, index) => {
-        const animation = piece.animate([{ opacity: 0, transform: 'translateY(40px)', filter: 'blur(4px)' }, { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' }], { duration: 1200, delay: index * 25, fill: 'both', easing: 'cubic-bezier(.22,1,.36,1)' });
-        animation.pause(); animation.currentTime = 0;
-        return animation;
-      });
+      const title = [...row.querySelectorAll<HTMLElement>('h2 [data-fact-piece]')];
+      const words = [...row.querySelectorAll<HTMLElement>('p [data-fact-piece]')];
+      return [...prepareTextReveal(title, 1200, false), ...prepareTextReveal(words)];
     });
     let alive = true;
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => {

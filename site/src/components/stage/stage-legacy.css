@@ -1,18 +1,16 @@
-.stage-legacy{position:relative;background:#171217;color:#e7a9c1;view-timeline-name:--legacy;view-timeline-axis:block;isolation:isolate}
+.stage-legacy{position:relative;background:#171217;color:#e7a9c1;isolation:isolate}
 .stage-legacy-stage{position:relative;min-height:100svh;overflow:clip;display:flex;align-items:center;justify-content:center}
 .stage-legacy-copy{position:absolute;top:12svh;right:4vw;width:min(45%,650px);margin:0;text-align:right;font-size:clamp(18px,1.7vw,28px);line-height:1.5;text-transform:uppercase;letter-spacing:-.025em;z-index:2}
 .stage-legacy-title{font-family:StageLoadingScript,cursive;font-weight:400;font-size:clamp(100px,22vw,400px);line-height:1.3;margin:0;white-space:nowrap;position:relative;z-index:2}
 .stage-legacy-lines{position:absolute;inset:0;color:#b26a8c;opacity:.32;pointer-events:none}
 .stage-legacy-lines svg{width:100%;height:100%;position:absolute;inset:0}
 html[data-stage-section=legacy] body:has(.stage-page) .site-header{color:#f7edf2;--ink:#f7edf2;--muted:#c4a6b6;--line:#735464;--surface:#30252e;background:linear-gradient(#171217de,transparent)}
-@supports(animation-timeline:view()){@media(prefers-reduced-motion:no-preference){
-.stage-legacy{height:240svh}
+@media(prefers-reduced-motion:no-preference){
+.stage-legacy{height:260svh}
 .stage-legacy-stage{position:sticky;top:0;height:100svh;min-height:600px}
-.stage-legacy-title{animation:legacy-grow linear both;animation-timeline:--legacy;animation-range:contain 0% contain 100%;transform-origin:center}
-.stage-legacy-copy{animation:legacy-copy-out linear both;animation-timeline:--legacy;animation-range:contain 0% contain 100%}
-.stage-legacy-lines path{stroke-dasharray:1;animation:legacy-draw linear both;animation-timeline:--legacy;animation-range:contain 0% contain 100%}
-}}
-@keyframes legacy-grow{0%{transform:translate(32vw,-12svh) scale(.25)}65%,100%{transform:translate(0,0) scale(1)}}
-@keyframes legacy-copy-out{0%,15%{opacity:1;transform:translateY(0)}55%,100%{opacity:0;transform:translateY(-35px)}}
-@keyframes legacy-draw{0%,25%{stroke-dashoffset:1}85%,100%{stroke-dashoffset:0}}
+.stage-legacy-lines path{stroke-dasharray:1}
+}
+.stage-legacy-title{display:flex;align-items:baseline;justify-content:center}
+.stage-legacy-title [data-legacy-char]{display:inline-block;flex:none;transform-origin:50% 70%}
+.stage-legacy-copy [data-legacy-word]{display:inline-block}
 @media(max-width:700px){.stage-legacy-copy{width:85%;right:7.5%;top:13svh;font-size:17px;line-height:1.6}.stage-legacy-title{font-size:20vw}.stage-legacy-stage{min-height:max(100svh,660px)}}

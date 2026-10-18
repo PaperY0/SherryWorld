@@ -4,17 +4,23 @@ test('Legacy grows into the center with reversible scroll and a pinned stage', a
   await page.goto('/stage');
   await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
   const section = page.locator('.stage-legacy');
+  await expect(section).toHaveAttribute('data-motion-ready', 'true');
   const start = await section.evaluate(el => el.getBoundingClientRect().top + scrollY);
   const sample = async (progress: number) => {
     await page.evaluate(({ start, progress }) => {
       const host = document.querySelector('.stage-legacy')!;
       scrollTo({ top: start + (host.getBoundingClientRect().height - innerHeight) * progress, behavior: 'instant' });
     }, { start, progress });
-    await page.waitForTimeout(150);
+    await expect.poll(async () => Number(await section.getAttribute('data-scroll-progress'))).toBeCloseTo(progress, 2);
     return page.locator('.stage-legacy-title').boundingBox();
   };
   const first = await sample(0);
-  const middle = await sample(.7);
+  await sample(.45);
+  const sizes = await page.locator('[data-legacy-char]').evaluateAll(els => els.map(el => parseFloat(getComputedStyle(el).fontSize)));
+  expect(sizes[0]).toBeGreaterThan(sizes[5] + 70);
+  expect(sizes.every((size, i) => i === 0 || size <= sizes[i - 1])).toBe(true);
+  await page.screenshot({ path: '../work/stage-legacy-stagger.png' });
+  const middle = await sample(1);
   expect(middle!.width).toBeGreaterThan(first!.width * 2);
   expect(Math.abs(middle!.x + middle!.width / 2 - 720)).toBeLessThan(5);
   await expect(page.locator('.stage-legacy-stage')).toHaveCSS('position', 'sticky');

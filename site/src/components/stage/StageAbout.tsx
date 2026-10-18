@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import './stage-about.css';
+import { prepareTextReveal } from './textReveal';
 
 export const aboutCopy = 'Guided by an innate curiosity, I distill inspiration from the journeys and culinary textures of the physical world. This appetite for the unknown compels me to continually challenge the frontiers of my intellect and technical mastery. Wielding AI and code, I transmute abstract visions into tangible reality—and from this confluence of lived experience and digital creation, a multidimensional self emerges.';
 
@@ -16,17 +17,8 @@ export function StageAbout({ reduced, enabled }: { reduced: boolean; enabled: bo
     const prepared = new Map<Element, Animation[]>();
     if (motion) groups.forEach((group, groupIndex) => {
       const pieces = [...group.querySelectorAll<HTMLElement>('[data-reveal-piece]')];
-      const order = pieces.map((_, index) => index);
-      for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
-      const current = pieces.map((piece, index) => {
-        const animation = piece.animate([
-          { opacity: 0, transform: 'translateY(40px)', filter: 'blur(4px)' },
-          { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' },
-        ], { duration: groupIndex ? 3000 : 1200, delay: order[index] * 50, fill: 'both', easing: 'cubic-bezier(.22,1,.36,1)' });
-        animation.pause(); animation.currentTime = 0;
-        animations.push(animation);
-        return animation;
-      });
+      const current = prepareTextReveal(pieces, groupIndex ? 3000 : 1200);
+      animations.push(...current);
       prepared.set(group, current);
     });
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => {

@@ -80,7 +80,7 @@ export function StageHero() {
     </section>
     <StageAbout reduced={reduced} enabled={!loading} />
     <StageFacts reduced={reduced} enabled={!loading} zh={zh} />
-    <StageLegacy />
+    <StageLegacy enabled={!loading} />
     <StageLedger reduced={reduced} enabled={!loading} />
   </main>;
 }
