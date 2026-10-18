@@ -66,3 +66,9 @@ html[data-stage-section=portfolio] body:has(.stage-page) .site-header{color:#f7e
 .cover-zhiye:after{display:none}
 @media(max-width:700px){.stage-work-heading{left:5vw;top:7%;width:58vw}.stage-work-name-window,.stage-work-name{height:70px}.stage-work-name{justify-content:flex-start;font-size:49px}.stage-work-name.name-shengxingo{font-size:38px}.stage-work-progress{width:55px;height:55px;top:8.5%}.stage-work-progress>span{font-size:35px;transform:translate(-3px,2px)}}
 @media(prefers-reduced-motion:reduce){.stage-work-name-reel{transition:none}.stage-work-heading{position:relative;left:auto;top:auto;width:auto}.stage-work-heading .work-visually-hidden{position:static!important;width:auto!important;height:auto!important;margin:0!important;clip-path:none!important;overflow:visible!important}.stage-work-name-window{display:none}}
+
+/* Center the project name in its own column; keep the counter at the lower right. */
+.stage-work-heading{top:50%;transform:translateY(-50%)}
+.stage-work-progress{top:auto;left:auto;right:3vw;bottom:10%}
+@media(max-width:700px){.stage-work-heading{top:7%;transform:none}.stage-work-progress{top:auto;right:5vw;bottom:7%;width:49px;height:49px}}
+@media(prefers-reduced-motion:reduce){.stage-work-heading{top:auto;transform:none}}
