@@ -6,7 +6,7 @@ import { StageCapabilities } from './StageCapabilities';
 import { prepareTextReveal } from './textReveal';
 import './stage-legacy.css';
 
-const introduction = 'Vision shapes the narrative. Engineering breathes life into the void.';
+const introduction = ['AI conjures the visuals and intelligence. Code forges the backbone.', '— Digital Imprints & Creations'];
 
 export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
   const section = useRef<HTMLElement>(null);
@@ -50,17 +50,19 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
       timeline.to(chars, { yPercent: -160, duration: .8, stagger: .06, ease: 'power2.inOut' }, 2.8);
       const panels = [...host.querySelectorAll<HTMLElement>('.stage-capability-panel')];
       const firstChars = panels[0].querySelectorAll('[data-capability-char]');
-      const firstPoints = panels[0].querySelectorAll('[data-capability-point]');
+      const firstPoints = panels[0].querySelectorAll<HTMLElement>('[data-point-char]');
       const secondChars = panels[1].querySelectorAll('[data-capability-char]');
-      const secondPoints = panels[1].querySelectorAll('[data-capability-point]');
+      const secondPoints = panels[1].querySelectorAll<HTMLElement>('[data-point-char]');
       gsap.set([...firstChars, ...firstPoints, ...secondChars, ...secondPoints], { yPercent: 125 });
-      gsap.set([...firstPoints, ...secondPoints], { rotation: 7, xPercent: 4, transformOrigin: '0% 50%' });
+      // Like the reference, reveal characters in reading order across each line.
+      const pointDelay = .012;
+      const pointExitDelay = .006;
       timeline.to(firstChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 3.6)
-        .to(firstPoints, { yPercent: 0, xPercent: 0, rotation: 0, duration: .4, stagger: .3, ease: 'power3.out' }, 3.6)
+        .to(firstPoints, { yPercent: 0, duration: .6, stagger: pointDelay, ease: 'power3.out' }, 3.6)
         .to(firstChars, { yPercent: -125, duration: .8, stagger: .02, ease: 'power2.inOut' }, 5.6)
-        .to(firstPoints, { yPercent: -125, xPercent: -4, rotation: -6, duration: .25, stagger: .24, ease: 'power2.inOut' }, 5.6)
+        .to(firstPoints, { yPercent: -125, duration: .45, stagger: pointExitDelay, ease: 'power2.inOut' }, 5.6)
         .to(secondChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 6.7)
-        .to(secondPoints, { yPercent: 0, xPercent: 0, rotation: 0, duration: .4, stagger: .3, ease: 'power3.out' }, 6.7)
+        .to(secondPoints, { yPercent: 0, duration: .6, stagger: pointDelay, ease: 'power3.out' }, 6.7)
         .to({}, { duration: 2.1 }, 7.9);
       const pictures = host.querySelector<HTMLElement>('.stage-capability-pictures')!;
       timeline.fromTo(host.querySelectorAll('.stage-capability-image'), { clipPath: 'inset(100% 0 0)' }, { clipPath: 'inset(0% 0 0)', duration: 2, stagger: .15, ease: 'power3.out' }, 2.8)
@@ -92,7 +94,7 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
   }, [enabled]);
   return <section className="stage-legacy" ref={section} id="stage-legacy" aria-labelledby="stage-legacy-title">
     <div className="stage-legacy-stage">
-      <p className="stage-legacy-copy">{introduction.split(/(\s+)/).map((word, i) => /^\s+$/.test(word) ? word : <span data-legacy-word key={i}>{word}</span>)}</p>
+      <p className="stage-legacy-copy">{introduction.map((line, lineIndex) => <span className="stage-legacy-copy-line" key={line}>{lineIndex > 0 ? '\n' : ''}{line.split(/(\s+)/).map((word, i) => /^\s+$/.test(word) ? word : <span data-legacy-word key={i}>{word}</span>)}</span>)}</p>
       <div className="stage-legacy-lines" aria-hidden="true">
         <svg viewBox="0 0 1920 1080" fill="none" preserveAspectRatio="xMidYMid slice">
           <g stroke="currentColor" strokeWidth=".7" pathLength="1">

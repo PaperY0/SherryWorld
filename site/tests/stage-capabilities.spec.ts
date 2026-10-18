@@ -10,15 +10,13 @@ test('the two reference capability panels follow and reverse the same scrubbed t
   };
   const offset = async (key: string) => page.locator(`[data-panel="${key}"] [data-capability-char]`).first().evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42);
   await sample(.4);
-  const rows = await page.locator('[data-panel="ai-master"] [data-capability-point]').evaluateAll(els => els.map(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42));
-  expect(rows[0]).toBeLessThan(rows[3] - 10);
-  const angles = await page.locator('[data-panel="ai-master"] [data-capability-point]').evaluateAll(els => els.map(el => {
+  const wave = await page.locator('[data-panel="ai-master"] [data-capability-point]').first().locator('[data-point-char]').evaluateAll(els => els.map(el => {
     const matrix = new DOMMatrixReadOnly(getComputedStyle(el).transform);
-    return Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+    return { y: matrix.m42, angle: Math.atan2(matrix.b, matrix.a) * 180 / Math.PI };
   }));
-  expect(Math.abs(angles[0])).toBeLessThan(.2);
-  expect(angles[3]).toBeGreaterThan(4);
-  await sample(.49);
+  expect(wave[0].y).toBeLessThan(wave.at(-1)!.y - 8);
+  expect(wave.every(letter => Math.abs(letter.angle) < .1)).toBe(true);
+  await sample(.53);
   expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
   expect(await offset('code-craft')).toBeGreaterThan(50);
   await expect(page.locator('[data-panel="ai-master"] .stage-capability-points')).toHaveText('Hyper-Efficiency WorkflowMind-to-Reality AI CodingInteractive AI IntegrationGenerative Visual Spectacle');
@@ -49,7 +47,7 @@ test('the two reference capability panels follow and reverse the same scrubbed t
   await page.screenshot({ path: '../work/stage-capability-3d.png' });
   await page.mouse.move(900, 350);
   await expect.poll(() => page.locator('.stage-capability-pictures').evaluate(el => Math.abs(new DOMMatrixReadOnly(getComputedStyle(el).transform).m41))).toBeGreaterThan(3);
-  await sample(.49);
+  await sample(.53);
   expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
 });
 
@@ -86,4 +84,17 @@ test('mobile scrubbed capability title fits the stage', async ({ page }) => {
   expect(last!.x + last!.width).toBeLessThanOrEqual(title!.x + title!.width);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: '../work/stage-capability-mobile-scroll.png' });
+});
+
+
+test('Legacy introduction has the new copy on two right-aligned lines', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/stage');
+  const copy = page.locator('.stage-legacy-copy');
+  await expect(copy).toHaveCSS('text-align', 'right');
+  await expect(copy.locator('.stage-legacy-copy-line')).toHaveCount(2);
+  await expect(copy.locator('.stage-legacy-copy-line').first()).toHaveText('AI conjures the visuals and intelligence. Code forges the backbone.');
+  await expect(copy.locator('.stage-legacy-copy-line').last()).toHaveText('— Digital Imprints & Creations');
+  const ends = await copy.locator('.stage-legacy-copy-line').evaluateAll(lines => lines.map(line => line.lastElementChild!.getBoundingClientRect().right));
+  expect(Math.abs(ends[0] - ends[1])).toBeLessThan(2);
 });

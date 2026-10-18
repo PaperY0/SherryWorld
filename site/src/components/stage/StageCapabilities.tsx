@@ -19,7 +19,7 @@ export function StageCapabilities() {
       <h3 className="stage-capability-title" aria-label={panel.title}>
         {[...panel.title].map((char, i) => <span data-capability-char data-word-gap={char === ' ' ? true : undefined} aria-hidden="true" key={i}>{char === ' ' ? '\u00a0' : char}</span>)}
       </h3>
-      <ul className="stage-capability-points">{panel.points.map(point => <li key={point}><span data-capability-point>{point}</span></li>)}</ul>
+      <ul className="stage-capability-points">{panel.points.map(point => <li key={point} aria-label={point}><span data-capability-point aria-hidden="true">{[...point].map((char, index) => <span data-point-char data-letter={index} key={index}>{char === ' ' ? '\u00a0' : char}</span>)}</span></li>)}</ul>
     </section>)}
   </div>;
 }

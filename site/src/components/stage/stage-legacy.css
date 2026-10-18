@@ -1,6 +1,6 @@
 .stage-legacy{position:relative;background:#171217;color:#e7a9c1;isolation:isolate}
 .stage-legacy-stage{position:relative;min-height:100svh;overflow:clip;display:flex;align-items:center;justify-content:center}
-.stage-legacy-copy{position:absolute;top:12svh;right:4vw;width:92vw;margin:0;text-align:right;white-space:nowrap;font-size:clamp(12px,1.65vw,28px);line-height:1.5;text-transform:uppercase;letter-spacing:-.025em;z-index:2}
+.stage-legacy-copy{position:absolute;top:12svh;right:4vw;width:92vw;margin:0;text-align:right;white-space:normal;font-size:clamp(12px,1.65vw,28px);line-height:1.5;text-transform:uppercase;letter-spacing:-.025em;z-index:2}
 .stage-legacy-title{font-family:StageLoadingScript,cursive;font-weight:400;font-size:clamp(100px,22vw,400px);line-height:1.3;margin:0;white-space:nowrap;position:relative;z-index:2}
 .stage-legacy-lines{position:absolute;inset:0;color:#b26a8c;opacity:.32;pointer-events:none}
 .stage-legacy-lines svg{width:100%;height:100%;position:absolute;inset:0}
@@ -14,3 +14,6 @@ html[data-stage-section=legacy] body:has(.stage-page) .site-header{color:#f7edf2
 .stage-legacy-title [data-legacy-char]{display:inline-block;flex:none;transform-origin:50% 70%}
 .stage-legacy-copy [data-legacy-word]{display:inline-block}
 @media(max-width:700px){.stage-legacy-copy{width:88%;right:6%;top:13svh;font-size:12px;line-height:1.6;overflow-x:auto;scrollbar-width:none;padding-block:6px}.stage-legacy-title{font-size:20vw}.stage-legacy-stage{min-height:max(100svh,660px)}}
+
+.stage-legacy-copy-line{display:block;white-space:nowrap}
+@media(max-width:700px){.stage-legacy-copy-line{white-space:normal}}
