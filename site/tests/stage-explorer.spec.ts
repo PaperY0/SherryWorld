@@ -6,7 +6,7 @@ test('Explorer expands, darkens and reveals dawn with reversible scroll', async 
   const section = page.locator('.stage-explorer');
   await expect(section).toHaveAttribute('data-film', 'awaiting-film');
   const seek = async (progress: number) => {
-    await section.evaluate((el, value) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * value, behavior: 'instant' }), progress);
+    await page.locator('.explorer-film-track').evaluate((el, value) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * value, behavior: 'instant' }), progress);
   };
   await seek(.6);
   await expect.poll(() => page.locator('.explorer-shade').evaluate(el => Number(getComputedStyle(el).opacity))).toBeGreaterThan(.7);

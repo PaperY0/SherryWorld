@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-explorer.css';
+import { StageJourney } from './StageJourney';
 
 // Connect the generated film here once supplied. No substitute character animation.
 const explorerFilm: string | undefined = undefined;
@@ -28,7 +29,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
       };
       gsap.ticker.add(seek);
       const timeline = gsap.timeline({ scrollTrigger: {
-        trigger: host, start: 'top top', end: 'bottom bottom', scrub: .65,
+        trigger: host.querySelector('.explorer-film-track'), start: 'top top', end: 'bottom bottom', scrub: .65,
         onUpdate: self => { host.dataset.explorerProgress = self.progress.toFixed(3); },
       }});
       timeline.fromTo(select('.explorer-frame'), { width: '36vw', height: '45svh', borderRadius: 3 }, { width: '100vw', height: '100svh', borderRadius: 0, duration: 2, ease: 'power2.inOut' }, 1.8)
@@ -48,7 +49,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     return () => { zone.disconnect(); media.revert(); };
   }, [enabled]);
   return <section className="stage-explorer" id="stage-explorer" ref={root} aria-labelledby="explorer-title" data-film={explorerFilm ? 'connected' : 'awaiting-film'}>
-    <div className="explorer-viewport">
+    <div className="explorer-film-track"><div className="explorer-viewport">
       <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond the <em>known.</em></h2></header>
       <div className="explorer-frame" aria-hidden="true">
         <div className="explorer-atmosphere" />
@@ -59,6 +60,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
       <div className="explorer-dawn" aria-hidden="true" />
       <div className="explorer-rise-copy"><p>STILL CURIOUS. STILL BECOMING.</p><h3>From the unknown,<br /><em>I build forward.</em></h3><p>Every attempt deepens what I understand.<br />Every lesson expands what I can create.</p></div>
     </div>
-    <div className="explorer-capabilities"><p>WHAT I BRING TO THE JOURNEY</p><h3>Curiosity becomes <em>capability.</em></h3><div><span>AI & CREATIVE EXPLORATION</span><span>FRONTEND & MOTION</span><span>BACKEND & AI SERVICES</span><span>FULL-STACK CREATION</span></div></div>
+    </div>
+    <StageJourney enabled={enabled} />
   </section>;
 }
