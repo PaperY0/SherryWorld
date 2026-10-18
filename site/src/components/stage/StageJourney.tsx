@@ -1,16 +1,18 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-journey.css';
+import { SkillExhibition } from './SkillExhibition';
 const chapters = [
-  { title: 'AI Exploration', label: 'IMAGINATION INTO POSSIBILITY', text: 'I use AI to explore ideas, shape visual worlds and build intelligent interactions. Curiosity becomes a workflow: imagine, experiment, refine—and give an idea its first tangible form.', tags: 'AI WORKFLOWS / GENERATIVE VISUALS / INTELLIGENT INTERACTION' },
-  { title: 'Motion & Interfaces', label: 'DETAILS THAT MAKE IT FEEL ALIVE', text: 'With Vue and motion, I turn structure into an experience. Typography, transitions and small interactions work together to make each interface feel considered, fluid and inviting to explore.', tags: 'VUE.JS / INTERACTION / MOTION ENGINEERING' },
-  { title: 'Systems & Intelligence', label: 'A FOUNDATION BENEATH THE SURFACE', text: 'Behind the experience, I build with Java, Spring Boot and Python. APIs, backend services and AI integration connect what people see with the systems that make it work.', tags: 'JAVA / SPRING BOOT / PYTHON / AI SERVICES' },
-  { title: 'Connected Creation', label: 'FROM THE FIRST IDEA TO THE WORKING WHOLE', text: 'I bring the pieces together—from the interface to the service behind it. Each project is a chance to test what I know, discover what I do not, and build something more complete.', tags: 'FULL-STACK ARCHITECTURE / INTEGRATION / CONTINUOUS LEARNING' },
+  { slug: 'ai-exploration', title: 'AI Exploration', label: 'IMAGINATION INTO POSSIBILITY', text: 'I use AI to explore ideas, shape visual worlds and build intelligent interactions. Curiosity becomes a workflow: imagine, experiment, refine—and give an idea its first tangible form.', tags: 'AI WORKFLOWS / GENERATIVE VISUALS / INTELLIGENT INTERACTION' },
+  { slug: 'motion-interfaces', title: 'Motion & Interfaces', label: 'DETAILS THAT MAKE IT FEEL ALIVE', text: 'With Vue and motion, I turn structure into an experience. Typography, transitions and small interactions work together to make each interface feel considered, fluid and inviting to explore.', tags: 'VUE.JS / INTERACTION / MOTION ENGINEERING' },
+  { slug: 'systems-intelligence', title: 'Systems & Intelligence', label: 'A FOUNDATION BENEATH THE SURFACE', text: 'Behind the experience, I build with Java, Spring Boot and Python. APIs, backend services and AI integration connect what people see with the systems that make it work.', tags: 'JAVA / SPRING BOOT / PYTHON / AI SERVICES' },
+  { slug: 'connected-creation', title: 'Connected Creation', label: 'FROM THE FIRST IDEA TO THE WORKING WHOLE', text: 'I bring the pieces together—from the interface to the service behind it. Each project is a chance to test what I know, discover what I do not, and build something more complete.', tags: 'FULL-STACK ARCHITECTURE / INTEGRATION / CONTINUOUS LEARNING' },
 ];
 export function StageJourney({ enabled }: { enabled: boolean }) {
   const root = useRef<HTMLElement>(null);
+  const [exhibition, setExhibition] = useState<typeof chapters[number] | null>(null);
   useEffect(() => {
     if (!enabled || !root.current) return;
     gsap.registerPlugin(ScrollTrigger);
@@ -39,8 +41,10 @@ export function StageJourney({ enabled }: { enabled: boolean }) {
         <h3 data-journey-reveal>{words(chapter.title)}</h3>
         <p className="journey-description" data-journey-reveal>{words(chapter.text)}</p>
         <p className="journey-tags" data-journey-reveal>{words(chapter.tags)}</p>
+        <button className="journey-explore" onClick={() => setExhibition(chapter)} aria-label={`Explore ${chapter.title} photos`}>EXPLORE <span aria-hidden="true">↗</span></button>
       </div>
     </article>)}</div>
     <footer className="journey-end"><p>CRAFTER / EXPLORER / WEAVER</p><h3 data-journey-reveal>{words('Always learning.')}<br /><em>{words('Always becoming.')}</em></h3></footer>
+    <SkillExhibition skill={exhibition} onClose={() => setExhibition(null)} />
   </section>;
 }
