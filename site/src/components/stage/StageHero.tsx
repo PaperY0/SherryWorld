@@ -6,6 +6,7 @@ import { PinkFluid } from './PinkFluid';
 import { StageLoader } from './StageLoader';
 import { StageAbout } from './StageAbout';
 import { StageFacts } from './StageFacts';
+import { StageLegacy } from './StageLegacy';
 import { StageLedger } from './StageLedger';
 import './stage.css';
 
@@ -79,6 +80,7 @@ export function StageHero() {
     </section>
     <StageAbout reduced={reduced} enabled={!loading} />
     <StageFacts reduced={reduced} enabled={!loading} zh={zh} />
+    <StageLegacy />
     <StageLedger reduced={reduced} enabled={!loading} />
   </main>;
 }

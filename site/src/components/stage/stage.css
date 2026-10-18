@@ -31,7 +31,7 @@ body:has(.stage-page) .skip-link{display:none}
 .stage-page[data-intro=signing] .stage-rail span{transform:translateY(110%)}
 .stage-page[data-intro=signing] .stage-portrait img{visibility:hidden}
 .stage-page[data-intro=entering] .stage-rail span{animation:stage-marquee-in 2s cubic-bezier(.22,1,.36,1) both}
-.stage-page[data-intro=entering] .stage-portrait img{animation:stage-person-in 3s .6s cubic-bezier(.45,0,.55,1) both}
+.stage-page[data-intro=entering] .stage-portrait img{animation:stage-person-in 2.5s .6s cubic-bezier(.45,0,.55,1) both}
 @keyframes stage-person-in{from{visibility:hidden;opacity:0}1%{visibility:visible}to{visibility:visible;opacity:1}}
 @keyframes stage-marquee-in{from{transform:translateY(110%)}to{transform:translateY(0)}}
 @keyframes stage-type-in{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}

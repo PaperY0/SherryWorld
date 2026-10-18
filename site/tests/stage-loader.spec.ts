@@ -89,11 +89,11 @@ test('signature leads the type entrance and stationary portrait fade', async ({ 
     const early = { person: getComputedStyle(person).visibility, type: getComputedStyle(type).transform };
     pa.currentTime = 600;
     const startRect = person.getBoundingClientRect();
-    pa.currentTime = 1350;
+    pa.currentTime = 1225;
     const quarter = Number(getComputedStyle(person).opacity);
-    pa.currentTime = 2100;
+    pa.currentTime = 1850;
     const middle = Number(getComputedStyle(person).opacity);
-    pa.currentTime = 3600;
+    pa.currentTime = 3100;
     const endRect = person.getBoundingClientRect();
     return { early, quarter, middle, movement: Math.abs(startRect.y - endRect.y) + Math.abs(startRect.width - endRect.width), clip: getComputedStyle(person).clipPath, opacity: getComputedStyle(person).opacity, filter: getComputedStyle(person).filter, later: getComputedStyle(person).visibility, delay: pa.effect!.getTiming().delay };
   });
