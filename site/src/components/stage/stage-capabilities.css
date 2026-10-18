@@ -2,6 +2,7 @@
 .stage-capability-panel{position:relative;min-height:70svh;display:grid;grid-template-columns:82% 18%;align-items:center;padding:80px 4vw}
 .stage-capability-title{font-family:StageLoadingScript,cursive;font-size:clamp(48px,8.8vw,160px);line-height:1.45;letter-spacing:-.04em;font-weight:400;margin:0;white-space:nowrap;text-align:center;overflow:hidden;padding:.15em .05em}
 .stage-capability-title [data-capability-char]{display:inline-block}
+.stage-capability-title [data-word-gap]{width:.32em}
 .stage-capability-points{list-style:none;padding:0;margin:0;text-align:right;width:24vw;justify-self:end;translate:0 50%;font-size:clamp(12px,.95vw,18px);line-height:1.65;font-weight:400}
 .stage-capability-points li{overflow:hidden;white-space:nowrap}
 .stage-capability-points span{display:inline-block}

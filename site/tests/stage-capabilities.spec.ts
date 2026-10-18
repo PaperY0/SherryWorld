@@ -12,6 +12,12 @@ test('the two reference capability panels follow and reverse the same scrubbed t
   await sample(.4);
   const rows = await page.locator('[data-panel="ai-master"] [data-capability-point]').evaluateAll(els => els.map(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42));
   expect(rows[0]).toBeLessThan(rows[3] - 10);
+  const angles = await page.locator('[data-panel="ai-master"] [data-capability-point]').evaluateAll(els => els.map(el => {
+    const matrix = new DOMMatrixReadOnly(getComputedStyle(el).transform);
+    return Math.atan2(matrix.b, matrix.a) * 180 / Math.PI;
+  }));
+  expect(Math.abs(angles[0])).toBeLessThan(.2);
+  expect(angles[3]).toBeGreaterThan(4);
   await sample(.49);
   expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
   expect(await offset('code-craft')).toBeGreaterThan(50);
@@ -27,6 +33,9 @@ test('the two reference capability panels follow and reverse the same scrubbed t
   expect(Math.abs(layout.textCenter - layout.boxCenter)).toBeLessThan(8);
   expect(layout.titleRight).toBeLessThan(layout.pointsLeft);
   expect(layout.pointsFont).toBeLessThanOrEqual(15);
+  const gaps = await page.locator('[data-word-gap]').evaluateAll(els => els.map(el => el.getBoundingClientRect().width / parseFloat(getComputedStyle(el).fontSize)));
+  expect(gaps).toHaveLength(2);
+  expect(gaps.every(gap => gap >= .31)).toBe(true);
   await expect.poll(() => page.locator('.stage-capability-image img').first().evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
   await page.screenshot({ path: '../work/stage-capability-ai-master.png' });
   await sample(.87);
