@@ -17,9 +17,9 @@ function FireEdge({ reduced, bottom = false }: { reduced: boolean; bottom?: bool
 }
 
 const directions = [
-  { name: 'AI', en: 'Ideas, models, and intelligent experiences.', zh: '想法、模型，与智能体验。' },
-  { name: 'BACKEND', en: 'Structure, logic, and the systems behind the screen.', zh: '结构、逻辑，与屏幕背后的系统。' },
-  { name: 'AGENT', en: 'Tools, workflows, and ideas connected.', zh: '工具、工作流，让想法连接起来。' },
+  { name: 'CRAFTER', en: 'I wield AI and code to materialize every realm and concept imagined within my mind.' },
+  { name: 'EXPLORER', en: 'I continuously probe the outer limits of my knowledge and technical capabilities, expanding the frontier of what I can build.' },
+  { name: 'WEAVER', en: 'Travel, cuisine and curiosity for the world interlace to weave a full, textured life of my own.' },
 ];
 
 export function StageFacts({ reduced, enabled, zh }: { reduced: boolean; enabled: boolean; zh: boolean }) {
@@ -55,7 +55,7 @@ export function StageFacts({ reduced, enabled, zh }: { reduced: boolean; enabled
     <FireEdge reduced={reduced} />
     <div className="stage-direction-list">
       {directions.map(direction => <div className="stage-direction" key={direction.name}>
-        <h2>{direction.name}</h2><p>{zh ? direction.zh : direction.en}</p>
+        <h2>{direction.name}</h2><p>{direction.en}</p>
       </div>)}
     </div>
     <FireEdge reduced={reduced} bottom />

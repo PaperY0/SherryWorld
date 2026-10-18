@@ -65,7 +65,7 @@ export function StageHero() {
       </div>
       <div className="stage-floor" aria-hidden="true" />
       <Signature replay={0} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
-      <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>CRAFTER</span><span>＋</span><span>DESIGNER</span><span>＋</span><span>WEAVER</span><span>＋</span></div>
+      <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>CRAFTER</span><span>＋</span><span>EXPLORER</span><span>＋</span><span>WEAVER</span><span>＋</span></div>
       {!loading && <PinkFluid reduced={reduced} />}
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
