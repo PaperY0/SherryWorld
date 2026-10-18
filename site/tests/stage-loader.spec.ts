@@ -67,3 +67,24 @@ test('the descending y does not expose its return stroke early', async ({ page }
   expect(pixels.down).toBeGreaterThan(200);
   expect(pixels.returning).toBe(0);
 });
+
+
+test('background type enters before the opaque portrait', async ({ page }) => {
+  await page.goto('/stage');
+  await expect(page.locator('.stage-page')).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
+  const sequence = await page.evaluate(() => {
+    const type = document.querySelector('.stage-marquee')!;
+    const person = document.querySelector('.stage-portrait img')!;
+    const typeAnimation = type.getAnimations()[0];
+    const personAnimation = person.getAnimations()[0];
+    typeAnimation.pause(); personAnimation.pause();
+    typeAnimation.currentTime = 250; personAnimation.currentTime = 250;
+    const early = { person: getComputedStyle(person).visibility, opacity: getComputedStyle(person).opacity };
+    personAnimation.currentTime = 1500;
+    return { early, later: getComputedStyle(person).visibility, delay: personAnimation.effect!.getTiming().delay };
+  });
+  expect(sequence.delay).toBe(500);
+  expect(sequence.early.person).toBe('hidden');
+  expect(sequence.early.opacity).toBe('1');
+  expect(sequence.later).toBe('visible');
+});

@@ -8,11 +8,11 @@ test('scrolling enters the reference-style About without replaying the loader', 
   await page.locator('#stage-about').scrollIntoViewIfNeeded();
   await expect(page.getByRole('heading', { name: 'THIS WILL FEEL DIFFERENT', exact: true })).toBeInViewport();
   await expect(page.locator('.stage-about-copy')).toHaveText(copy);
-  await expect(page.locator('.stage-about-heading')).toHaveAttribute('data-revealed', 'true');
+  await expect(page.locator('.stage-about-heading')).toHaveAttribute('data-revealed', 'true', { timeout: 11000 });
   await expect(page.getByRole('progressbar')).toHaveCount(0);
   await page.screenshot({ path: '../work/stage-about-desktop.png' });
   await page.locator('.stage-about-copy').scrollIntoViewIfNeeded();
-  await expect(page.locator('.stage-about-copy')).toHaveAttribute('data-revealed', 'true');
+  await expect(page.locator('.stage-about-copy')).toHaveAttribute('data-revealed', 'true', { timeout: 11000 });
   await page.locator('.stage-about-copy').evaluate(element => element.scrollIntoView({ block: 'center', behavior: 'instant' }));
   const paragraph = await page.locator('.stage-about-copy').boundingBox();
   const ledger = await page.locator('.stage-ledger').boundingBox();

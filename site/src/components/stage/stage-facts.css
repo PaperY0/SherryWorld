@@ -11,3 +11,5 @@ html[data-stage-section=fire] body:has(.stage-page) .site-header{color:#211720;-
 @media(max-width:700px){.stage-fire-edge{height:43svh}.stage-direction-list{padding:38svh 6vw 40svh}.stage-direction{min-height:26svh;grid-template-columns:1.25fr 1fr;gap:18px;padding:28px 0}.stage-direction h2{font-size:10.5vw;letter-spacing:-.06em}.stage-direction p{font-size:12px;line-height:1.6}}
 
 @media(max-width:700px){.stage-direction{grid-template-columns:1fr;gap:20px;min-height:33svh;padding:35px 0}.stage-direction h2{font-size:clamp(36px,10vw,64px);letter-spacing:0;line-height:1.35}.stage-direction p{font-size:14px;line-height:1.65;justify-self:start;max-width:100%}}
+
+.stage-direction [data-fact-piece]{display:inline-block}

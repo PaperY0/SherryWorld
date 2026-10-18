@@ -15,11 +15,14 @@ export function StageAbout({ reduced, enabled }: { reduced: boolean; enabled: bo
     const motion = !reduced && !matchMedia('(prefers-reduced-motion: reduce)').matches;
     const prepared = new Map<Element, Animation[]>();
     if (motion) groups.forEach((group, groupIndex) => {
-      const current = [...group.querySelectorAll<HTMLElement>('[data-reveal-piece]')].map((piece, index) => {
+      const pieces = [...group.querySelectorAll<HTMLElement>('[data-reveal-piece]')];
+      const order = pieces.map((_, index) => index);
+      for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+      const current = pieces.map((piece, index) => {
         const animation = piece.animate([
-          { opacity: 0, transform: 'translateY(35px)', filter: 'blur(5px)' },
+          { opacity: 0, transform: 'translateY(40px)', filter: 'blur(4px)' },
           { opacity: 1, transform: 'translateY(0)', filter: 'blur(0px)' },
-        ], { duration: 1100, delay: index * (groupIndex ? 22 : 45), fill: 'both', easing: 'cubic-bezier(.16,1,.3,1)' });
+        ], { duration: groupIndex ? 3000 : 1200, delay: order[index] * 50, fill: 'both', easing: 'cubic-bezier(.22,1,.36,1)' });
         animation.pause(); animation.currentTime = 0;
         animations.push(animation);
         return animation;
