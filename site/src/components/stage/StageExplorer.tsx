@@ -38,6 +38,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
         .fromTo(select('.explorer-fall-copy'), { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 1 }, 4.7)
         .to(select('.explorer-fall-copy'), { opacity: 0, y: -30, duration: .8 }, 7)
         .to(select('.explorer-dawn'), { opacity: 1, scale: 1, duration: 2 }, 7.8)
+        .to(select('.explorer-frame'), { opacity: 0, duration: 1.6, ease: 'none' }, 7.8)
         .fromTo(select('.explorer-rise-copy'), { opacity: 0, y: 45 }, { opacity: 1, y: 0, duration: 1.4 }, 8.4)
         .to({}, { duration: 1 }, 9.8);
       timeline.eventCallback('onUpdate', () => {
@@ -49,6 +50,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     return () => { zone.disconnect(); media.revert(); };
   }, [enabled]);
   return <section className="stage-explorer" id="stage-explorer" ref={root} aria-labelledby="explorer-title" data-film={explorerFilm ? 'connected' : 'awaiting-film'}>
+    <div className="explorer-continuous-light" aria-hidden="true" />
     <div className="explorer-film-track"><div className="explorer-viewport">
       <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond the <em>known.</em></h2></header>
       <div className="explorer-frame" aria-hidden="true">

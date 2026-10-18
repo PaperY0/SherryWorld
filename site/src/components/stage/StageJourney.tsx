@@ -23,13 +23,11 @@ export function StageJourney({ enabled }: { enabled: boolean }) {
           scrollTrigger: { trigger: block, start: 'top 92%', end: 'top 48%', scrub: .6 },
         });
       });
-      gsap.fromTo(host.querySelector('.journey-light'), { opacity: .5 }, { opacity: 1, ease: 'none', scrollTrigger: { trigger: host, start: 'top bottom', end: 'bottom bottom', scrub: .8 } });
     }, host);
     return () => media.revert();
   }, [enabled]);
   const words = (text: string) => text.split(/(\s+)/).map((word, index) => /^\s+$/.test(word) ? word : <span className="journey-word-mask" key={index}><span data-journey-word>{word}</span></span>);
   return <section ref={root} className="stage-journey" aria-labelledby="journey-title" id="stage-journey">
-    <div className="journey-light" aria-hidden="true" />
     <header className="journey-intro">
       <p className="journey-eyebrow">EXPLORER / WHAT I BRING FORWARD</p>
       <h2 id="journey-title" data-journey-reveal>{words('Every experience becomes')}<br /><em>{words('something I can create.')}</em></h2>

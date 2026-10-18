@@ -35,3 +35,21 @@ test('long composition is readable in reduced motion on desktop and mobile', asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await journey.screenshot({ path: '../work/stage-journey-mobile-long.png', style: '.site-header,.stage-ledger{visibility:hidden!important}' });
 });
+
+test('one dawn background spans the screen-to-long-scroll boundary on desktop and mobile', async ({ page }) => {
+  await page.goto('/stage');
+  await expect(page.locator('.stage-portfolio')).toHaveAttribute('data-motion-ready', 'true', { timeout: 12000 });
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: width === 1440 ? 900 : 844 });
+    const journey = page.locator('.stage-journey');
+    await journey.evaluate(el => scrollTo({ top: el.getBoundingClientRect().top + scrollY - innerHeight * .45, behavior: 'instant' }));
+    await expect.poll(() => page.locator('.explorer-frame').evaluate(el => Number(getComputedStyle(el).opacity))).toBeLessThan(.01);
+    const seam = await journey.evaluate(el => el.getBoundingClientRect().top);
+    const background = await page.locator('.explorer-continuous-light').boundingBox();
+    expect(background!.y).toBeLessThan(seam - 100);
+    expect(background!.y + background!.height).toBeGreaterThan(seam + 100);
+    await expect(journey).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+    await expect(page.locator('.explorer-dawn')).toHaveCSS('background-image', 'none');
+    await page.screenshot({ path: `../work/dawn-junction-${width}.png`, style: '.site-header,.stage-ledger{visibility:hidden!important}' });
+  }
+});

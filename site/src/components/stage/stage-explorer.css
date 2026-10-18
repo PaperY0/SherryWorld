@@ -5,9 +5,16 @@
 .explorer-frame{position:absolute;width:36vw;height:45svh;overflow:hidden;background:#24101f}.explorer-atmosphere{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,#af638270,transparent 60%),linear-gradient(#2d1529,#100c11)}
 .explorer-frame video{position:absolute;width:100%;height:100%;object-fit:cover}.explorer-shade{position:absolute;inset:0;background:#09070b;opacity:0}
 .explorer-fall-copy,.explorer-rise-copy{position:absolute;z-index:3;opacity:0;text-align:center;padding:0 6vw;pointer-events:none}.explorer-fall-copy h3,.explorer-rise-copy h3{font-size:clamp(36px,5.5vw,88px);font-weight:400;line-height:1.05;letter-spacing:-.04em;margin:20px 0 30px}.explorer-fall-copy p,.explorer-rise-copy p{font-size:clamp(14px,1.3vw,20px);line-height:1.6;color:#c5b3bf}
-.explorer-dawn{position:absolute;inset:0;z-index:2;opacity:0;transform:scale(.8);background:radial-gradient(ellipse at 50% 110%,#e9b9b775,transparent 48%),radial-gradient(ellipse at 50% 105%,#efa8c22b,transparent 70%);pointer-events:none}
+.explorer-dawn{position:absolute;inset:0;z-index:2;opacity:0;transform:scale(.8);pointer-events:none}
 @media(prefers-reduced-motion:no-preference){.stage-explorer{padding-top:0}.explorer-viewport{position:sticky;top:0}.explorer-film-track{height:650svh;position:relative}}
 @media(prefers-reduced-motion:reduce){.explorer-viewport{height:auto;min-height:100svh;display:flex;flex-direction:column;gap:50px;padding:90px 6vw}.explorer-heading,.explorer-fall-copy,.explorer-rise-copy{position:relative;inset:auto;opacity:1;padding:0}.explorer-frame{display:none}.explorer-dawn{opacity:.5}.explorer-capabilities{padding-top:60px}}
 @media(max-width:700px){.explorer-heading{top:14%}.explorer-frame{min-width:66vw}.explorer-heading h2{font-size:44px}.explorer-capabilities{padding:80px 6vw 120px}.explorer-capabilities>div{grid-template-columns:1fr}.explorer-capabilities h3{margin-bottom:45px}}
 
 html[data-stage-section=explorer] body:has(.stage-page) .site-header{color:#f7edf2;--ink:#f7edf2;--muted:#c4a6b6;--line:#735464;--surface:#30252e;background:linear-gradient(#100c11de,transparent)}
+
+/* One physical image spans the final dawn viewport and every following chapter. */
+.explorer-continuous-light{position:absolute;top:550svh;bottom:0;left:0;right:0;z-index:0;opacity:.62;pointer-events:none;background:linear-gradient(transparent 85%,#100c11),url('/images/stage/explorer/dawn-continuous-v2.png') center/100% 100% no-repeat}
+.explorer-film-track{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.explorer-continuous-light{top:0}.explorer-viewport{z-index:1}}
+
+@media(max-width:700px){.explorer-continuous-light{background-size:100% 100%,auto 100%;opacity:.55}}
