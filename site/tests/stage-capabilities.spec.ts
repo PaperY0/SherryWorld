@@ -9,10 +9,24 @@ test('the two reference capability panels follow and reverse the same scrubbed t
     await expect.poll(async () => Number(await host.getAttribute('data-scroll-progress'))).toBeCloseTo(progress, 2);
   };
   const offset = async (key: string) => page.locator(`[data-panel="${key}"] [data-capability-char]`).first().evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42);
+  await sample(.4);
+  const rows = await page.locator('[data-panel="ai-master"] [data-capability-point]').evaluateAll(els => els.map(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42));
+  expect(rows[0]).toBeLessThan(rows[3] - 10);
   await sample(.49);
   expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
   expect(await offset('code-craft')).toBeGreaterThan(50);
   await expect(page.locator('[data-panel="ai-master"] .stage-capability-points')).toHaveText('Hyper-Efficiency WorkflowMind-to-Reality AI CodingInteractive AI IntegrationGenerative Visual Spectacle');
+  const layout = await page.locator('[data-panel="ai-master"]').evaluate(el => {
+    const title = el.querySelector('h3')!;
+    const letters = [...title.children];
+    const first = letters[0].getBoundingClientRect(), last = letters.at(-1)!.getBoundingClientRect();
+    const box = title.getBoundingClientRect();
+    const points = el.querySelector('ul')!;
+    return { textCenter: (first.left + last.right) / 2, boxCenter: box.left + box.width / 2, pointsLeft: points.getBoundingClientRect().left, titleRight: last.right, pointsFont: parseFloat(getComputedStyle(points).fontSize) };
+  });
+  expect(Math.abs(layout.textCenter - layout.boxCenter)).toBeLessThan(8);
+  expect(layout.titleRight).toBeLessThan(layout.pointsLeft);
+  expect(layout.pointsFont).toBeLessThanOrEqual(15);
   await expect.poll(() => page.locator('.stage-capability-image img').first().evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
   await page.screenshot({ path: '../work/stage-capability-ai-master.png' });
   await sample(.87);

@@ -1,9 +1,9 @@
 .stage-capabilities{position:relative;width:100%;color:#e7a9c1}
-.stage-capability-panel{position:relative;min-height:70svh;display:grid;grid-template-columns:64% 36%;align-items:center;padding:80px 4vw}
-.stage-capability-title{font-family:StageLoadingScript,cursive;font-size:clamp(48px,8.8vw,160px);line-height:1.45;letter-spacing:-.04em;font-weight:400;margin:0;white-space:nowrap;overflow:hidden;padding:.15em .05em}
+.stage-capability-panel{position:relative;min-height:70svh;display:grid;grid-template-columns:82% 18%;align-items:center;padding:80px 4vw}
+.stage-capability-title{font-family:StageLoadingScript,cursive;font-size:clamp(48px,8.8vw,160px);line-height:1.45;letter-spacing:-.04em;font-weight:400;margin:0;white-space:nowrap;text-align:center;overflow:hidden;padding:.15em .05em}
 .stage-capability-title [data-capability-char]{display:inline-block}
-.stage-capability-points{list-style:none;padding:0;margin:0;text-align:right;font-size:clamp(14px,1.25vw,21px);line-height:1.65;font-weight:400}
-.stage-capability-points li{overflow:hidden}
+.stage-capability-points{list-style:none;padding:0;margin:0;text-align:right;width:24vw;justify-self:end;translate:0 50%;font-size:clamp(12px,.95vw,18px);line-height:1.65;font-weight:400}
+.stage-capability-points li{overflow:hidden;white-space:nowrap}
 .stage-capability-points span{display:inline-block}
 .stage-capability-pictures{position:absolute;inset:0;pointer-events:none;perspective:1200px}
 .stage-capability-image{position:absolute;width:15vw;height:30svh;overflow:hidden;opacity:.4}
@@ -18,4 +18,4 @@
 .stage-capability-image{clip-path:inset(100% 0 0)}
 }
 @media(prefers-reduced-motion:reduce){.stage-capability-pictures{display:none}.stage-legacy:has(.stage-capabilities) .stage-legacy-stage{display:block;padding-top:35svh}.stage-legacy-title{min-height:50svh;align-items:center}.stage-capability-panel{min-height:65svh}}
-@media(max-width:700px){.stage-capability-pictures{display:none}.stage-capability-panel{grid-template-columns:1fr;align-content:center;gap:35px;padding:12svh 7vw}.stage-capability-title{font-size:12.5vw;line-height:1.5}.stage-capability-points{font-size:16px;text-align:right}.stage-capability-points li{line-height:1.8}}
+@media(max-width:700px){.stage-capability-pictures{display:none}.stage-capability-panel{grid-template-columns:1fr;align-content:center;gap:35px;padding:12svh 7vw}.stage-capability-title{font-size:12.5vw;line-height:1.5}.stage-capability-points{font-size:14px;text-align:right;width:100%;translate:0 0}.stage-capability-points li{line-height:1.8}}

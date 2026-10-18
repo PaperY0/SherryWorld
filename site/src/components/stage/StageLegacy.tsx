@@ -55,11 +55,11 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
       const secondPoints = panels[1].querySelectorAll('[data-capability-point]');
       gsap.set([...firstChars, ...firstPoints, ...secondChars, ...secondPoints], { yPercent: 125 });
       timeline.to(firstChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 3.6)
-        .to(firstPoints, { yPercent: 0, duration: .8, stagger: .08, ease: 'power3.out' }, 3.6)
+        .to(firstPoints, { yPercent: 0, duration: .4, stagger: .3, ease: 'power3.out' }, 3.6)
         .to(firstChars, { yPercent: -125, duration: .8, stagger: .02, ease: 'power2.inOut' }, 5.6)
-        .to(firstPoints, { yPercent: -125, duration: .7, stagger: .06, ease: 'power2.inOut' }, 5.6)
+        .to(firstPoints, { yPercent: -125, duration: .25, stagger: .24, ease: 'power2.inOut' }, 5.6)
         .to(secondChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 6.7)
-        .to(secondPoints, { yPercent: 0, duration: .8, stagger: .08, ease: 'power3.out' }, 6.7)
+        .to(secondPoints, { yPercent: 0, duration: .4, stagger: .3, ease: 'power3.out' }, 6.7)
         .to({}, { duration: 2.1 }, 7.9);
       const pictures = host.querySelector<HTMLElement>('.stage-capability-pictures')!;
       timeline.fromTo(host.querySelectorAll('.stage-capability-image'), { clipPath: 'inset(100% 0 0)' }, { clipPath: 'inset(0% 0 0)', duration: 2, stagger: .15, ease: 'power3.out' }, 2.8)
