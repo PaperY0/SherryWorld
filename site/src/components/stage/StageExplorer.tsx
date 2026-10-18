@@ -37,10 +37,10 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
         .to(select('.explorer-shade'), { opacity: .92, duration: 2.8 }, 4.2)
         .fromTo(select('.explorer-fall-copy'), { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 1 }, 4.7)
         .to(select('.explorer-fall-copy'), { opacity: 0, y: -30, duration: .8 }, 7)
-        .to(select('.explorer-dawn'), { opacity: 1, scale: 1, duration: 2 }, 7.8)
+        .fromTo(select('.explorer-continuous-light'), { opacity: 0 }, { opacity: () => innerWidth <= 700 ? .55 : .62, duration: 1.6, ease: 'sine.inOut' }, 7.8)
         .to(select('.explorer-frame'), { opacity: 0, duration: 1.6, ease: 'none' }, 7.8)
-        .fromTo(select('.explorer-rise-copy'), { opacity: 0, y: 45 }, { opacity: 1, y: 0, duration: 1.4 }, 8.4)
-        .to({}, { duration: 1 }, 9.8);
+        .fromTo(select('.explorer-rise-copy'), { opacity: 0, y: 45 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' }, 9.65)
+        .to({}, { duration: .75 }, 10.85);
       timeline.eventCallback('onUpdate', () => {
         const film = video.current;
         if (film && Number.isFinite(film.duration)) targetTime = timeline.progress() * Math.max(0, film.duration - .05);

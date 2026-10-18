@@ -13,8 +13,11 @@
 html[data-stage-section=explorer] body:has(.stage-page) .site-header{color:#f7edf2;--ink:#f7edf2;--muted:#c4a6b6;--line:#735464;--surface:#30252e;background:linear-gradient(#100c11de,transparent)}
 
 /* One physical image spans the final dawn viewport and every following chapter. */
-.explorer-continuous-light{position:absolute;top:550svh;bottom:0;left:0;right:0;z-index:0;opacity:.62;pointer-events:none;background:linear-gradient(transparent 85%,#100c11),url('/images/stage/explorer/dawn-continuous-v2.png') center/100% 100% no-repeat}
+.explorer-continuous-light{position:absolute;top:400svh;bottom:0;left:0;right:0;z-index:0;opacity:.62;pointer-events:none;mask-image:linear-gradient(to bottom,transparent,#000 80svh);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 80svh);background:linear-gradient(transparent 85%,#100c11),url('/images/stage/explorer/dawn-continuous-v2.png') center/100% 100% no-repeat}
 .explorer-film-track{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.explorer-continuous-light{top:0}.explorer-viewport{z-index:1}}
 
 @media(max-width:700px){.explorer-continuous-light{background-size:100% 100%,auto 100%;opacity:.55}}
+
+@media(prefers-reduced-motion:no-preference){.explorer-continuous-light{opacity:0}}
+@media(prefers-reduced-motion:reduce){.explorer-continuous-light{mask-image:none;-webkit-mask-image:none}}
