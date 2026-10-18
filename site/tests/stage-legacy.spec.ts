@@ -11,23 +11,24 @@ test('Legacy grows into the center with reversible scroll and a pinned stage', a
       const host = document.querySelector('.stage-legacy')!;
       scrollTo({ top: start + (host.getBoundingClientRect().height - innerHeight) * progress, behavior: 'instant' });
     }, { start, progress });
-    await expect.poll(async () => Number(await section.getAttribute('data-scroll-progress'))).toBeCloseTo(progress, 2);
+    await expect.poll(async () => Number(await section.getAttribute('data-scroll-progress'))).toBeCloseTo(progress, 3);
     return page.locator('.stage-legacy-title').boundingBox();
   };
+  const legacyRange = Number(await section.getAttribute('data-legacy-range'));
   const first = await sample(0);
-  await sample(.45);
+  await sample(legacyRange * .45);
   const sizes = await page.locator('[data-legacy-char]').evaluateAll(els => els.map(el => parseFloat(getComputedStyle(el).fontSize)));
   expect(sizes[0]).toBeGreaterThan(sizes[5] + 70);
   expect(sizes.every((size, i) => i === 0 || size <= sizes[i - 1])).toBe(true);
   await page.screenshot({ path: '../work/stage-legacy-stagger.png' });
-  const middle = await sample(1);
+  const middle = await sample(legacyRange);
   expect(middle!.width).toBeGreaterThan(first!.width * 2);
   expect(Math.abs(middle!.x + middle!.width / 2 - 720)).toBeLessThan(5);
   await expect(page.locator('.stage-legacy-stage')).toHaveCSS('position', 'sticky');
   await expect(page.locator('html')).toHaveAttribute('data-stage-section', 'legacy');
   await page.screenshot({ path: '../work/stage-legacy-desktop.png' });
-  const back = await sample(0);
-  expect(Math.abs(back!.width - first!.width)).toBeLessThan(2);
+  await sample(0);
+  await expect.poll(async () => Math.abs((await page.locator('.stage-legacy-title').boundingBox())!.width - first!.width)).toBeLessThan(2);
 });
 
 test('Legacy remains readable and fits mobile with reduced motion', async ({ page }) => {

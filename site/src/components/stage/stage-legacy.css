@@ -10,7 +10,7 @@ html[data-stage-section=legacy] body:has(.stage-page) .site-header{color:#f7edf2
 .stage-legacy-stage{position:sticky;top:0;height:100svh;min-height:600px}
 .stage-legacy-lines path{stroke-dasharray:1}
 }
-.stage-legacy-title{display:flex;align-items:baseline;justify-content:center}
+.stage-legacy-title{display:flex;align-items:baseline;justify-content:center;overflow:hidden;padding:.12em .08em}
 .stage-legacy-title [data-legacy-char]{display:inline-block;flex:none;transform-origin:50% 70%}
 .stage-legacy-copy [data-legacy-word]{display:inline-block}
 @media(max-width:700px){.stage-legacy-copy{width:88%;right:6%;top:13svh;font-size:12px;line-height:1.6;overflow-x:auto;scrollbar-width:none;padding-block:6px}.stage-legacy-title{font-size:20vw}.stage-legacy-stage{min-height:max(100svh,660px)}}

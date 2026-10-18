@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { StageCapabilities } from './StageCapabilities';
 import { prepareTextReveal } from './textReveal';
 import './stage-legacy.css';
 
@@ -46,6 +47,35 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
       }, 0);
       timeline.fromTo(copy, { opacity: 1, y: 0 }, { opacity: 0, y: -35, duration: .9, ease: 'none' }, .45);
       timeline.fromTo(line, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: 'none' }, 1);
+      timeline.to(chars, { yPercent: -160, duration: .8, stagger: .06, ease: 'power2.inOut' }, 2.8);
+      const panels = [...host.querySelectorAll<HTMLElement>('.stage-capability-panel')];
+      const firstChars = panels[0].querySelectorAll('[data-capability-char]');
+      const firstPoints = panels[0].querySelectorAll('[data-capability-point]');
+      const secondChars = panels[1].querySelectorAll('[data-capability-char]');
+      const secondPoints = panels[1].querySelectorAll('[data-capability-point]');
+      gsap.set([...firstChars, ...firstPoints, ...secondChars, ...secondPoints], { yPercent: 125 });
+      timeline.to(firstChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 3.6)
+        .to(firstPoints, { yPercent: 0, duration: .8, stagger: .08, ease: 'power3.out' }, 3.6)
+        .to(firstChars, { yPercent: -125, duration: .8, stagger: .02, ease: 'power2.inOut' }, 5.6)
+        .to(firstPoints, { yPercent: -125, duration: .7, stagger: .06, ease: 'power2.inOut' }, 5.6)
+        .to(secondChars, { yPercent: 0, duration: 1, stagger: .03, ease: 'power3.out' }, 6.7)
+        .to(secondPoints, { yPercent: 0, duration: .8, stagger: .08, ease: 'power3.out' }, 6.7)
+        .to({}, { duration: 2.1 }, 7.9);
+      const pictures = host.querySelector<HTMLElement>('.stage-capability-pictures')!;
+      timeline.fromTo(host.querySelectorAll('.stage-capability-image'), { clipPath: 'inset(100% 0 0)' }, { clipPath: 'inset(0% 0 0)', duration: 2, stagger: .15, ease: 'power3.out' }, 2.8)
+        .fromTo(host.querySelectorAll('.stage-capability-image img'), { yPercent: 15 }, { yPercent: -25, duration: 7.2, ease: 'none' }, 2.8);
+      const followX = gsap.quickTo(pictures, 'x', { duration: .7, ease: 'power3.out' });
+      const followY = gsap.quickTo(pictures, 'y', { duration: .7, ease: 'power3.out' });
+      const turnX = gsap.quickTo(pictures, 'rotationX', { duration: .7, ease: 'power3.out' });
+      const turnY = gsap.quickTo(pictures, 'rotationY', { duration: .7, ease: 'power3.out' });
+      const move = (event: PointerEvent) => {
+        if (event.pointerType !== 'mouse' || innerWidth <= 700) return;
+        const x = event.clientX / innerWidth - .5, y = event.clientY / innerHeight - .5;
+        followX(x * 100); followY(y * 65); turnX(-y * 18); turnY(x * 24);
+      };
+      const reset = () => { followX(0); followY(0); turnX(0); turnY(0); };
+      host.addEventListener('pointermove', move); host.addEventListener('pointerleave', reset);
+      host.dataset.legacyRange = String(2.6 / timeline.duration());
       host.dataset.motionReady = 'true';
       const animations = prepareTextReveal([...copy.querySelectorAll<HTMLElement>('[data-legacy-word]')]);
       const observer = new IntersectionObserver(entries => {
@@ -55,7 +85,7 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
       }, { threshold: .15, rootMargin: '0px 0px -10% 0px' });
       observer.observe(copy);
       void document.fonts.ready.then(() => { if (alive) ScrollTrigger.refresh(); });
-      return () => { observer.disconnect(); animations.forEach(animation => animation.cancel()); delete host.dataset.motionReady; };
+      return () => { host.removeEventListener('pointermove', move); host.removeEventListener('pointerleave', reset); observer.disconnect(); animations.forEach(animation => animation.cancel()); delete host.dataset.motionReady; };
     }, host);
     return () => { alive = false; media.revert(); };
   }, [enabled]);
@@ -70,6 +100,7 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
         </svg>
       </div>
       <h2 id="stage-legacy-title" className="stage-legacy-title" aria-label="LEGACY">{[...'LEGACY'].map((char, i) => <span data-legacy-char aria-hidden="true" key={i}>{char}</span>)}</h2>
+      <StageCapabilities />
     </div>
   </section>;
 }
