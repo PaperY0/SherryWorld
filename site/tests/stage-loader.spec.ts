@@ -69,7 +69,7 @@ test('the descending y does not expose its return stroke early', async ({ page }
 });
 
 
-test('signature leads the clipped type entrance and full-color portrait', async ({ page }) => {
+test('signature leads the type entrance and stationary portrait fade', async ({ page }) => {
   await page.goto('/stage');
   const host = page.locator('.stage-page');
   await expect(host).toHaveAttribute('data-loading', 'false', { timeout: 12000 });
@@ -87,14 +87,24 @@ test('signature leads the clipped type entrance and full-color portrait', async 
     ta.pause(); pa.pause();
     ta.currentTime = 250; pa.currentTime = 250;
     const early = { person: getComputedStyle(person).visibility, type: getComputedStyle(type).transform };
-    pa.currentTime = 1800;
-    return { early, filter: getComputedStyle(person).filter, later: getComputedStyle(person).visibility, delay: pa.effect!.getTiming().delay };
+    pa.currentTime = 600;
+    const startRect = person.getBoundingClientRect();
+    pa.currentTime = 1200;
+    const middle = Number(getComputedStyle(person).opacity);
+    pa.currentTime = 3000;
+    const endRect = person.getBoundingClientRect();
+    return { early, middle, movement: Math.abs(startRect.y - endRect.y) + Math.abs(startRect.width - endRect.width), clip: getComputedStyle(person).clipPath, opacity: getComputedStyle(person).opacity, filter: getComputedStyle(person).filter, later: getComputedStyle(person).visibility, delay: pa.effect!.getTiming().delay };
   });
   expect(sequence.delay).toBe(600);
   expect(sequence.early.person).toBe('hidden');
   expect(sequence.early.type).not.toBe('none');
   expect(sequence.filter).not.toContain('brightness');
   expect(sequence.later).toBe('visible');
+  expect(sequence.middle).toBeGreaterThan(0);
+  expect(sequence.middle).toBeLessThan(1);
+  expect(sequence.movement).toBeLessThan(.1);
+  expect(sequence.clip).toBe('none');
+  expect(sequence.opacity).toBe('1');
   await page.evaluate(() => document.querySelectorAll('.stage-rail span,.stage-portrait img').forEach(el => el.getAnimations().forEach(a => a.finish())));
   await page.screenshot({ path: '../work/stage-soft-portrait.png' });
 });

@@ -32,7 +32,7 @@ body:has(.stage-page) .skip-link{display:none}
 .stage-page[data-intro=signing] .stage-portrait img{visibility:hidden}
 .stage-page[data-intro=entering] .stage-rail span{animation:stage-marquee-in 2s cubic-bezier(.22,1,.36,1) both}
 .stage-page[data-intro=entering] .stage-portrait img{animation:stage-person-in 2.4s .6s cubic-bezier(.22,1,.36,1) both}
-@keyframes stage-person-in{from{visibility:hidden;translate:0 12%;scale:.96;clip-path:inset(100% 0 0)}1%{visibility:visible}to{visibility:visible;translate:0 0;scale:1;clip-path:inset(0)}}
+@keyframes stage-person-in{from{visibility:hidden;opacity:0}1%{visibility:visible}to{visibility:visible;opacity:1}}
 @keyframes stage-marquee-in{from{transform:translateY(110%)}to{transform:translateY(0)}}
 @keyframes stage-type-in{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
 @media(max-width:700px){.stage-hero{min-height:660px}.stage-intro{top:15%;left:6%;font-size:11px;max-width:180px}.stage-nav{top:27%;right:6%;font-size:9px;min-width:140px;gap:7px}.stage-nav a{padding-bottom:6px}.stage-marquee{top:37%}.stage-rail span{font-size:35vw;padding-right:24px}.stage-portrait img{height:65%;bottom:8%;left:49%}.stage-floor{inset:73% 0 0}.stage-identity{bottom:13%;right:6%;font-size:7px;max-width:190px}.stage-identity p{font-size:9px;margin:8px 0}.stage-signature{top:39%;width:98vw}.stage-signature[data-state=complete]{top:66%;left:0;width:190px}.stage-replay{left:6%;bottom:11%;font-size:13px}.stage-replay span{font-size:7px}.stage-ledger{inset:auto 6% 23px;font-size:8px;padding-top:16px}.stage-ledger span:nth-child(odd){font-size:16px}}
