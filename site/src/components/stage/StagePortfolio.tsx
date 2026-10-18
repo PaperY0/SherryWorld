@@ -42,7 +42,7 @@ export function StagePortfolio({ enabled }: { enabled: boolean }) {
         const index = Math.min(Math.floor(position), stageWorks.length - 1);
         const fraction = progress === 1 ? 1 : position - index;
         host.dataset.workProgress = progress.toFixed(4);
-        if (ring.current) ring.current.style.strokeDashoffset = String(2 * Math.PI * 35 * (1 - fraction));
+        if (ring.current) ring.current.style.strokeDashoffset = String(2 * Math.PI * 35 * (1 - .78 * fraction));
         if (index !== activeRef.current || immediate) {
           activeRef.current = index; setActive(index);
           cards.forEach((card, i) => immediate ? gsap.set(card, state(i - index)) : gsap.to(card, { ...state(i - index), duration: .6, ease: 'power3.out', overwrite: true }));
@@ -66,17 +66,24 @@ export function StagePortfolio({ enabled }: { enabled: boolean }) {
   return <section ref={root} className="stage-portfolio" id="stage-work" data-active-work={stageWorks[active].slug} data-motion={motion} style={{ '--work-height': `${(stageWorks.length + 1) * 100}svh` } as CSSProperties} aria-labelledby="stage-work-title">
     <div className="stage-portfolio-viewport">
       <div className="stage-work-backgrounds" aria-hidden="true">{stageWorks.map((work, index) => <div className={active === index ? 'is-active' : ''} key={work.slug}><Image src={work.image} fill sizes="100vw" alt="" loading={active === index ? 'eager' : 'lazy'} /></div>)}</div>
-      <header className="stage-work-heading"><p>SELECTED WORK</p><h2 id="stage-work-title">MY <br />WORK</h2></header>
+      <header className="stage-work-heading">
+        <h2 id="stage-work-title" className="work-visually-hidden">MY WORK</h2>
+        <div className="stage-work-name-window" aria-label={stageWorks[active].name}>
+          <div className="stage-work-name-reel" style={{ transform: `translateY(-${active * 25}%)` }} aria-hidden="true">
+            {stageWorks.map(work => <span className={`stage-work-name name-${work.slug}`} key={work.slug}>{work.name}</span>)}
+          </div>
+        </div>
+      </header>
       <div className="stage-work-progress" aria-label={`Project ${active + 1} of ${stageWorks.length}`}>
-        <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="35" className="work-progress-track" /><circle ref={ring} cx="40" cy="40" r="35" className="work-progress-ring" strokeDasharray={2 * Math.PI * 35} /></svg>
-        <span>{String(active + 1).padStart(2, '0')}</span><small>/ {String(stageWorks.length).padStart(2, '0')}</small>
+        <svg viewBox="0 0 80 80" aria-hidden="true"><circle ref={ring} cx="40" cy="40" r="35" className="work-progress-ring" strokeDasharray={2 * Math.PI * 35} /></svg>
+        <span>{String(active + 1).padStart(2, '0')}</span>
       </div>
       {stageWorks.map((work, index) => <article className={`stage-work-item${active === index ? ' is-active' : ''}`} data-work={work.slug} key={work.slug}>
         <button className="stage-work-card" aria-label={`View ${work.name} project`} tabIndex={!motion || active === index ? 0 : -1} onClick={() => setDetail(work)}>
           <WorkCover work={work} eager={Math.abs(index - active) <= 1} /><span className="stage-work-view">VIEW PROJECT ↗</span>
         </button>
         <div className="stage-work-info" inert={motion && active !== index}>
-          <p className="stage-work-category">{work.category}</p><h3>{words(work.name)}</h3><p className="stage-work-summary">{words(work.summary)}</p>
+          <p className="stage-work-category">{work.category}</p><h3 className="work-visually-hidden">{work.name}</h3><p className="stage-work-summary">{words(work.summary)}</p>
           <ul className="stage-work-tags">{work.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
           <a className="stage-work-github" href={work.github} target="_blank" rel="noopener noreferrer">EXPLORE ON GITHUB <span aria-hidden="true">↗</span></a>
         </div>

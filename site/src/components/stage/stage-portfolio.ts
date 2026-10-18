@@ -3,14 +3,14 @@ export const stageWorks = [
     slug: 'lumi', title: 'LUMI', name: 'Lumi', category: 'AI & COMMUNICATION',
     summary: 'A local-first AI companion for relationship communication. A React interface and Express API bring conversations and AI assistance into one space.',
     detail: 'Lumi explores how AI can support expression and communication in relationships. The project combines a React frontend with an Express API and AI integration, with a local-first development setup.',
-    tags: ['React', 'Express', 'AI Integration'], image: '/images/stage/portfolio/lumi.png',
+    tags: ['React', 'Express', 'AI Integration'], image: '/images/stage/portfolio/lumi-cover.png',
     github: 'https://github.com/PaperY0/Lumi',
   },
   {
     slug: 'zhiye', title: 'ZHIYE', name: 'Zhiye', category: 'AI & EDUCATION',
     summary: 'A classroom review prototype for rural primary-school teachers. Recordings become review cards, teacher reports and targeted follow-up lessons, reviewed by teachers before publishing.',
     detail: 'Zhiye connects classroom recordings with structured teaching material. Its prototype workflow covers transcription, review cards, teacher reports and follow-up lesson drafts, with teachers reviewing the material before release.',
-    tags: ['React', 'FastAPI', 'Teaching Workflows'], image: '/images/stage/portfolio/zhiye.png',
+    tags: ['React', 'FastAPI', 'Teaching Workflows'], image: '/images/stage/portfolio/zhiye-cover.png',
     github: 'https://github.com/PaperY0/Zhiye',
   },
   {

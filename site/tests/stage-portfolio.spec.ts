@@ -11,6 +11,11 @@ test('vertical portfolio visits the four requested works and reverses with corre
     await expect(host).toHaveAttribute('data-active-work', works[index][0]);
     const item = page.locator(`.stage-work-item[data-work="${works[index][0]}"]`);
     await expect(item.locator('.stage-work-info')).toBeVisible();
+    await expect(page.locator('.stage-work-name-window')).toHaveAttribute('aria-label', works[index][1]);
+    await expect(page.locator('.stage-work-heading')).not.toContainText('SELECTED WORK');
+    await expect(page.locator('.stage-work-progress small')).toHaveCount(0);
+    expect(await item.locator('.stage-work-info h3').evaluate(el => getComputedStyle(el).clipPath)).toBe('inset(50%)');
+    if (index < 2) await expect(item.locator('.stage-work-card img')).toHaveAttribute('src', new RegExp(`${works[index][0]}-cover`));
     await expect(item.locator('.stage-work-github')).toHaveAttribute('href', `https://github.com/PaperY0/${works[index][1]}`);
     await expect.poll(() => item.locator('.stage-work-card').evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).a)).toBeCloseTo(1, 2);
     await expect(item.locator('.stage-work-card img').first()).toBeVisible();
