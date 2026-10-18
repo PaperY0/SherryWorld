@@ -1,13 +1,14 @@
-.stage-about{position:relative;isolation:isolate;background:#171217;color:#e7a9c1;padding:0 0 110px;min-height:135svh;overflow:clip}
+.stage-about{position:relative;isolation:isolate;background:#171217;color:#e7a9c1;padding:0 0 clamp(130px,14svh,190px);min-height:135svh;overflow:clip}
 .stage-about-title-zone{height:110svh;min-height:650px;display:flex;align-items:center;justify-content:center;padding:70px 4vw 0}
 .stage-about-heading{font-size:clamp(90px,13.33vw,230px);line-height:.82;font-weight:500;text-align:center;margin:0;letter-spacing:-.045em}
 .stage-about-line{display:block;white-space:nowrap}
 .stage-about-line>span{display:inline-block}
 .stage-about-feel{display:block;font-family:StageLoadingScript,cursive;font-size:clamp(145px,20vw,340px);font-weight:400;line-height:.93;letter-spacing:-.045em;color:#f0c0d2;margin:-.015em 0 -.08em}
-.stage-about-copy{position:relative;width:90%;max-width:1500px;margin:10svh auto 0;color:#cda9ba;font-size:clamp(20px,2.08vw,34px);line-height:1.38;font-weight:400;text-transform:uppercase;text-indent:25vw;letter-spacing:-.025em}
+.stage-about-copy{position:relative;width:90%;max-width:1500px;margin:12svh auto 0;color:#cda9ba;font-size:clamp(20px,2.08vw,34px);line-height:1.5;font-weight:400;text-transform:uppercase;text-indent:25vw;letter-spacing:-.025em}
 .stage-about-copy>span{display:inline-block;text-indent:0}
+.stage-about-copy{scroll-margin-block:120px}
 html[data-stage-section=about] body:has(.stage-page) .site-header{color:#f7edf2;--ink:#f7edf2;--muted:#c4a6b6;--line:#735464;--surface:#30252e;background:linear-gradient(#171217de,transparent)}
 @media(min-width:1800px){.stage-about-copy{text-indent:360px}}
 @media(max-width:700px){.stage-about{min-height:100svh;padding-bottom:85px}.stage-about-title-zone{height:66svh;min-height:460px;padding:60px 5vw 0}.stage-about-heading{font-size:13.2vw;line-height:.88;letter-spacing:-.04em}.stage-about-feel{font-size:25vw;line-height:1.15;margin:0 0 -.13em}.stage-about-copy{width:88%;margin:0 auto;font-size:18px;line-height:1.55;text-indent:13vw;letter-spacing:-.02em}}
 .stage-about-feel{-webkit-text-stroke:.3px currentColor}
-@media(max-width:700px){.stage-about-copy{margin-top:7svh}}
+@media(max-width:700px){.stage-about{padding-bottom:120px}.stage-about-copy{margin-top:9svh;line-height:1.65}}

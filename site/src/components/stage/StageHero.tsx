@@ -6,6 +6,7 @@ import { PinkFluid } from './PinkFluid';
 import { StageLoader } from './StageLoader';
 import { StageAbout } from './StageAbout';
 import { StageFacts } from './StageFacts';
+import { StageLedger } from './StageLedger';
 import './stage.css';
 
 export function StageHero() {
@@ -65,11 +66,11 @@ export function StageHero() {
       </div>
       <div className="stage-floor" aria-hidden="true" />
       <Signature replay={0} reduced={reduced} enabled={!loading} label={zh ? 'Sherry 手写签名' : 'Sherry handwritten signature'} />
-      <div className="stage-ledger" aria-hidden="true"><span>＋</span><span>CRAFTER</span><span>＋</span><span>EXPLORER</span><span>＋</span><span>WEAVER</span><span>＋</span></div>
       {!loading && <PinkFluid reduced={reduced} />}
       {loading && <StageLoader onComplete={finishLoading} zh={zh} />}
     </section>
     <StageAbout reduced={reduced} enabled={!loading} />
     <StageFacts reduced={reduced} enabled={!loading} zh={zh} />
+    <StageLedger reduced={reduced} enabled={!loading} />
   </main>;
 }

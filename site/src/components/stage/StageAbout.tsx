@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import './stage-about.css';
 
-export const aboutCopy = "I don't just build websites I create experiences that people enjoy exploring. From the first impression to the smallest interaction, I care about the details that make a website feel smooth, memorable, and worth coming back to.";
+export const aboutCopy = 'Guided by an innate curiosity, I distill inspiration from the journeys and culinary textures of the physical world. This appetite for the unknown compels me to continually challenge the frontiers of my intellect and technical mastery. Wielding AI and code, I transmute abstract visions into tangible reality—and from this confluence of lived experience and digital creation, a multidimensional self emerges.';
 
 export function StageAbout({ reduced, enabled }: { reduced: boolean; enabled: boolean }) {
   const section = useRef<HTMLElement>(null);
