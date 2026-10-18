@@ -1,8 +1,8 @@
 import './stage-capabilities.css';
 
 export const capabilityPanels = [
-  { title: 'UI - UX', key: 'uiux', points: ['UIUX', '3D Web development', 'Problem Solver', 'User Research'] },
-  { title: '3D WEB', key: 'web3d', points: ['Frontend Engineering', 'Three.js / WebGL', 'GSAP Animation', 'Performance Optimization'] },
+  { title: 'AI MASTER', key: 'ai-master', points: ['Hyper-Efficiency Workflow', 'Mind-to-Reality AI Coding', 'Interactive AI Integration', 'Generative Visual Spectacle'] },
+  { title: 'CODE CRAFT', key: 'code-craft', points: ['Vue.js & Motion Engineering', 'Java & Spring Boot Backend', 'Python & AI Service Engineering', 'End-to-End Full-Stack Architecture'] },
 ];
 const images = ['SERVICES-1-DNEv9Ogg.avif', 'SERVICES-2-B2qkzeiI.avif', 'SERVICES-3-D3H0TtUe.avif', 'SERVICES-5-B-pgnAEq.avif'];
 

@@ -10,26 +10,31 @@ test('the two reference capability panels follow and reverse the same scrubbed t
   };
   const offset = async (key: string) => page.locator(`[data-panel="${key}"] [data-capability-char]`).first().evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m42);
   await sample(.49);
-  expect(Math.abs(await offset('uiux'))).toBeLessThan(2);
-  expect(await offset('web3d')).toBeGreaterThan(50);
-  await expect(page.locator('[data-panel="uiux"] .stage-capability-points')).toHaveText('UIUX3D Web developmentProblem SolverUser Research');
+  expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
+  expect(await offset('code-craft')).toBeGreaterThan(50);
+  await expect(page.locator('[data-panel="ai-master"] .stage-capability-points')).toHaveText('Hyper-Efficiency WorkflowMind-to-Reality AI CodingInteractive AI IntegrationGenerative Visual Spectacle');
   await expect.poll(() => page.locator('.stage-capability-image img').first().evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
-  await page.screenshot({ path: '../work/stage-capability-uiux.png' });
+  await page.screenshot({ path: '../work/stage-capability-ai-master.png' });
   await sample(.87);
-  expect(await offset('uiux')).toBeLessThan(-50);
-  expect(Math.abs(await offset('web3d'))).toBeLessThan(2);
+  expect(await offset('ai-master')).toBeLessThan(-50);
+  expect(Math.abs(await offset('code-craft'))).toBeLessThan(2);
+  for (const key of ['ai-master', 'code-craft']) {
+    const title = await page.locator(`[data-panel="${key}"] h3`).boundingBox();
+    const last = await page.locator(`[data-panel="${key}"] [data-capability-char]`).last().boundingBox();
+    expect(last!.x + last!.width).toBeLessThanOrEqual(title!.x + title!.width);
+  }
   await page.screenshot({ path: '../work/stage-capability-3d.png' });
   await page.mouse.move(900, 350);
   await expect.poll(() => page.locator('.stage-capability-pictures').evaluate(el => Math.abs(new DOMMatrixReadOnly(getComputedStyle(el).transform).m41))).toBeGreaterThan(3);
   await sample(.49);
-  expect(Math.abs(await offset('uiux'))).toBeLessThan(2);
+  expect(Math.abs(await offset('ai-master'))).toBeLessThan(2);
 });
 
 test('reduced motion displays both capability sets in a readable mobile flow', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/stage');
-  for (const name of ['UI - UX', '3D WEB']) {
+  for (const name of ['AI MASTER', 'CODE CRAFT']) {
     const heading = page.getByRole('heading', { name, exact: true });
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
@@ -51,9 +56,11 @@ test('mobile scrubbed capability title fits the stage', async ({ page }) => {
   const legacyLetter = await page.locator('[data-legacy-char]').last().boundingBox();
   await expect(page.locator('.stage-legacy-title')).toHaveCSS('overflow', 'hidden');
   expect(legacyLetter!.y + legacyLetter!.height).toBeLessThan(legacy!.y);
-  const title = await page.locator('[data-panel="web3d"] h3').boundingBox();
+  const title = await page.locator('[data-panel="code-craft"] h3').boundingBox();
   expect(title!.x).toBeGreaterThanOrEqual(0);
   expect(title!.x + title!.width).toBeLessThanOrEqual(390);
+  const last = await page.locator('[data-panel="code-craft"] [data-capability-char]').last().boundingBox();
+  expect(last!.x + last!.width).toBeLessThanOrEqual(title!.x + title!.width);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: '../work/stage-capability-mobile-scroll.png' });
 });
