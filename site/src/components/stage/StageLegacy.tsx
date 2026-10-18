@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { StageCapabilities } from './StageCapabilities';
+import { PapillonLines } from './PapillonLines';
 import { prepareTextReveal } from './textReveal';
 import './stage-legacy.css';
 
@@ -30,7 +31,8 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
       const title = host.querySelector<HTMLElement>('.stage-legacy-title')!;
       const chars = [...host.querySelectorAll<HTMLElement>('[data-legacy-char]')];
       const copy = host.querySelector<HTMLElement>('.stage-legacy-copy')!;
-      const line = host.querySelector<SVGPathElement>('.stage-legacy-lines path')!;
+      const drawing = host.querySelectorAll<SVGElement>('.stage-legacy-lines .draw');
+      gsap.set(drawing, { strokeDasharray: 1000, strokeDashoffset: 1000 });
       // Initialize every staggered letter before the first scroll frame.
       gsap.set(chars, { fontSize: () => Math.max(22, Math.min(innerWidth * .055, 86)) });
       const timeline = gsap.timeline({
@@ -46,7 +48,10 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
         duration: 1.8, stagger: .16, ease: 'none',
       }, 0);
       timeline.fromTo(copy, { opacity: 1, y: 0 }, { opacity: 0, y: -35, duration: .9, ease: 'none' }, .45);
-      timeline.fromTo(line, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: 'none' }, 1);
+      // Keep the supplied pathLength normalization; scroll owns the four drawing stages.
+      for (const [group, start, duration] of [['s1', .1, 1.8], ['s2', 1.2, 2], ['s3', 2.6, 2], ['s4', 4.2, 2.4]] as const) {
+        timeline.to(host.querySelectorAll(`.papillon-clean-full .${group}`), { strokeDashoffset: 0, duration, ease: 'none' }, start);
+      }
       timeline.to(chars, { yPercent: -160, duration: .8, stagger: .06, ease: 'power2.inOut' }, 2.8);
       const panels = [...host.querySelectorAll<HTMLElement>('.stage-capability-panel')];
       const firstChars = panels[0].querySelectorAll('[data-capability-char]');
@@ -96,11 +101,7 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
     <div className="stage-legacy-stage">
       <p className="stage-legacy-copy">{introduction.map((line, lineIndex) => <span className="stage-legacy-copy-line" key={line}>{lineIndex > 0 ? '\n' : ''}{line.split(/(\s+)/).map((word, i) => /^\s+$/.test(word) ? word : <span data-legacy-word key={i}>{word}</span>)}</span>)}</p>
       <div className="stage-legacy-lines" aria-hidden="true">
-        <svg viewBox="0 0 1920 1080" fill="none" preserveAspectRatio="xMidYMid slice">
-          <g stroke="currentColor" strokeWidth=".7" pathLength="1">
-            <path pathLength="1" d="M-57 540H1986M960-154V1207M265-154L1655 1236M1655-154L265 1236M-153-129L1280 1207M-153 1207L1280-129M827-129L2260 1207M827 1207L2260-129M565 146L1357 143V934H565Z" />
-          </g>
-        </svg>
+        <PapillonLines />
       </div>
       <h2 id="stage-legacy-title" className="stage-legacy-title" aria-label="LEGACY">{[...'LEGACY'].map((char, i) => <span data-legacy-char aria-hidden="true" key={i}>{char}</span>)}</h2>
       <StageCapabilities />

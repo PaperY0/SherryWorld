@@ -44,3 +44,34 @@ test('Legacy remains readable and fits mobile with reduced motion', async ({ pag
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: '../work/stage-legacy-mobile.png' });
 });
+
+// The user-supplied butterfly should draw with scroll, and erase on reverse.
+test('pink butterfly drawing follows scroll in four groups and reverses', async ({ page }) => {
+  await page.goto('/stage');
+  const host = page.locator('.stage-legacy');
+  await expect(host).toHaveAttribute('data-motion-ready', 'true', { timeout: 12000 });
+  const sample = async (progress: number) => {
+    await host.evaluate((el, p) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * p, behavior: 'instant' }), progress);
+    await expect.poll(async () => Number(await host.getAttribute('data-scroll-progress'))).toBeCloseTo(progress, 3);
+  };
+  const offset = (group: string) => page.locator(`.papillon-clean-full .${group}`).first().evaluate(el => parseFloat(getComputedStyle(el).strokeDashoffset));
+  await sample(0);
+  expect(await offset('s1')).toBeGreaterThan(990);
+  await sample(.25);
+  expect(await offset('s1')).toBeLessThan(1);
+  expect(await offset('s4')).toBeGreaterThan(990);
+  await sample(.75);
+  expect(await offset('s4')).toBeLessThan(1);
+  expect(await page.locator('.papillon-clean-full .draw').first().evaluate(el => getComputedStyle(el).animationName)).toBe('none');
+  const images = page.locator('.stage-capability-image img');
+  await expect(images).toHaveCount(4);
+  for (let i = 0; i < 4; i++) {
+    await expect(images.nth(i)).toHaveAttribute('src', /capability-mood/);
+    await expect.poll(() => images.nth(i).evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(0);
+  }
+  await page.screenshot({ path: '../work/stage-papillon-complete.png' });
+  await sample(.25);
+  expect(await offset('s4')).toBeGreaterThan(990);
+  await sample(0);
+  expect(await offset('s1')).toBeGreaterThan(990);
+});
