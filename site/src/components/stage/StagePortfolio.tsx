@@ -20,11 +20,6 @@ export function StagePortfolio({ enabled }: { enabled: boolean }) {
     if (!host || !enabled) return;
     gsap.registerPlugin(ScrollTrigger);
     let alive = true;
-    const zone = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) document.documentElement.dataset.stageSection = 'portfolio';
-      else if (document.documentElement.dataset.stageSection === 'portfolio') document.documentElement.dataset.stageSection = 'legacy';
-    }, { rootMargin: '-8% 0px -82% 0px' });
-    zone.observe(host);
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       setMotion(true);
@@ -54,7 +49,7 @@ export function StagePortfolio({ enabled }: { enabled: boolean }) {
       void document.fonts.ready.then(() => { if (alive) ScrollTrigger.refresh(); });
       return () => { delete host.dataset.motionReady; setMotion(false); };
     }, host);
-    return () => { alive = false; zone.disconnect(); media.revert(); };
+    return () => { alive = false; media.revert(); };
   }, [enabled]);
   useEffect(() => {
     if (!motion || !root.current) return;

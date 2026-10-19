@@ -10,17 +10,19 @@ export function WorkDetail({ work, onClose }: { work: StageWork | null; onClose:
     const host = dialog.current;
     if (!host || !work) return;
     closing.current = false;
+    delete host.dataset.closing;
     const overflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
     host.showModal();
-    const animation = !matchMedia('(prefers-reduced-motion: reduce)').matches ? host.animate([{ clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], { duration: 900, easing: 'cubic-bezier(.76,0,.24,1)' }) : null;
+    const animation = !matchMedia('(prefers-reduced-motion: reduce)').matches ? host.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-in-out' }) : null;
     return () => { animation?.cancel(); host.close(); document.documentElement.style.overflow = overflow; };
   }, [work]);
   const close = () => {
     if (closing.current) return;
     closing.current = true;
+    if (dialog.current) dialog.current.dataset.closing = 'true';
     if (!dialog.current || matchMedia('(prefers-reduced-motion: reduce)').matches) { onClose(); return; }
-    void dialog.current.animate([{ clipPath: 'inset(0)' }, { clipPath: 'inset(0 0 100% 0)' }], { duration: 600, easing: 'cubic-bezier(.76,0,.24,1)' }).finished.then(onClose).catch(onClose);
+    void dialog.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: 'ease-in-out' }).finished.then(onClose).catch(onClose);
   };
   return <dialog ref={dialog} className="stage-work-detail" aria-labelledby="work-detail-title" onCancel={event => { event.preventDefault(); close(); }}>
     {work && <>

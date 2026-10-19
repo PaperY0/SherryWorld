@@ -7,16 +7,21 @@ async function openSkill(page: import('@playwright/test').Page, index = 0) {
   await button.click();
   const dialog = page.getByRole('dialog', { name: names[index], exact: true });
   await expect(dialog).toBeVisible();
+  const frames = await dialog.evaluate(el => el.getAnimations().flatMap(a => (a.effect as KeyframeEffect).getKeyframes()));
+  expect(frames.every(frame => !('clipPath' in frame) && !('transform' in frame))).toBe(true);
   await dialog.evaluate(el => Promise.all(el.getAnimations().map(a => a.finished.catch(() => {}))));
   return { button, dialog };
 }
 
-test('each skill opens its own empty collection and restores focus and scroll on close', async ({ page }) => {
+test('each skill opens a working placeholder wall and restores focus and scroll on close', async ({ page }) => {
   await page.goto('/stage');
   for (let index = 0; index < 4; index++) {
     const { button, dialog } = await openSkill(page, index);
-    await expect(dialog.getByRole('status')).toHaveText('A collection in progress.');
-    await expect(dialog.locator('.gallery-card')).toHaveCount(0);
+    await expect(dialog.locator('.skill-gallery-stage')).toHaveAttribute('data-ready', 'true');
+    await expect(dialog.locator('.gallery-card')).toHaveCount(18);
+    await expect(dialog.locator('.skill-gallery-hint')).toContainText('PREVIEW PLACEHOLDERS');
+    await expect(dialog.locator('svg')).toHaveCount(0);
+    if(index === 0) await page.screenshot({path:'../work/skill-placeholder-wall.png'});
     const y = await page.evaluate(() => scrollY);
     await page.keyboard.press('Escape');
     await expect(dialog).not.toBeVisible();

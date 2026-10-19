@@ -1,0 +1,5 @@
+.stage-lower-flow{position:relative;background:#100c11}
+.stage-fade-section{opacity:calc(var(--stage-enter,1)*var(--stage-leave,1))}
+@media(prefers-reduced-motion:reduce){.stage-fade-section{opacity:1}}
+
+@media(prefers-reduced-motion:no-preference){.stage-lower-flow>.stage-portfolio,.stage-lower-flow>.stage-explorer{margin-top:-100svh}}

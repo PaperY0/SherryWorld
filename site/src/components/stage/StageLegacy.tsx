@@ -13,16 +13,6 @@ export function StageLegacy({ enabled = true }: { enabled?: boolean }) {
   const section = useRef<HTMLElement>(null);
   useEffect(() => {
     const host = section.current;
-    if (!host) return;
-    const zone = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) document.documentElement.dataset.stageSection = 'legacy';
-      else if (document.documentElement.dataset.stageSection === 'legacy') document.documentElement.dataset.stageSection = 'fire';
-    }, { rootMargin: '-8% 0px -82% 0px' });
-    zone.observe(host);
-    return () => zone.disconnect();
-  }, []);
-  useEffect(() => {
-    const host = section.current;
     if (!host || !enabled) return;
     gsap.registerPlugin(ScrollTrigger);
     let alive = true;

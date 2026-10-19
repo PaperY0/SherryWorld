@@ -13,11 +13,6 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     if (!enabled || !root.current) return;
     gsap.registerPlugin(ScrollTrigger);
     const host = root.current;
-    const zone = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) document.documentElement.dataset.stageSection = 'explorer';
-      else if (document.documentElement.dataset.stageSection === 'explorer') document.documentElement.dataset.stageSection = 'portfolio';
-    }, { rootMargin: '-8% 0px -82% 0px' });
-    zone.observe(host);
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const select = gsap.utils.selector(host);
@@ -62,7 +57,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
         document.removeEventListener('visibilitychange', syncPlayback); video.current?.pause();
       };
     }, host);
-    return () => { zone.disconnect(); media.revert(); };
+    return () => { media.revert(); };
   }, [enabled]);
   return <section className="stage-explorer" id="stage-explorer" ref={root} aria-labelledby="explorer-title" data-film={explorerFilm ? 'connected' : 'awaiting-film'}>
     <div className="explorer-continuous-light" aria-hidden="true" />
