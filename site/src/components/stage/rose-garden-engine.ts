@@ -37,7 +37,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   scene.add(new THREE.HemisphereLight('#ffe9df', '#57394a', 2.1));
   const key = new THREE.DirectionalLight('#ffe1c9', 3.0); key.position.set(-5, 9, 7); scene.add(key);
   const rim = new THREE.DirectionalLight('#e7a5c6', 2); rim.position.set(6, 5, -5); scene.add(rim);
-  // The supplied cloud/mountain photograph is the backdrop, visible through the alpha canvas.
+  // The generated hopeful dawn is visible through the alpha canvas.
   // A sparse field of warm glints gives the books a little spatial depth without a flower floor.
   const positions: number[] = [];
   const random = (n: number) => { const value = Math.sin(n * 127.1 + 311.7) * 43758.5453; return value - Math.floor(value); };
@@ -49,7 +49,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const glowTexture = new THREE.CanvasTexture(glowCanvas);
   const glintMaterial = new THREE.PointsMaterial({ map: glowTexture, color: '#ffe5bc', size: .065, transparent: true, opacity: .65, depthWrite: false });
   scene.add(new THREE.Points(glintGeometry, glintMaterial));
-  host.dataset.background = 'cloud-mountains';
+  host.dataset.background = 'towards-light';
 
   const books: THREE.Group[] = [], hitMeshes: THREE.Object3D[] = [];
   const coverGeometry = new THREE.BoxGeometry(1.54, 2.18, .055), pageGeometry = new THREE.BoxGeometry(1.45, 2.08, .15);

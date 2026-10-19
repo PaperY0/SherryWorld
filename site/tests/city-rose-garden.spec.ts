@@ -6,12 +6,12 @@ async function enter(page: import('@playwright/test').Page) {
   await expect.poll(() => root.evaluate(el => Number(el.getAttribute('data-door-progress')))).toBeGreaterThan(.43);
   return page.locator('.rose-garden-canvas');
 }
-test('cloud mountain scene pans, zooms and physically picks a city book', async ({ page }) => {
+test('dawn scene pans, zooms and physically picks a city book', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   const canvas = await enter(page);
   await expect(canvas).toHaveAttribute('data-engine', 'three', { timeout: 15000 });
-  await expect(canvas).toHaveAttribute('data-background', 'cloud-mountains');
-  await expect(page.locator('.city-rose-garden')).toHaveCSS('background-image', /cloud-mountains-reference/);
+  await expect(canvas).toHaveAttribute('data-background', 'towards-light');
+  await expect(page.locator('.city-rose-garden')).toHaveCSS('background-image', /weaver-towards-light-v1/);
   await page.mouse.move(720, 460);
   await expect(canvas).toHaveAttribute('data-active-city', 'qingdao');
   const before = await page.evaluate(() => scrollY);
@@ -23,7 +23,7 @@ test('cloud mountain scene pans, zooms and physically picks a city book', async 
   await expect.poll(() => canvas.getAttribute('data-camera-x').then(Number)).toBeGreaterThan(3);
   await page.getByRole('button', { name: '青岛 Qingdao', exact: true }).click();
   await expect.poll(() => canvas.getAttribute('data-camera-x').then(Number)).toBeLessThan(.05);
-  await page.screenshot({ path: '../work/cloud-mountain-books.png' });
+  await page.screenshot({ path: '../work/weaver-towards-light-books.png' });
   await page.mouse.click(720, 460);
   const album = page.getByRole('dialog', { name: /Qingdao/ }); await expect(album).toBeVisible();
   await page.keyboard.press('Escape'); await expect(album).not.toBeVisible();

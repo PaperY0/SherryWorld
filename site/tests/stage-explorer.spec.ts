@@ -9,7 +9,7 @@ test('Explorer expands, darkens and reveals dawn with reversible scroll', async 
     await page.locator('.explorer-film-track').evaluate((el, value) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * value, behavior: 'instant' }), progress);
   };
   const film = page.locator('.explorer-frame video');
-  await expect(film).toHaveAttribute('src', '/videos/explorer/fall-awakening-v2.mp4');
+  await expect(film).toHaveAttribute('src', '/videos/explorer/fall-awakening-v3.mp4');
   await seek(0);
   await expect.poll(() => page.locator('.explorer-frame').evaluate(el => Number(getComputedStyle(el).opacity))).toBeLessThan(.01);
   await seek(.13);
@@ -40,7 +40,7 @@ test('Explorer expands, darkens and reveals dawn with reversible scroll', async 
   await page.screenshot({ path: '../work/stage-explorer-start.png' });
 });
 
-test('mobile entrance remains square and plays the supplied second film', async ({ page }) => {
+test('mobile entrance remains square and plays the latest supplied film', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/stage');
   await expect(page.locator('.stage-portfolio')).toHaveAttribute('data-motion-ready', 'true', { timeout: 12000 });
