@@ -4,24 +4,32 @@ import { cityAlbums, type CityAlbumData } from './city-albums';
 function bookCover(city: CityAlbumData, index: number) {
   const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
-  ctx.fillStyle = city.color; ctx.fillRect(0, 0, 768, 1024);
-  // Woven cloth grain and hand-cut scalloped lace are painted into each real book cover.
-  ctx.globalAlpha = .08; ctx.strokeStyle = city.ink;
-  for (let x = 0; x < 768; x += 5) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 1024); ctx.stroke(); }
-  for (let y = 0; y < 1024; y += 7) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(768, y); ctx.stroke(); }
-  ctx.globalAlpha = 1; ctx.fillStyle = '#f2dfd2'; ctx.fillRect(26, 0, 34, 1024);
-  for (let y = 0; y < 1040; y += 22) { ctx.beginPath(); ctx.arc(62, y, 13, -Math.PI / 2, Math.PI / 2); ctx.fill(); }
-  ctx.strokeStyle = '#f8e6d1'; ctx.lineWidth = 2; ctx.strokeRect(90, 45, 630, 930); ctx.strokeRect(101, 56, 608, 908);
-  ctx.fillStyle = city.ink; ctx.textAlign = 'center'; ctx.font = '18px Georgia'; ctx.fillText('SHERRY’S CITY JOURNALS', 400, 145);
-  ctx.font = '76px Georgia, "Songti SC", SimSun, serif'; ctx.fillText(city.name, 400, 470);
-  ctx.font = '100px StageLoadingScript, cursive'; ctx.fillText(city.title, 400, 595);
-  ctx.font = '17px Georgia'; ctx.fillText('PORTRAITS · PLACES · LITTLE PLEASURES', 400, 800);
-  ctx.font = '26px Georgia'; ctx.fillText(`VOL. ${String(index + 1).padStart(2, '0')}`, 400, 890);
-  // Satin bow, with two loops and hanging tails.
-  ctx.strokeStyle = '#f9e7dc'; ctx.lineWidth = 13; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(398, 265); ctx.bezierCurveTo(245, 135, 255, 325, 398, 265); ctx.bezierCurveTo(535, 135, 550, 325, 398, 265); ctx.stroke();
-  ctx.lineWidth = 19; ctx.beginPath(); ctx.moveTo(396, 268); ctx.bezierCurveTo(372, 300, 378, 338, 330, 360); ctx.moveTo(404, 268); ctx.bezierCurveTo(440, 306, 420, 340, 465, 350); ctx.stroke();
-  ctx.fillStyle = '#ebd4c9'; ctx.beginPath(); ctx.ellipse(400, 266, 17, 12, -.2, 0, Math.PI * 2); ctx.fill();
+  const leather = ctx.createLinearGradient(0, 0, 768, 80);
+  leather.addColorStop(0, '#0e0b0f'); leather.addColorStop(.14, city.color); leather.addColorStop(.8, city.color); leather.addColorStop(1, '#100b10');
+  ctx.fillStyle = leather; ctx.fillRect(0, 0, 768, 1024);
+  ctx.globalAlpha = .04; ctx.strokeStyle = '#d4afa1'; ctx.lineWidth = 1;
+  for (let x = 0; x < 768; x += 4) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 1024); ctx.stroke(); }
+  for (let y = 0; y < 1024; y += 6) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(768, y); ctx.stroke(); }
+  ctx.globalAlpha = 1;
+  const foil = ctx.createLinearGradient(90, 0, 690, 1024); foil.addColorStop(0, '#805848'); foil.addColorStop(.35, city.ink); foil.addColorStop(.6, '#e0b8a5'); foil.addColorStop(1, '#8e6254');
+  ctx.strokeStyle = foil; ctx.fillStyle = foil; ctx.lineWidth = 1.7;
+  ctx.strokeRect(87, 48, 628, 928); ctx.lineWidth = .8; ctx.strokeRect(100, 61, 602, 902);
+  // Quiet gilded binding and engraved corner flourishes, rather than a cream lace stripe.
+  ctx.beginPath(); ctx.moveTo(47, 0); ctx.lineTo(47, 1024); ctx.moveTo(59, 0); ctx.lineTo(59, 1024); ctx.stroke();
+  for (const [x,y,angle] of [[112,75,0],[690,75,Math.PI/2],[690,948,Math.PI],[112,948,-Math.PI/2]]) {
+    ctx.save(); ctx.translate(x,y); ctx.rotate(angle); ctx.beginPath(); ctx.moveTo(0,60); ctx.bezierCurveTo(0,6,8,0,60,0); ctx.moveTo(7,43); ctx.bezierCurveTo(30,16,46,37,28,40); ctx.bezierCurveTo(13,43,18,10,43,7); ctx.stroke(); ctx.restore();
+  }
+  ctx.textAlign = 'center'; ctx.font = '17px Georgia'; ctx.fillText('SHERRY / PRIVATE COLLECTION', 400, 151);
+  ctx.font = '62px Georgia, "Songti SC", SimSun, serif'; ctx.fillText(city.name, 400, 480);
+  ctx.font = '98px StageLoadingScript, cursive'; ctx.fillText(city.title, 400, 600);
+  ctx.font = '15px Georgia'; ctx.fillText('PORTRAITS · PLACES · LITTLE PLEASURES', 400, 808);
+  ctx.font = '23px Georgia'; ctx.fillText(`VOL. ${String(index + 1).padStart(2, '0')}`, 400, 900);
+  // A fine rose-gold bow clasp, engraved into the dark cover.
+  ctx.strokeStyle = foil; ctx.lineWidth = 2; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(400, 278); ctx.bezierCurveTo(288, 175, 290, 321, 400, 278); ctx.bezierCurveTo(505, 175, 515, 321, 400, 278); ctx.moveTo(399, 281); ctx.bezierCurveTo(369, 315, 392, 335, 353, 354); ctx.moveTo(403, 281); ctx.bezierCurveTo(439, 313, 417, 341, 456, 353); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(400, 263); ctx.lineTo(410, 278); ctx.lineTo(400, 293); ctx.lineTo(390, 278); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(300, 710); ctx.lineTo(385,710); ctx.moveTo(415,710); ctx.lineTo(500,710); ctx.stroke();
+  ctx.beginPath(); ctx.arc(400,710,3,0,Math.PI*2); ctx.fill();
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
@@ -30,13 +38,13 @@ export type RoseGardenEngine = { select: (index: number) => void; zoom: (amount:
 export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: number) => void; onOpen: (index: number) => void; suspended: () => boolean }): RoseGardenEngine {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.25;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   renderer.domElement.setAttribute('aria-label', '粉色云山与微光中的五本城市手帐'); host.append(renderer.domElement);
-  const scene = new THREE.Scene(); scene.background = null; scene.fog = new THREE.FogExp2('#190f18', .047);
+  const scene = new THREE.Scene(); scene.background = null; scene.fog = new THREE.FogExp2('#190f18', .03);
   const camera = new THREE.PerspectiveCamera(42, 1, .1, 70);
-  scene.add(new THREE.HemisphereLight('#ffe9df', '#57394a', 2.1));
-  const key = new THREE.DirectionalLight('#ffe1c9', 3.0); key.position.set(-5, 9, 7); scene.add(key);
-  const rim = new THREE.DirectionalLight('#e7a5c6', 2); rim.position.set(6, 5, -5); scene.add(rim);
+  scene.add(new THREE.HemisphereLight('#ffe9df', '#24131f', 1.3));
+  const key = new THREE.DirectionalLight('#e7b9a2', 2.1); key.position.set(-5, 9, 7); scene.add(key);
+  const rim = new THREE.DirectionalLight('#bd8d9f', 1.4); rim.position.set(6, 5, -5); scene.add(rim);
   // The generated hopeful dawn is visible through the alpha canvas.
   // A sparse field of warm glints gives the books a little spatial depth without a flower floor.
   const positions: number[] = [];
@@ -47,18 +55,18 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const context = glowCanvas.getContext('2d')!;
   const glow = context.createRadialGradient(16, 16, 0, 16, 16, 16); glow.addColorStop(0, '#fff7dc'); glow.addColorStop(.15, '#ffe4ae'); glow.addColorStop(.45, '#e7bc6930'); glow.addColorStop(1, '#e7bc6900'); context.fillStyle = glow; context.fillRect(0, 0, 32, 32);
   const glowTexture = new THREE.CanvasTexture(glowCanvas);
-  const glintMaterial = new THREE.PointsMaterial({ map: glowTexture, color: '#ffe5bc', size: .065, transparent: true, opacity: .65, depthWrite: false });
+  const glintMaterial = new THREE.PointsMaterial({ map: glowTexture, color: '#ffe5bc', size: .065, transparent: true, opacity: .3, depthWrite: false });
   scene.add(new THREE.Points(glintGeometry, glintMaterial));
   host.dataset.background = 'towards-light';
 
   const books: THREE.Group[] = [], hitMeshes: THREE.Object3D[] = [];
   const coverGeometry = new THREE.BoxGeometry(1.54, 2.18, .055), pageGeometry = new THREE.BoxGeometry(1.45, 2.08, .15);
-  const paper = new THREE.MeshStandardMaterial({ color: '#eee0ca', roughness: .9 });
+  const paper = new THREE.MeshStandardMaterial({ color: '#9d826c', roughness: .85 });
   cityAlbums.forEach((city, index) => {
     const group = new THREE.Group(); group.position.set((index - 2) * 2.1, 1.19, -Math.abs(index - 2) * .22); group.rotation.y = (2 - index) * .08;
     const texture = bookCover(city, index); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
-    const cloth = new THREE.MeshStandardMaterial({ color: city.color, roughness: .82 });
-    const front = new THREE.MeshStandardMaterial({ map: texture, roughness: .8 });
+    const cloth = new THREE.MeshStandardMaterial({ color: city.color, roughness: .48, metalness: .14 });
+    const front = new THREE.MeshStandardMaterial({ map: texture, roughness: .44, metalness: .16, emissiveMap: texture, emissive: '#ffffff', emissiveIntensity: .25 });
     const cover = new THREE.Mesh(coverGeometry, [cloth, cloth, cloth, cloth, front, cloth]); cover.position.z = .102;
     const back = new THREE.Mesh(coverGeometry, cloth); back.position.z = -.102;
     const pages = new THREE.Mesh(pageGeometry, paper);
