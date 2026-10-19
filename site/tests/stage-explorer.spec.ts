@@ -58,3 +58,36 @@ test('mobile entrance remains square and plays the supplied second film', async 
   await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
   await expect.poll(() => film.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
 });
+
+
+test('film expands from a centered square to all four viewport edges, including reverse and resize', async ({ page }) => {
+  await page.goto('/stage');
+  await expect(page.locator('.stage-portfolio')).toHaveAttribute('data-motion-ready', 'true', { timeout: 12000 });
+  const frame = page.locator('.explorer-frame');
+  const seek = async (progress: number) => {
+    await page.locator('.explorer-film-track').evaluate((el, p) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * p, behavior: 'instant' }), progress);
+    await expect.poll(async () => Number(await page.locator('.stage-explorer').getAttribute('data-explorer-progress'))).toBeCloseTo(progress, 3);
+  };
+  for (const viewport of [{width:1958,height:891}, {width:390,height:844}]) {
+    await page.setViewportSize(viewport);
+    await seek(.13);
+    await expect.poll(async () => {const b=await frame.boundingBox();return Math.abs(b!.x+b!.width/2-viewport.width/2);}).toBeLessThan(2);
+    await seek(.25);
+    await expect.poll(async () => {const b=await frame.boundingBox();return Math.abs(b!.x+b!.width/2-viewport.width/2);}).toBeLessThan(2);
+    await page.screenshot({path:`../work/explorer-expanding-${viewport.width}.png`});
+    await seek(.35);
+    await expect.poll(async () => {
+      const b=await frame.boundingBox();
+      return Math.max(Math.abs(b!.x),Math.abs(b!.y),Math.abs(b!.width-viewport.width),Math.abs(b!.height-viewport.height));
+    }).toBeLessThan(2);
+    const image = await frame.locator('video').boundingBox();
+    expect(Math.abs(image!.x)).toBeLessThan(2);
+    expect(Math.abs(image!.y)).toBeLessThan(2);
+    expect(Math.abs(image!.width-viewport.width)).toBeLessThan(2);
+    await page.screenshot({path:`../work/explorer-fullscreen-${viewport.width}.png`});
+    await seek(.13);
+    await expect.poll(async () => { const b=await frame.boundingBox(); return Math.abs(b!.width-b!.height); }).toBeLessThan(2);
+    const b=await frame.boundingBox();
+    expect(Math.abs(b!.x+b!.width/2-viewport.width/2)).toBeLessThan(2);
+  }
+});

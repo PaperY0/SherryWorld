@@ -21,6 +21,8 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const select = gsap.utils.selector(host);
+      // Keep centering relative to the live frame size as it expands.
+      gsap.set(select('.explorer-frame'), { xPercent: -50, yPercent: -50, x: 0, y: 0 });
       let visible = false, playingPhase = false, pendingPlay = false;
       const syncPlayback = () => {
         const film = video.current;
@@ -37,11 +39,11 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
       document.addEventListener('visibilitychange', syncPlayback);
       const squareSize = () => Math.min(innerWidth * (innerWidth <= 700 ? .76 : .38), innerHeight * .52);
       const timeline = gsap.timeline({ scrollTrigger: {
-        trigger: host.querySelector('.explorer-film-track'), start: 'top top', end: 'bottom bottom', scrub: .65,
+        trigger: host.querySelector('.explorer-film-track'), start: 'top top', end: 'bottom bottom', scrub: .65, invalidateOnRefresh: true,
         onUpdate: self => { host.dataset.explorerProgress = self.progress.toFixed(3); },
       }});
       timeline.fromTo(select('.explorer-frame'), { y: () => innerHeight * .9, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out' }, .1)
-        .fromTo(select('.explorer-frame'), { width: squareSize, height: squareSize, borderRadius: 3 }, { width: '100vw', height: '100svh', top: '50%', borderRadius: 0, duration: 2, ease: 'power2.inOut' }, 1.8)
+        .fromTo(select('.explorer-frame'), { width: squareSize, height: squareSize, top: '55%', borderRadius: 3 }, { width: '100vw', height: '100svh', top: '50%', borderRadius: 0, duration: 2, ease: 'power2.inOut' }, 1.8)
         .to(select('.explorer-heading'), { opacity: 0, y: -65, duration: 1 }, 2)
         .to(select('.explorer-shade'), { opacity: .92, duration: 2.8 }, 4.2)
         .fromTo(select('.explorer-fall-copy'), { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 1 }, 4.7)
