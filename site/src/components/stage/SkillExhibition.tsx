@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { mountGallery, type GalleryMotion, type GalleryStatus } from '../gallery/motion';
 import './skill-exhibition.css';
+import { useFadingDialog } from './useFadingDialog';
 type Skill = { slug: string; title: string; tags: string };
 type Photo = { src: string; alt: string; caption?: string };
 const previewPhotos: Photo[] = Array.from({ length: 6 }, (_, index) => ({ src: `/images/skills/placeholders/photo-${index + 1}.svg`, alt: `Photo placeholder ${index + 1}`, caption: `PHOTO ${String(index + 1).padStart(2, '0')} · PREVIEW` }));
@@ -11,34 +12,30 @@ function validPhoto(value: unknown): value is Photo {
   return typeof photo.src === 'string' && photo.src.startsWith('/images/') && typeof photo.alt === 'string' && (photo.caption === undefined || typeof photo.caption === 'string');
 }
 export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClose: () => void }) {
-  const dialog = useRef<HTMLDialogElement>(null), stage = useRef<HTMLDivElement>(null);
-  const motion = useRef<GalleryMotion | null>(null), pausedRef = useRef(false), reduced = useRef(false), closing = useRef(false);
+  const stage = useRef<HTMLDivElement>(null);
+  const motion = useRef<GalleryMotion | null>(null), pausedRef = useRef(false), reduced = useRef(false);
   const photoTrigger = useRef<HTMLButtonElement | null>(null), photoClose = useRef<HTMLButtonElement>(null);
   const [photos, setPhotos] = useState<Photo[]>([]), [loading, setLoading] = useState(false), [failed, setFailed] = useState(false);
   const [preview, setPreview] = useState(false);
   const [wallReady, setWallReady] = useState(false);
   const [paused, setPaused] = useState(false), [selected, setSelected] = useState<number | null>(null);
   const [status, setStatus] = useState<GalleryStatus>({ index: 0, mode: 'auto' });
+  const { dialog, close } = useFadingDialog(skill?.slug ?? null, () => { setWallReady(false); onClose(); }, () => setWallReady(true));
   useEffect(() => { pausedRef.current = paused || selected !== null; }, [paused, selected]);
   useEffect(() => {
     if (!skill || !dialog.current) return;
-    const host = dialog.current, controller = new AbortController();
-    closing.current = false;
-    delete host.dataset.closing;
+    const controller = new AbortController();
     reduced.current = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setWallReady(false); setPaused(reduced.current); setPhotos([]); setSelected(null); setFailed(false); setPreview(false); setLoading(true); setStatus({ index: 0, mode: 'auto' });
-    const overflow = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'hidden'; host.showModal();
-    const animation = !reduced.current ? host.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-in-out' }) : null;
-    if (animation) void animation.finished.then(() => { if (!controller.signal.aborted) setWallReady(true); }).catch(() => {});
-    else setWallReady(true);
+    setPaused(reduced.current); setPhotos([]); setSelected(null); setFailed(false); setPreview(false); setLoading(true); setStatus({ index: 0, mode: 'auto' });
     void fetch(`/images/skills/${skill.slug}/photos.json`, { signal: controller.signal }).then(async response => {
       if (!response.ok) throw new Error('Unable to load collection');
       const data: unknown = await response.json();
       if (!Array.isArray(data) || !data.every(validPhoto)) throw new Error('Invalid collection');
-      if (!controller.signal.aborted) { setPreview(data.length === 0); setPhotos(data.length ? data : previewPhotos); }
+      const collection = data.length ? data : previewPhotos;
+      await Promise.all(collection.slice(0, 6).map(photo => { const image = new Image(); image.src = photo.src; return image.decode().catch(() => {}); }));
+      if (!controller.signal.aborted) { setPreview(data.length === 0); setPhotos(collection); }
     }).catch(() => { if (!controller.signal.aborted) setFailed(true); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
-    return () => { controller.abort(); animation?.cancel(); host.close(); document.documentElement.style.overflow = overflow; };
+    return () => { controller.abort(); };
   }, [skill]);
   useEffect(() => {
     if (!skill || !wallReady || !stage.current || !photos.length) return;
@@ -48,13 +45,6 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
   }, [skill, photos, wallReady]);
   useEffect(() => { if (selected !== null) photoClose.current?.focus(); }, [selected]);
   const closePhoto = () => { setSelected(null); requestAnimationFrame(() => photoTrigger.current?.focus()); };
-  const close = () => {
-    if (closing.current) return;
-    closing.current = true;
-    if (dialog.current) dialog.current.dataset.closing = 'true';
-    if (!dialog.current || reduced.current) { onClose(); return; }
-    void dialog.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: 'ease-in-out' }).finished.then(onClose).catch(onClose);
-  };
   const cards = photos.length < 8 ? [...photos, ...photos, ...photos] : photos;
   return <dialog ref={dialog} className="skill-exhibition" aria-labelledby="skill-exhibition-title" onCancel={event => { event.preventDefault(); if (selected !== null) closePhoto(); else close(); }} onKeyDown={event => {
     if (selected === null || !photos.length) return;

@@ -10,5 +10,5 @@
 @media(max-width:700px){.skill-exhibition-content{padding-top:90px}.skill-exhibition-heading h2{font-size:48px}.skill-exhibition-heading>p:last-child{font-size:8px;line-height:1.8}.skill-gallery-stage{height:410px}.skill-exhibition-heading{min-height:150px}.skill-gallery-controls{gap:15px}.skill-photo-lightbox{padding-inline:6vw}.skill-photo-lightbox figure img{max-height:60svh}}
 
 @keyframes skill-backdrop-in{from{opacity:0}to{opacity:1}}
-@keyframes skill-backdrop-out{from{opacity:1}to{opacity:0}}
+@keyframes skill-backdrop-out{from{opacity:var(--backdrop-from,1)}to{opacity:0}}
 @media(prefers-reduced-motion:no-preference){.skill-exhibition[open]::backdrop,.stage-work-detail[open]::backdrop{animation:skill-backdrop-in .65s ease-in-out both}.skill-exhibition[data-closing=true]::backdrop,.stage-work-detail[data-closing=true]::backdrop{animation:skill-backdrop-out .45s ease-in-out both}}
