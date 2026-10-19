@@ -11,6 +11,7 @@ import { StagePortfolio } from './StagePortfolio';
 import { StageSectionTransitions } from './StageSectionTransitions';
 import { StageExplorer } from './StageExplorer';
 import { StageWeaver } from './StageWeaver';
+import { StageEnding } from './StageEnding';
 import { StageLedger } from './StageLedger';
 import './stage.css';
 
@@ -89,6 +90,7 @@ export function StageHero() {
       <StagePortfolio enabled={!loading} />
       <StageExplorer enabled={!loading} />
       <StageWeaver enabled={!loading} />
+      <StageEnding enabled={!loading} />
     </StageSectionTransitions>
     <StageLedger reduced={reduced} enabled={!loading} />
   </main>;

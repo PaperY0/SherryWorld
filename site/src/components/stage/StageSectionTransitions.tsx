@@ -14,7 +14,7 @@ export function StageSectionTransitions({ enabled, children }: { enabled: boolea
       frame = 0;
       sections.forEach(section => { section.dataset.stageInteractive = String(section.getBoundingClientRect().top <= 0); });
       const active = [...sections].reverse().find(section => { const rect = section.getBoundingClientRect(); return rect.top <= innerHeight * .15 && rect.bottom > innerHeight * .15; });
-      if (active) document.documentElement.dataset.stageSection = active.classList.contains('stage-weaver') ? 'weaver' : active.classList.contains('stage-explorer') ? 'explorer' : active.classList.contains('stage-portfolio') ? 'portfolio' : 'legacy';
+      if (active) document.documentElement.dataset.stageSection = active.classList.contains('stage-ending') ? 'ending' : active.classList.contains('stage-weaver') ? 'weaver' : active.classList.contains('stage-explorer') ? 'explorer' : active.classList.contains('stage-portfolio') ? 'portfolio' : 'legacy';
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(updateSection); };
     window.addEventListener('scroll', schedule, { passive: true });
