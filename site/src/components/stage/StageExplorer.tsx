@@ -5,8 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-explorer.css';
 import { StageJourney } from './StageJourney';
 
-// Connect the generated film here once supplied. No substitute character animation.
-const explorerFilm: string | undefined = undefined;
+const explorerFilm = '/videos/explorer/fall-awakening-v2.mp4';
 export function StageExplorer({ enabled }: { enabled: boolean }) {
   const root = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -22,17 +21,27 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const select = gsap.utils.selector(host);
-      let targetTime = 0;
-      const seek = () => {
+      let visible = false, playingPhase = false, pendingPlay = false;
+      const syncPlayback = () => {
         const film = video.current;
-        if (film && film.readyState >= 2 && !film.seeking && Math.abs(film.currentTime - targetTime) > .035) film.currentTime = targetTime;
+        if (!film) return;
+        if (!visible || !playingPhase || document.hidden) { film.pause(); return; }
+        if (film.paused && !film.ended && !pendingPlay) {
+          pendingPlay = true;
+          void film.play().then(() => { host.dataset.videoState = 'playing'; }).catch(() => { host.dataset.videoState = 'blocked'; }).finally(() => { pendingPlay = false; if (!visible || !playingPhase) film.pause(); });
+        }
       };
-      gsap.ticker.add(seek);
+      const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncPlayback(); }, { threshold: .2 });
+      observer.observe(host.querySelector('.explorer-viewport')!);
+      video.current?.addEventListener('loadeddata', syncPlayback);
+      document.addEventListener('visibilitychange', syncPlayback);
+      const squareSize = () => Math.min(innerWidth * (innerWidth <= 700 ? .76 : .38), innerHeight * .52);
       const timeline = gsap.timeline({ scrollTrigger: {
         trigger: host.querySelector('.explorer-film-track'), start: 'top top', end: 'bottom bottom', scrub: .65,
         onUpdate: self => { host.dataset.explorerProgress = self.progress.toFixed(3); },
       }});
-      timeline.fromTo(select('.explorer-frame'), { width: '36vw', height: '45svh', borderRadius: 3 }, { width: '100vw', height: '100svh', borderRadius: 0, duration: 2, ease: 'power2.inOut' }, 1.8)
+      timeline.fromTo(select('.explorer-frame'), { y: () => innerHeight * .9, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, ease: 'power3.out' }, .1)
+        .fromTo(select('.explorer-frame'), { width: squareSize, height: squareSize, borderRadius: 3 }, { width: '100vw', height: '100svh', top: '50%', borderRadius: 0, duration: 2, ease: 'power2.inOut' }, 1.8)
         .to(select('.explorer-heading'), { opacity: 0, y: -65, duration: 1 }, 2)
         .to(select('.explorer-shade'), { opacity: .92, duration: 2.8 }, 4.2)
         .fromTo(select('.explorer-fall-copy'), { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 1 }, 4.7)
@@ -42,10 +51,14 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
         .fromTo(select('.explorer-rise-copy'), { opacity: 0, y: 45 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' }, 9.65)
         .to({}, { duration: .75 }, 10.85);
       timeline.eventCallback('onUpdate', () => {
-        const film = video.current;
-        if (film && Number.isFinite(film.duration)) targetTime = timeline.progress() * Math.max(0, film.duration - .05);
+        // Preview plays in real time after the square has entered; scroll only controls its frame.
+        playingPhase = timeline.time() >= .95 && timeline.time() < 9.4;
+        syncPlayback();
       });
-      return () => gsap.ticker.remove(seek);
+      return () => {
+        observer.disconnect(); video.current?.removeEventListener('loadeddata', syncPlayback);
+        document.removeEventListener('visibilitychange', syncPlayback); video.current?.pause();
+      };
     }, host);
     return () => { zone.disconnect(); media.revert(); };
   }, [enabled]);
@@ -53,10 +66,11 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
     <div className="explorer-continuous-light" aria-hidden="true" />
     <div className="explorer-film-track"><div className="explorer-viewport">
       <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond the <em>known.</em></h2></header>
-      <div className="explorer-frame" aria-hidden="true">
+      <div className="explorer-frame">
         <div className="explorer-atmosphere" />
-        {explorerFilm && <video ref={video} src={explorerFilm} muted playsInline preload="auto" />}
-        <div className="explorer-shade" />
+        {explorerFilm && <video ref={video} src={explorerFilm} poster="/videos/explorer/fall-awakening-v2-poster.jpg" muted playsInline preload="metadata" width="1280" height="720" aria-label="Explorer descent and awakening film" />}
+        <div className="explorer-shade" aria-hidden="true" />
+        <button className="explorer-video-play" onClick={() => { void video.current?.play().then(() => { if (root.current) root.current.dataset.videoState = 'playing'; }); }}>PLAY FILM ▷</button>
       </div>
       <div className="explorer-fall-copy"><h3>The fall is part<br />of the journey.</h3><p>Setbacks are part of life.<br />I carry what they teach me forward.</p></div>
       <div className="explorer-dawn" aria-hidden="true" />
