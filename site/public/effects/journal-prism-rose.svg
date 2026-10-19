@@ -1,0 +1,88 @@
+<svg class="prism-rose-svg" width="260" height="300" viewBox="-130 -150 260 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="roseGoldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="28%" stop-color="#F7C6D9" />
+      <stop offset="55%" stop-color="#E295B0" />
+      <stop offset="80%" stop-color="#9E506D" />
+      <stop offset="100%" stop-color="#FFE6F0" />
+    </linearGradient>
+    <linearGradient id="facetGlass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFBFD6" stop-opacity="0.32" />
+      <stop offset="50%" stop-color="#E295B0" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#26161E" stop-opacity="0.65" />
+    </linearGradient>
+    <radialGradient id="supernovaGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="28%" stop-color="#FFD1E3" stop-opacity="0.75" />
+      <stop offset="65%" stop-color="#E295B0" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#E295B0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <!-- 中心柔光 -->
+  <circle cx="0" cy="-10" r="72" fill="url(#supernovaGlow)" />
+  <!-- 极细放射辅助线，保持克制 -->
+  <g stroke="url(#roseGoldMetal)" stroke-width="0.4" opacity="0.35">
+    <line x1="-90" y1="-95" x2="90" y2="75" />
+    <line x1="90" y1="-95" x2="-90" y2="75" />
+    <line x1="-46" y1="-100" x2="46" y2="82" />
+    <line x1="46" y1="-100" x2="-46" y2="82" />
+  </g>
+  <!-- 主体：折光晶格玫瑰 -->
+  <g class="inner-mandala" transform="translate(0, -10)" stroke="url(#roseGoldMetal)" stroke-linejoin="miter">
+    <!-- 第一层：修长锋利星芒剑瓣 -->
+    <g fill="url(#facetGlass)" stroke-width="1.15">
+      <polygon points="0,-82 22,-42 0,-18 -22,-42" />
+      <polygon points="0,82 22,42 0,18 -22,42" />
+      <polygon points="-82,0 -42,22 -18,0 -42,-22" />
+      <polygon points="82,0 42,22 18,0 42,-22" />
+      <polygon points="58,-58 46,-16 14,-14 16,-46" />
+      <polygon points="-58,-58 -46,-16 -14,-14 -16,-46" />
+      <polygon points="58,58 46,16 14,14 16,46" />
+      <polygon points="-58,58 -46,16 -14,14 -16,46" />
+    </g>
+    <!-- 外层折光脊线 -->
+    <g stroke-width="0.55" opacity="0.65">
+      <path d="M0,-82 L0,-18 M0,82 L0,18 M-82,0 L-18,0 M82,0 L18,0" />
+      <path d="M58,-58 L14,-14 M-58,-58 L-14,-14 M58,58 L14,14 M-58,58 L-14,14" />
+    </g>
+    <!-- 第二层：错位旋转宽体折面瓣 -->
+    <g transform="rotate(22.5)" fill="#9E506D" fill-opacity="0.28" stroke-width="1.2">
+      <polygon points="0,-64 20,-30 0,-10 -20,-30" />
+      <polygon points="0,64 20,30 0,10 -20,30" />
+      <polygon points="-64,0 -30,20 -10,0 -30,-20" />
+      <polygon points="64,0 30,20 10,0 30,-20" />
+      <polygon points="45,-45 35,-12 10,-10 12,-35" />
+      <polygon points="-45,-45 -35,-12 -10,-10 -12,-35" />
+      <polygon points="45,45 35,12 10,10 12,35" />
+      <polygon points="-45,45 -35,12 -10,10 -12,35" />
+    </g>
+    <!-- 第三层：六角玫瑰内苞 -->
+    <g fill="#191014" fill-opacity="0.75" stroke-width="1.35">
+      <polygon points="0,-44 26,-22 18,12 -18,12 -26,-22" />
+      <polygon points="0,44 26,22 18,-12 -18,-12 -26,22" />
+      <polygon points="0,-34 30,-17 30,17 0,34 -30,17 -30,-17" fill="url(#facetGlass)" stroke-width="1.2" />
+      <path d="M 0,-34 L 18,12 L -30,-17 L 30,-17 L -18,12 Z" stroke-width="0.75" opacity="0.8" />
+      <path d="M 0,34 L 18,-12 L -30,17 L 30,17 L -18,-12 Z" stroke-width="0.75" opacity="0.8" />
+    </g>
+    <!-- 第四层：旋涡花心 -->
+    <g fill="#E295B0" fill-opacity="0.35" stroke="#FFF0F5" stroke-width="1.3">
+      <polygon points="0,-22 15,-6 6,14 -14,6 -10,-14" />
+      <polygon points="0,22 -15,6 -6,-14 14,-6 10,14" />
+      <polygon points="0,-12 12,0 0,12 -12,0" fill="#140D10" stroke-width="1.5" />
+    </g>
+    <!-- 中心钻石原核 -->
+    <polygon points="0,-6 6,0 0,6 -6,0" fill="#FFFFFF" stroke="#FFBFD6" stroke-width="0.8" />
+  </g>
+  <!-- 星尘点缀 -->
+  <g fill="#FFFFFF">
+    <circle cx="0" cy="-138" r="1.8" />
+    <circle cx="0" cy="126" r="1.8" />
+    <circle cx="-68" cy="-68" r="1.5" opacity="0.85" />
+    <circle cx="68" cy="-68" r="1.5" opacity="0.85" />
+    <circle cx="-76" cy="36" r="1.2" opacity="0.7" />
+    <circle cx="76" cy="36" r="1.2" opacity="0.7" />
+    <path d="M -42 -96 L -40 -90 L -34 -88 L -40 -86 L -42 -80 L -44 -86 L -50 -88 L -44 -90 Z" fill="#FFE6F0" opacity="0.85"/>
+    <path d="M 44 -92 L 45.5 -87.5 L 50 -86 L 45.5 -84.5 L 44 -80 L 42.5 -84.5 L 38 -86 L 42.5 -87.5 Z" fill="#FFE6F0" opacity="0.75"/>
+  </g>
+</svg>

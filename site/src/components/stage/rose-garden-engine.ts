@@ -1,49 +1,61 @@
 import * as THREE from 'three';
 import { cityAlbums, type CityAlbumData } from './city-albums';
 
-function bookCover(city: CityAlbumData) {
-  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1092;
+function bookCover(city: CityAlbumData, emblem: HTMLImageElement) {
+  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1103;
   const ctx = canvas.getContext('2d')!;
   // Work in the supplied 380 × 540 cover coordinates, at a crisp texture resolution.
-  ctx.scale(768 / 380, 1092 / 540);
-  const leather = ctx.createLinearGradient(0, 0, 380, 540);
-  leather.addColorStop(0, '#22181D'); leather.addColorStop(.55, '#140E11'); leather.addColorStop(1, '#0C080A');
-  ctx.fillStyle = leather; ctx.fillRect(0, 0, 380, 540);
+  ctx.scale(768 / 390, 1103 / 560);
+  const leather = ctx.createLinearGradient(0, 0, 390, 560);
+  leather.addColorStop(0, '#20161B'); leather.addColorStop(.55, '#120C0F'); leather.addColorStop(1, '#090608');
+  ctx.fillStyle = leather; ctx.fillRect(0, 0, 390, 560);
   const light = ctx.createRadialGradient(190, 248, 0, 190, 248, 235);
-  light.addColorStop(0, '#e295b029'); light.addColorStop(.6, '#5e2b4014'); light.addColorStop(1, '#5e2b4000');
-  ctx.fillStyle = light; ctx.fillRect(0, 0, 380, 540);
+  light.addColorStop(0, '#e295b038'); light.addColorStop(.6, '#5e2b4014'); light.addColorStop(1, '#5e2b4000');
+  ctx.fillStyle = light; ctx.fillRect(0, 0, 390, 560);
   ctx.strokeStyle = '#e295b0'; ctx.globalAlpha = .018; ctx.lineWidth = .4;
   for (let y = 0; y < 540; y += 3) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(380,y); ctx.stroke(); }
   ctx.globalAlpha = 1;
   const spine = ctx.createLinearGradient(0, 0, 26, 0);
   spine.addColorStop(0, '#ffdceb1f'); spine.addColorStop(.38, '#000000a6'); spine.addColorStop(.52, '#e295b02e'); spine.addColorStop(.75, '#00000073'); spine.addColorStop(1, '#00000000');
-  ctx.fillStyle = spine; ctx.fillRect(0, 0, 26, 540);
-  ctx.fillStyle = '#e295b026'; ctx.fillRect(26, 0, .6, 540);
-  ctx.strokeStyle = '#e295b061'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.roundRect(34,18,328,504,[2,8,8,2]); ctx.stroke();
-  ctx.strokeStyle = '#ffd7e62e'; ctx.lineWidth = .5; ctx.strokeRect(38,22,320,496);
-  const center = 196;
+  ctx.fillStyle = spine; ctx.fillRect(0, 0, 26, 560);
+  ctx.fillStyle = '#e295b026'; ctx.fillRect(26, 0, .6, 560);
+  // Architectural chamfered foil frame, directly following the supplied SVG.
+  ctx.save(); ctx.translate(34,16); ctx.scale(340/340,528/528);
+  const polygon = (points: number[][]) => { ctx.beginPath(); points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.closePath(); ctx.stroke(); };
+  ctx.strokeStyle = '#e295b073'; ctx.lineWidth = .9;
+  polygon([[18,2],[322,2],[338,18],[338,510],[322,526],[18,526],[2,510],[2,18]]);
+  ctx.strokeStyle = '#ffe6f040'; ctx.lineWidth = .5;
+  polygon([[22,7],[318,7],[333,22],[333,506],[318,521],[22,521],[7,506],[7,22]]);
+  ctx.strokeStyle = '#e295b0b3'; ctx.lineWidth = .8;
+  for (const [x,y] of [[18,18],[322,18],[18,510],[322,510]]) { ctx.beginPath(); ctx.moveTo(x,y-6); ctx.lineTo(x,y+6); ctx.moveTo(x-6,y); ctx.lineTo(x+6,y); ctx.stroke(); }
+  ctx.restore();
+  const center = 202;
   ctx.textAlign = 'center'; ctx.fillStyle = '#e295b0d9'; ctx.font = '8.5px Inter, Arial, sans-serif'; ctx.letterSpacing = '2.2px';
   ctx.fillText('CRAFTER · EXPLORER · WEAVER', center, 47);
-  ctx.fillStyle = '#f7edf1'; ctx.font = '300 20px Inter, Arial, sans-serif'; ctx.letterSpacing = '4px';
+  ctx.fillStyle = '#f7edf1'; ctx.font = '300 20px Inter, Arial, sans-serif'; ctx.letterSpacing = '5px';
   ctx.fillText('A TEXTURED LIFE', center, 76);
   ctx.letterSpacing = '0px';
-  let titleSize = 72;
+  ctx.drawImage(emblem, center - 115, 120, 230, 265);
+  let titleSize = 56;
   ctx.textAlign = 'left'; ctx.font = `${titleSize}px StageLoadingScript, cursive`;
   while (ctx.measureText(city.title).actualBoundingBoxLeft + ctx.measureText(city.title).actualBoundingBoxRight > 270 && titleSize > 40) { titleSize--; ctx.font = `${titleSize}px StageLoadingScript, cursive`; }
   const bounds = ctx.measureText(city.title);
   ctx.fillStyle = '#f4b8ce'; ctx.shadowColor = '#e295b04d'; ctx.shadowBlur = 8;
-  ctx.fillText(city.title, center + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 270 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
+  ctx.fillText(city.title, center + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 398 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
   ctx.shadowBlur = 0; ctx.textAlign = 'center';
-  ctx.font = '29px StageLoadingScript, cursive'; ctx.fillText("Sherry's Chronicles", center, 472);
+  ctx.font = '29px StageLoadingScript, cursive'; ctx.fillText("Sherry's Chronicles", center, 492);
   ctx.fillStyle = '#f2edf099'; ctx.font = '6.3px Inter, Arial, sans-serif'; ctx.letterSpacing = '.85px';
-  ctx.fillText('WHERE LIVED REALITY MEETS DIGITAL CREATION', center, 493);
+  ctx.fillText('WHERE LIVED REALITY MEETS DIGITAL CREATION', center, 517);
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
 
+export async function loadJournalEmblem() {
+  const image = new Image(); image.src = '/effects/journal-prism-rose.svg'; await image.decode(); return image;
+}
+
 export type RoseGardenEngine = { select: (index: number) => void; zoom: (amount: number) => void; dispose: () => void };
-export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: number) => void; onOpen: (index: number) => void; suspended: () => boolean }): RoseGardenEngine {
+export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: number) => void; onOpen: (index: number) => void; suspended: () => boolean }, emblem: HTMLImageElement): RoseGardenEngine {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
@@ -81,7 +93,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const auraTexture = new THREE.CanvasTexture(auraCanvas);
   cityAlbums.forEach((city, index) => {
     const group = new THREE.Group(); group.position.set((index - 2) * 2.1, 1.19, -Math.abs(index - 2) * .22); group.rotation.y = (2 - index) * .08;
-    const texture = bookCover(city); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+    const texture = bookCover(city, emblem); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
     const cloth = new THREE.MeshStandardMaterial({ color: city.color, roughness: .48, metalness: .14 });
     const front = new THREE.MeshStandardMaterial({ map: texture, roughness: .44, metalness: .16, emissiveMap: texture, emissive: '#ffffff', emissiveIntensity: .25 });
     const cover = new THREE.Mesh(coverGeometry, [cloth, cloth, cloth, cloth, front, cloth]); cover.position.z = .102;

@@ -11,7 +11,7 @@ test('dawn scene pans, zooms and physically picks a city book', async ({ page })
   const canvas = await enter(page);
   await expect(canvas).toHaveAttribute('data-engine', 'three', { timeout: 15000 });
   await expect(canvas).toHaveAttribute('data-background', 'nocturne');
-  await expect(page.locator('.city-rose-garden')).toHaveCSS('background-image', /weaver-nocturne/);
+  await expect(page.locator('.city-rose-garden')).toHaveCSS('background-image', /radial-gradient/);
   await page.mouse.move(720, 460);
   await expect(canvas).toHaveAttribute('data-active-city', 'qingdao');
   const before = await page.evaluate(() => scrollY);
