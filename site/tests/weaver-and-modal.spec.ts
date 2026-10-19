@@ -26,33 +26,30 @@ test('skill dialog holds its final transparent frame and preserves document geom
   }
 });
 
-test('Weaver follows Explorer, reveals a centered journal window and opens life categories',async({page})=>{
+test('Weaver opens a city book with filtered polaroid photographs',async({page})=>{
   await page.goto('/stage');
   const host=page.locator('.stage-weaver');
   await expect(host).toHaveAttribute('data-motion-ready','true',{timeout:12000});
   await host.evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.5,behavior:'instant'}));
-  const window=page.getByRole('button',{name:'Open Weaver life journal'});
-  await expect.poll(()=>window.evaluate(el=>Number(getComputedStyle(el).opacity))).toBeGreaterThan(.99);
-  const box=await window.boundingBox();
-  expect(Math.abs(box!.x+box!.width/2-720)).toBeLessThan(2);
-  await expect(page.locator('html')).toHaveAttribute('data-stage-section','weaver');
-  await page.screenshot({path:'../work/weaver-stage-desktop.png'});
-  await window.click();
-  const journal=page.getByRole('dialog',{name:'Life, woven together.'});
-  await expect(journal).toHaveAttribute('data-phase','open');
-  await expect(journal.locator('.life-photo-tile')).toHaveCount(6);
-  await journal.getByRole('button',{name:'TRAVEL',exact:true}).click();
-  await expect(journal.locator('.life-photo-tile')).toHaveCount(2);
-  await journal.locator('.life-photo-tile').first().click();
-  await expect(journal.getByRole('region',{name:'Enlarged life photo'})).toBeVisible();
+  const trigger=page.getByRole('button',{name:'Open Guangzhou city album'});
+  await trigger.click();
+  const album=page.getByRole('dialog',{name:/Guangzhou/});
+  await expect(album).toHaveAttribute('data-phase','open');
+  await expect(album.locator('.city-album-wall')).toHaveAttribute('data-ready','true');
+  await expect(album.locator('.city-polaroid')).toHaveCount(18);
+  await album.getByRole('button',{name:'个人照 / PORTRAITS',exact:true}).click();
+  await expect(album.locator('.city-polaroid')).toHaveCount(6);
+  await album.getByRole('button',{name:'Pause city gallery',exact:true}).click();
+  await album.locator('.city-polaroid[aria-hidden=false]').first().click();
+  await expect(album.getByRole('region',{name:'Enlarged city photo'})).toBeVisible();
   await page.keyboard.press('Escape');
-  await expect(journal.getByRole('region',{name:'Enlarged life photo'})).toHaveCount(0);
-  await journal.getByRole('button',{name:'ALL MOMENTS',exact:true}).click();
-  await journal.evaluate(el=>el.scrollTo({top:0,behavior:'instant'}));
-  await page.screenshot({path:'../work/weaver-life-journal.png'});
+  await expect(album.getByRole('region',{name:'Enlarged city photo'})).toHaveCount(0);
+  await album.getByRole('button',{name:'全部 / ALL',exact:true}).click();
+  await expect.poll(()=>album.locator('.city-polaroid[aria-hidden=false]').evaluateAll(cards=>cards.length>1&&cards.every(card=>Number((card as HTMLElement).style.opacity)>.99))).toBe(true);
+  await page.screenshot({path:'../work/weaver-city-album.png'});
   await page.keyboard.press('Escape');
-  await expect(journal).not.toBeVisible();
-  await expect(window).toBeFocused();
+  await expect(album).not.toBeVisible();
+  await expect(trigger).toBeFocused();
 });
 
 test('Weaver opens two clipped title doors from a narrow central slit and closes reversibly',async({page})=>{
@@ -82,18 +79,16 @@ test('Weaver opens two clipped title doors from a narrow central slit and closes
   await page.screenshot({path:'../work/weaver-doors-mobile.png'});
 });
 
-test('Weaver life journal remains readable on mobile with reduced motion',async({page})=>{
-  await page.setViewportSize({width:390,height:844});
-  await page.emulateMedia({reducedMotion:'reduce'});
+test('city photo album fits mobile reduced motion',async({page})=>{
+  await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/stage');
-  const button=page.getByRole('button',{name:'Open Weaver life journal'});
-  await button.scrollIntoViewIfNeeded();await button.click();
-  const journal=page.getByRole('dialog',{name:'Life, woven together.'});
-  await expect(journal).toBeVisible();
-  await journal.getByRole('button',{name:'EVERYDAY',exact:true}).click();
-  await expect(journal.locator('.life-photo-tile')).toHaveCount(2);
-  expect(await journal.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
-  await page.screenshot({path:'../work/weaver-life-mobile.png'});
-  await page.keyboard.press('Escape');
-  await expect(journal).not.toBeVisible();
+  const trigger=page.getByRole('button',{name:'Open Guangzhou city album'});
+  await trigger.scrollIntoViewIfNeeded();await trigger.click();
+  const album=page.getByRole('dialog',{name:/Guangzhou/});
+  await expect(album).toBeVisible();
+  await album.getByRole('button',{name:'美食照 / FOOD',exact:true}).click();
+  await expect(album.locator('.city-polaroid')).toHaveCount(6);
+  expect(await album.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
+  await page.screenshot({path:'../work/weaver-city-album-mobile.png'});
+  await page.keyboard.press('Escape');await expect(album).not.toBeVisible();
 });
