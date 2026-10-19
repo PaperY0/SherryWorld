@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('section boundaries fade in place and the drawing is brighter pink', async ({ page }) => {
+test('section boundaries fade in place and the drawing stays soft pink', async ({ page }) => {
   await page.goto('/stage');
   await expect(page.locator('.stage-portfolio')).toHaveAttribute('data-motion-ready','true',{timeout:12000});
   const seek = async (selector:string, offset:number) => {
@@ -14,8 +14,8 @@ test('section boundaries fade in place and the drawing is brighter pink', async 
     await seek(selector,.2);
     await expect.poll(()=>page.locator(selector).evaluate(el=>Number(getComputedStyle(el).opacity))).toBeGreaterThan(.99);
   }
-  await expect(page.locator('.stage-legacy-lines')).toHaveCSS('opacity','0.88');
-  await expect(page.locator('.stage-legacy-lines')).toHaveCSS('color','rgb(255, 157, 206)');
+  await expect(page.locator('.stage-legacy-lines')).toHaveCSS('opacity','0.48');
+  await expect(page.locator('.stage-legacy-lines')).toHaveCSS('color','rgb(239, 168, 203)');
   await page.locator('.stage-legacy').evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.53,behavior:'instant'}));
   await expect.poll(async()=>Number(await page.locator('.stage-legacy').getAttribute('data-scroll-progress'))).toBeCloseTo(.53,2);
   await page.screenshot({path:'../work/stage-brighter-pink-lines.png'});

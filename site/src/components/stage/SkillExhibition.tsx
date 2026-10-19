@@ -16,6 +16,7 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
   const photoTrigger = useRef<HTMLButtonElement | null>(null), photoClose = useRef<HTMLButtonElement>(null);
   const [photos, setPhotos] = useState<Photo[]>([]), [loading, setLoading] = useState(false), [failed, setFailed] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [wallReady, setWallReady] = useState(false);
   const [paused, setPaused] = useState(false), [selected, setSelected] = useState<number | null>(null);
   const [status, setStatus] = useState<GalleryStatus>({ index: 0, mode: 'auto' });
   useEffect(() => { pausedRef.current = paused || selected !== null; }, [paused, selected]);
@@ -25,10 +26,12 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
     closing.current = false;
     delete host.dataset.closing;
     reduced.current = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setPaused(reduced.current); setPhotos([]); setSelected(null); setFailed(false); setPreview(false); setLoading(true); setStatus({ index: 0, mode: 'auto' });
+    setWallReady(false); setPaused(reduced.current); setPhotos([]); setSelected(null); setFailed(false); setPreview(false); setLoading(true); setStatus({ index: 0, mode: 'auto' });
     const overflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden'; host.showModal();
     const animation = !reduced.current ? host.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-in-out' }) : null;
+    if (animation) void animation.finished.then(() => { if (!controller.signal.aborted) setWallReady(true); }).catch(() => {});
+    else setWallReady(true);
     void fetch(`/images/skills/${skill.slug}/photos.json`, { signal: controller.signal }).then(async response => {
       if (!response.ok) throw new Error('Unable to load collection');
       const data: unknown = await response.json();
@@ -38,11 +41,11 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
     return () => { controller.abort(); animation?.cancel(); host.close(); document.documentElement.style.overflow = overflow; };
   }, [skill]);
   useEffect(() => {
-    if (!skill || !stage.current || !photos.length) return;
-    const controller = mountGallery(stage.current, { count: photos.length, suspended: () => pausedRef.current || reduced.current, reduced: () => true, onStatus: setStatus });
+    if (!skill || !wallReady || !stage.current || !photos.length) return;
+    const controller = mountGallery(stage.current, { count: photos.length, suspended: () => pausedRef.current || reduced.current, reduced: () => reduced.current, onStatus: setStatus });
     motion.current = controller;
     return () => { controller.dispose(); motion.current = null; };
-  }, [skill, photos]);
+  }, [skill, photos, wallReady]);
   useEffect(() => { if (selected !== null) photoClose.current?.focus(); }, [selected]);
   const closePhoto = () => { setSelected(null); requestAnimationFrame(() => photoTrigger.current?.focus()); };
   const close = () => {
