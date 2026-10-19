@@ -20,3 +20,8 @@
 
 .city-book-index{gap:28px;top:22%}.city-book-index span{font-size:12px;letter-spacing:.04em}.city-books-fallback small{font-size:8px;letter-spacing:.12em}.city-books-fallback em{font-size:32px}
 @media(max-width:700px){.city-garden-heading h3{font-size:21px}.city-book-index{gap:7px;top:27%}.city-book-index span{font-size:10px}.city-garden-footer>p{font-size:7px;letter-spacing:.02em}}
+
+/* The same dark binding and foil typography when WebGL is unavailable. */
+.city-books-fallback button{position:relative;aspect-ratio:380/540;background:radial-gradient(circle at 50% 46%,#e295b029,transparent 70%),linear-gradient(135deg,#22181d,#140e11 55%,#0c080a)!important;border:1px solid #e295b061;border-radius:2px 7px 7px 2px;padding:16px 12px 16px 20px;justify-content:space-between;box-shadow:-6px 10px 20px #000b,4px 0 0 #80606b;transition:transform .8s cubic-bezier(.22,1,.36,1)}
+.city-books-fallback button:before{content:"";position:absolute;inset:7px 7px 7px 13px;border:1px double #e295b035;pointer-events:none}.city-books-fallback button:hover{transform:perspective(900px) rotateY(-14deg) rotateX(6deg) translateY(-8px)}
+.fallback-book-header,.fallback-book-footer{display:flex;flex-direction:column;gap:5px;text-align:center}.city-books-fallback .fallback-book-header small{font-size:3.5px;letter-spacing:.7px;color:#e295b0}.city-books-fallback .fallback-book-header strong{font:7px Arial,sans-serif;letter-spacing:1.4px;color:#f7edf1}.city-books-fallback em{color:#f4b8ce}.fallback-book-footer i{font:15px StageLoadingScript,cursive;color:#f4b8ce}.city-books-fallback .fallback-book-footer small{font:3px Arial,sans-serif;letter-spacing:.3px;color:#f2edf099}

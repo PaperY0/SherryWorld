@@ -1,36 +1,43 @@
 import * as THREE from 'three';
 import { cityAlbums, type CityAlbumData } from './city-albums';
 
-function bookCover(city: CityAlbumData, index: number) {
-  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1024;
+function bookCover(city: CityAlbumData) {
+  const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1092;
   const ctx = canvas.getContext('2d')!;
-  const leather = ctx.createLinearGradient(0, 0, 768, 80);
-  leather.addColorStop(0, '#0e0b0f'); leather.addColorStop(.14, city.color); leather.addColorStop(.8, city.color); leather.addColorStop(1, '#100b10');
-  ctx.fillStyle = leather; ctx.fillRect(0, 0, 768, 1024);
-  ctx.globalAlpha = .04; ctx.strokeStyle = '#d4afa1'; ctx.lineWidth = 1;
-  for (let x = 0; x < 768; x += 4) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 1024); ctx.stroke(); }
-  for (let y = 0; y < 1024; y += 6) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(768, y); ctx.stroke(); }
+  // Work in the supplied 380 × 540 cover coordinates, at a crisp texture resolution.
+  ctx.scale(768 / 380, 1092 / 540);
+  const leather = ctx.createLinearGradient(0, 0, 380, 540);
+  leather.addColorStop(0, '#22181D'); leather.addColorStop(.55, '#140E11'); leather.addColorStop(1, '#0C080A');
+  ctx.fillStyle = leather; ctx.fillRect(0, 0, 380, 540);
+  const light = ctx.createRadialGradient(190, 248, 0, 190, 248, 235);
+  light.addColorStop(0, '#e295b029'); light.addColorStop(.6, '#5e2b4014'); light.addColorStop(1, '#5e2b4000');
+  ctx.fillStyle = light; ctx.fillRect(0, 0, 380, 540);
+  ctx.strokeStyle = '#e295b0'; ctx.globalAlpha = .018; ctx.lineWidth = .4;
+  for (let y = 0; y < 540; y += 3) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(380,y); ctx.stroke(); }
   ctx.globalAlpha = 1;
-  const foil = ctx.createLinearGradient(90, 0, 690, 1024); foil.addColorStop(0, '#805848'); foil.addColorStop(.35, city.ink); foil.addColorStop(.6, '#e0b8a5'); foil.addColorStop(1, '#8e6254');
-  ctx.strokeStyle = foil; ctx.fillStyle = foil; ctx.lineWidth = 1.7;
-  ctx.strokeRect(87, 48, 628, 928); ctx.lineWidth = .8; ctx.strokeRect(100, 61, 602, 902);
-  // Quiet gilded binding and engraved corner flourishes, rather than a cream lace stripe.
-  ctx.beginPath(); ctx.moveTo(47, 0); ctx.lineTo(47, 1024); ctx.moveTo(59, 0); ctx.lineTo(59, 1024); ctx.stroke();
-  for (const [x,y,angle] of [[112,75,0],[690,75,Math.PI/2],[690,948,Math.PI],[112,948,-Math.PI/2]]) {
-    ctx.save(); ctx.translate(x,y); ctx.rotate(angle); ctx.beginPath(); ctx.moveTo(0,60); ctx.bezierCurveTo(0,6,8,0,60,0); ctx.moveTo(7,43); ctx.bezierCurveTo(30,16,46,37,28,40); ctx.bezierCurveTo(13,43,18,10,43,7); ctx.stroke(); ctx.restore();
-  }
-  ctx.textAlign = 'center'; ctx.font = '17px Georgia'; ctx.fillText('SHERRY / PRIVATE COLLECTION', 400, 151);
-  let titleSize = 124;
-  ctx.textAlign = 'left';
-  ctx.font = `${titleSize}px StageLoadingScript, cursive`;
-  while (ctx.measureText(city.title).actualBoundingBoxLeft + ctx.measureText(city.title).actualBoundingBoxRight > 565 && titleSize > 70) { titleSize--; ctx.font = `${titleSize}px StageLoadingScript, cursive`; }
+  const spine = ctx.createLinearGradient(0, 0, 26, 0);
+  spine.addColorStop(0, '#ffdceb1f'); spine.addColorStop(.38, '#000000a6'); spine.addColorStop(.52, '#e295b02e'); spine.addColorStop(.75, '#00000073'); spine.addColorStop(1, '#00000000');
+  ctx.fillStyle = spine; ctx.fillRect(0, 0, 26, 540);
+  ctx.fillStyle = '#e295b026'; ctx.fillRect(26, 0, .6, 540);
+  ctx.strokeStyle = '#e295b061'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(34,18,328,504,[2,8,8,2]); ctx.stroke();
+  ctx.strokeStyle = '#ffd7e62e'; ctx.lineWidth = .5; ctx.strokeRect(38,22,320,496);
+  const center = 196;
+  ctx.textAlign = 'center'; ctx.fillStyle = '#e295b0d9'; ctx.font = '8.5px Inter, Arial, sans-serif'; ctx.letterSpacing = '2.2px';
+  ctx.fillText('CRAFTER · EXPLORER · WEAVER', center, 47);
+  ctx.fillStyle = '#f7edf1'; ctx.font = '300 20px Inter, Arial, sans-serif'; ctx.letterSpacing = '4px';
+  ctx.fillText('A TEXTURED LIFE', center, 76);
+  ctx.letterSpacing = '0px';
+  let titleSize = 72;
+  ctx.textAlign = 'left'; ctx.font = `${titleSize}px StageLoadingScript, cursive`;
+  while (ctx.measureText(city.title).actualBoundingBoxLeft + ctx.measureText(city.title).actualBoundingBoxRight > 270 && titleSize > 40) { titleSize--; ctx.font = `${titleSize}px StageLoadingScript, cursive`; }
   const bounds = ctx.measureText(city.title);
-  ctx.fillText(city.title, 400 + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 512 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
-  ctx.textAlign = 'center';
-  ctx.font = '15px Georgia'; ctx.fillText('PORTRAITS · PLACES · LITTLE PLEASURES', 400, 808);
-  ctx.font = '23px Georgia'; ctx.fillText(`VOL. ${String(index + 1).padStart(2, '0')}`, 400, 900);
-  ctx.beginPath(); ctx.moveTo(300, 710); ctx.lineTo(385,710); ctx.moveTo(415,710); ctx.lineTo(500,710); ctx.stroke();
-  ctx.beginPath(); ctx.arc(400,710,3,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#f4b8ce'; ctx.shadowColor = '#e295b04d'; ctx.shadowBlur = 8;
+  ctx.fillText(city.title, center + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 270 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
+  ctx.shadowBlur = 0; ctx.textAlign = 'center';
+  ctx.font = '29px StageLoadingScript, cursive'; ctx.fillText("Sherry's Chronicles", center, 472);
+  ctx.fillStyle = '#f2edf099'; ctx.font = '6.3px Inter, Arial, sans-serif'; ctx.letterSpacing = '.85px';
+  ctx.fillText('WHERE LIVED REALITY MEETS DIGITAL CREATION', center, 493);
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
@@ -62,17 +69,28 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
 
   const books: THREE.Group[] = [], hitMeshes: THREE.Object3D[] = [];
   const coverGeometry = new THREE.BoxGeometry(1.54, 2.18, .055), pageGeometry = new THREE.BoxGeometry(1.45, 2.08, .15);
-  const paper = new THREE.MeshStandardMaterial({ color: '#9d826c', roughness: .85 });
+  const edgeCanvas = document.createElement('canvas'); edgeCanvas.width = 64; edgeCanvas.height = 256;
+  const edgeContext = edgeCanvas.getContext('2d')!;
+  for (let y = 0; y < 256; y++) { edgeContext.fillStyle = ['#b98897', '#3a252e', '#dcc2c9', '#6d4a56'][y % 4]; edgeContext.fillRect(0,y,64,1); }
+  const edgeTexture = new THREE.CanvasTexture(edgeCanvas); edgeTexture.colorSpace = THREE.SRGBColorSpace;
+  const paper = new THREE.MeshStandardMaterial({ map: edgeTexture, color: '#c6a3af', roughness: .65, metalness: .22 });
+  const auraCanvas = document.createElement('canvas'); auraCanvas.width = auraCanvas.height = 128;
+  const auraContext = auraCanvas.getContext('2d')!;
+  const aura = auraContext.createRadialGradient(64,64,0,64,64,64); aura.addColorStop(0,'#e295b040'); aura.addColorStop(.45,'#9e526c18'); aura.addColorStop(1,'#9e526c00');
+  auraContext.fillStyle = aura; auraContext.fillRect(0,0,128,128);
+  const auraTexture = new THREE.CanvasTexture(auraCanvas);
   cityAlbums.forEach((city, index) => {
     const group = new THREE.Group(); group.position.set((index - 2) * 2.1, 1.19, -Math.abs(index - 2) * .22); group.rotation.y = (2 - index) * .08;
-    const texture = bookCover(city, index); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+    const texture = bookCover(city); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
     const cloth = new THREE.MeshStandardMaterial({ color: city.color, roughness: .48, metalness: .14 });
     const front = new THREE.MeshStandardMaterial({ map: texture, roughness: .44, metalness: .16, emissiveMap: texture, emissive: '#ffffff', emissiveIntensity: .25 });
     const cover = new THREE.Mesh(coverGeometry, [cloth, cloth, cloth, cloth, front, cloth]); cover.position.z = .102;
     const back = new THREE.Mesh(coverGeometry, cloth); back.position.z = -.102;
     const pages = new THREE.Mesh(pageGeometry, paper);
     const spine = new THREE.Mesh(new THREE.BoxGeometry(.09, 2.17, .22), cloth); spine.position.x = -.73;
-    group.add(cover, back, pages, spine); group.traverse(object => { object.userData.city = index; });
+    const halo = new THREE.Mesh(new THREE.PlaneGeometry(2.65,3.15), new THREE.MeshBasicMaterial({ map: auraTexture, transparent: true, opacity: .5, depthWrite: false })); halo.position.z = -.18;
+    group.userData.halo = halo;
+    group.add(halo, cover, back, pages, spine); group.traverse(object => { object.userData.city = index; });
     hitMeshes.push(cover, back, pages, spine); scene.add(group); books.push(group);
   });
 
@@ -122,7 +140,14 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
       camera.position.y += (2.45 - zoom * .65 - camera.position.y) * ease;
       camera.position.z += ((mobile ? 7.8 : 10.5) - zoom * (mobile ? 3.1 : 5.2) - camera.position.z) * ease;
       look.x = camera.position.x * .92; camera.lookAt(look);
-      books.forEach((book, index) => { book.position.y += ((index === selected ? 1.32 : 1.19) - book.position.y) * ease; });
+      books.forEach((book, index) => {
+        const active = index === selected;
+        book.position.y += ((active ? 1.32 : 1.19) - book.position.y) * ease;
+        book.rotation.y += ((2 - index) * .08 + (active ? -.18 : 0) - book.rotation.y) * ease;
+        book.rotation.x += ((active ? .065 : 0) - book.rotation.x) * ease;
+        const halo = book.userData.halo as THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
+        halo.material.opacity += ((active ? .85 : .4) - halo.material.opacity) * ease;
+      });
       host.dataset.zoom = zoom.toFixed(3); host.dataset.cameraX = camera.position.x.toFixed(3); host.dataset.activeCity = cityAlbums[selected].slug;
       renderer.render(scene, camera);
     }

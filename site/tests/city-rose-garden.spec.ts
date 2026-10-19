@@ -79,6 +79,7 @@ test('stage stays English with saved Chinese preferences and city covers use cen
   expect(await page.locator('body').innerText()).not.toMatch(/[\p{Script=Han}]/u);
   const text=await page.evaluate(()=>(window as Window & {renderedCoverText?:string[]}).renderedCoverText??[]);
   for(const title of ['Guangzhou','Shenzhen','Qingdao','Shanghai','Beijing'])expect(text).toContain(title);
+  for(const label of ['CRAFTER · EXPLORER · WEAVER','A TEXTURED LIFE',"Sherry's Chronicles",'WHERE LIVED REALITY MEETS DIGITAL CREATION'])expect(text).toContain(label);
   expect(text.join(' ')).not.toMatch(/[\p{Script=Han}]/u);
   await page.getByRole('button',{name:'Open Guangzhou city album'}).click();
   const album=page.getByRole('dialog',{name:/Guangzhou/});
