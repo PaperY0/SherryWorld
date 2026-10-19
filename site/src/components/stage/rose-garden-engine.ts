@@ -20,14 +20,15 @@ function bookCover(city: CityAlbumData, index: number) {
     ctx.save(); ctx.translate(x,y); ctx.rotate(angle); ctx.beginPath(); ctx.moveTo(0,60); ctx.bezierCurveTo(0,6,8,0,60,0); ctx.moveTo(7,43); ctx.bezierCurveTo(30,16,46,37,28,40); ctx.bezierCurveTo(13,43,18,10,43,7); ctx.stroke(); ctx.restore();
   }
   ctx.textAlign = 'center'; ctx.font = '17px Georgia'; ctx.fillText('SHERRY / PRIVATE COLLECTION', 400, 151);
-  ctx.font = '62px Georgia, "Songti SC", SimSun, serif'; ctx.fillText(city.name, 400, 480);
-  ctx.font = '98px StageLoadingScript, cursive'; ctx.fillText(city.title, 400, 600);
+  let titleSize = 124;
+  ctx.textAlign = 'left';
+  ctx.font = `${titleSize}px StageLoadingScript, cursive`;
+  while (ctx.measureText(city.title).actualBoundingBoxLeft + ctx.measureText(city.title).actualBoundingBoxRight > 565 && titleSize > 70) { titleSize--; ctx.font = `${titleSize}px StageLoadingScript, cursive`; }
+  const bounds = ctx.measureText(city.title);
+  ctx.fillText(city.title, 400 + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 512 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
+  ctx.textAlign = 'center';
   ctx.font = '15px Georgia'; ctx.fillText('PORTRAITS · PLACES · LITTLE PLEASURES', 400, 808);
   ctx.font = '23px Georgia'; ctx.fillText(`VOL. ${String(index + 1).padStart(2, '0')}`, 400, 900);
-  // A fine rose-gold bow clasp, engraved into the dark cover.
-  ctx.strokeStyle = foil; ctx.lineWidth = 2; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(400, 278); ctx.bezierCurveTo(288, 175, 290, 321, 400, 278); ctx.bezierCurveTo(505, 175, 515, 321, 400, 278); ctx.moveTo(399, 281); ctx.bezierCurveTo(369, 315, 392, 335, 353, 354); ctx.moveTo(403, 281); ctx.bezierCurveTo(439, 313, 417, 341, 456, 353); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(400, 263); ctx.lineTo(410, 278); ctx.lineTo(400, 293); ctx.lineTo(390, 278); ctx.closePath(); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(300, 710); ctx.lineTo(385,710); ctx.moveTo(415,710); ctx.lineTo(500,710); ctx.stroke();
   ctx.beginPath(); ctx.arc(400,710,3,0,Math.PI*2); ctx.fill();
   const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
@@ -39,13 +40,13 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
-  renderer.domElement.setAttribute('aria-label', '粉色云山与微光中的五本城市手帐'); host.append(renderer.domElement);
+  renderer.domElement.setAttribute('aria-label', 'Five city journals in a dark rose-gold atelier'); host.append(renderer.domElement);
   const scene = new THREE.Scene(); scene.background = null; scene.fog = new THREE.FogExp2('#190f18', .03);
   const camera = new THREE.PerspectiveCamera(42, 1, .1, 70);
   scene.add(new THREE.HemisphereLight('#ffe9df', '#24131f', 1.3));
   const key = new THREE.DirectionalLight('#e7b9a2', 2.1); key.position.set(-5, 9, 7); scene.add(key);
   const rim = new THREE.DirectionalLight('#bd8d9f', 1.4); rim.position.set(6, 5, -5); scene.add(rim);
-  // The generated hopeful dawn is visible through the alpha canvas.
+  // A quiet, code-native nocturne backdrop stays visible through the alpha canvas.
   // A sparse field of warm glints gives the books a little spatial depth without a flower floor.
   const positions: number[] = [];
   const random = (n: number) => { const value = Math.sin(n * 127.1 + 311.7) * 43758.5453; return value - Math.floor(value); };
@@ -57,7 +58,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const glowTexture = new THREE.CanvasTexture(glowCanvas);
   const glintMaterial = new THREE.PointsMaterial({ map: glowTexture, color: '#ffe5bc', size: .065, transparent: true, opacity: .3, depthWrite: false });
   scene.add(new THREE.Points(glintGeometry, glintMaterial));
-  host.dataset.background = 'towards-light';
+  host.dataset.background = 'nocturne';
 
   const books: THREE.Group[] = [], hitMeshes: THREE.Object3D[] = [];
   const coverGeometry = new THREE.BoxGeometry(1.54, 2.18, .055), pageGeometry = new THREE.BoxGeometry(1.45, 2.08, .15);

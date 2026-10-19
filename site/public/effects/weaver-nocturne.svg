@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <radialGradient id="a"><stop stop-color="#3b202b"/><stop offset=".65" stop-color="#1b101a"/><stop offset="1" stop-color="#0c090e"/></radialGradient>
+    <linearGradient id="b" x1="0" y1="100" x2="1920" y2="1000" gradientUnits="userSpaceOnUse"><stop stop-color="#6a4246" stop-opacity="0"/><stop offset=".5" stop-color="#b68876" stop-opacity=".16"/><stop offset="1" stop-color="#6a4246" stop-opacity="0"/></linearGradient>
+    <filter id="h"><feGaussianBlur stdDeviation="65"/></filter>
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+  </defs>
+  <path fill="url(#a)" d="M0 0h1920v1080H0z"/>
+  <ellipse cx="980" cy="650" rx="620" ry="70" fill="#bc8d78" opacity=".055" filter="url(#h)"/>
+  <g stroke="url(#b)">
+    <path d="M-120 130C310 620 610 90 1070 440s510 500 980 210" stroke-width="1"/>
+    <path d="M-100 210C390 750 660 270 1100 510s500 400 940 240" stroke-width=".5"/>
+    <path d="M-80 1020C340 690 600 700 960 665s660-100 1090 160" stroke-width=".7"/>
+  </g>
+  <g fill="#d6aa8f" opacity=".22"><circle cx="208" cy="270" r="1"/><circle cx="429" cy="187" r=".7"/><circle cx="1520" cy="239" r="1"/><circle cx="1702" cy="358" r=".8"/><circle cx="1370" cy="144" r=".6"/><circle cx="171" cy="697" r=".8"/><circle cx="1632" cy="807" r=".9"/></g>
+  <path fill="#b49b94" opacity=".025" filter="url(#n)" d="M0 0h1920v1080H0z"/>
+</svg>

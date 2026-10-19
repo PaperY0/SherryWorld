@@ -48,7 +48,7 @@ export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClo
     {city && <>
       <div className="city-album-content" inert={!!selected}>
         <button autoFocus className="skill-exhibition-close" onClick={close} aria-label="Close city album">CLOSE ×</button>
-        <header className="city-album-heading"><p>WEAVER / A CITY IN MY HANDS</p><h2 id="city-album-title">{city.title}<span>{city.name} · 城市手帐</span></h2><p>{city.motif}</p></header>
+        <header className="city-album-heading"><p>WEAVER / A CITY IN MY HANDS</p><h2 id="city-album-title">{city.title}<span>CITY JOURNAL</span></h2><p>{city.motif}</p></header>
         <nav className="city-album-categories" aria-label="City photo categories">{albumCategories.map(item => <button key={item.key} aria-pressed={category === item.key} onClick={() => setCategory(item.key)}>{item.label}</button>)}</nav>
         <div className="city-album-wall skill-gallery-stage" ref={stage} aria-label={`${city.name} draggable polaroid gallery`}>
           {cards.map((photo, index) => <button className={`gallery-card city-polaroid decoration-${index % 3}`} key={`${category}-${photo.src}-${index}`} aria-label={`Enlarge city photo ${index % visible.length + 1}: ${photo.alt}`} onClick={event => { photoSource.current = event.currentTarget; setSelected(photo); }}>
@@ -58,9 +58,9 @@ export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClo
             </span>
           </button>)}
         </div>
-        {visible.length === 0 && <p className="city-album-note" role="status">这一页还没有照片，先看看其他分类。</p>}
+        {visible.length === 0 && <p className="city-album-note" role="status">No photographs in this chapter yet. Explore another category.</p>}
         <nav className="skill-gallery-controls" aria-label="City gallery controls"><button aria-label="Previous city photo" onClick={() => motion.current?.step(-1)}>←</button><span>{String(status.index + 1).padStart(2, '0')} / {String(visible.length).padStart(2, '0')}</span><button aria-label="Next city photo" onClick={() => motion.current?.step(1)}>→</button><button aria-label={paused ? 'Play city gallery' : 'Pause city gallery'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? '▶' : 'Ⅱ'}</button></nav>
-        <p className="city-album-note">{preview ? '照片占位预览 · ' : ''}拖动翻阅 · 点击照片放大</p>
+        <p className="city-album-note">{preview ? 'PREVIEW PLACEHOLDERS · ' : ''}DRAG TO EXPLORE · CLICK TO ENLARGE</p>
       </div>
       {selected && <div className="skill-photo-lightbox city-album-lightbox" role="region" aria-label="Enlarged city photo"><button ref={back} className="skill-photo-back" onClick={closePhoto}>BACK TO ALBUM ×</button><figure>
         {/* eslint-disable-next-line @next/next/no-img-element */}

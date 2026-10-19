@@ -19,8 +19,8 @@ test('ending fades after Weaver, provides working contact actions and returns to
   const corner=await email.boundingBox();expect(corner!.x).toBeGreaterThan(1000);expect(corner!.y).toBeGreaterThan(600);
   await expect(ending.getByRole('link', { name: /19511635329/ })).toHaveAttribute('href', 'mailto:19511635329@163.com');
   await expect(ending.getByRole('link', { name: /GITHUB/ })).toHaveAttribute('href', 'https://github.com/PaperY0');
-  await ending.getByRole('button', { name: '复制邮箱 / COPY EMAIL' }).click();
-  await expect(ending.getByRole('status')).toHaveText('邮箱已复制 / EMAIL COPIED');
+  await ending.getByRole('button', { name: 'COPY EMAIL' }).click();
+  await expect(ending.getByRole('status')).toHaveText('EMAIL COPIED');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('19511635329@163.com');
   await page.screenshot({ path: '../work/stage-ending-desktop.png' });
   await ending.getByRole('link', { name: 'BACK TO TOP' }).click();
