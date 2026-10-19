@@ -30,7 +30,7 @@ test('Weaver follows Explorer, reveals a centered journal window and opens life 
   await page.goto('/stage');
   const host=page.locator('.stage-weaver');
   await expect(host).toHaveAttribute('data-motion-ready','true',{timeout:12000});
-  await host.evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.75,behavior:'instant'}));
+  await host.evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.5,behavior:'instant'}));
   const window=page.getByRole('button',{name:'Open Weaver life journal'});
   await expect.poll(()=>window.evaluate(el=>Number(getComputedStyle(el).opacity))).toBeGreaterThan(.99);
   const box=await window.boundingBox();
@@ -53,6 +53,33 @@ test('Weaver follows Explorer, reveals a centered journal window and opens life 
   await page.keyboard.press('Escape');
   await expect(journal).not.toBeVisible();
   await expect(window).toBeFocused();
+});
+
+test('Weaver opens two clipped title doors from a narrow central slit and closes reversibly',async({page})=>{
+  await page.goto('/stage');
+  const host=page.locator('.stage-weaver');
+  await expect(host).toHaveAttribute('data-motion-ready','true',{timeout:12000});
+  const panels=host.locator('.weaver-door');
+  await expect(panels).toHaveCount(2);
+  const seek=async(progress:number)=>{
+    await host.evaluate((el,p)=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*p,behavior:'instant'}),progress);
+    await expect.poll(()=>host.evaluate(el=>Math.abs(Number(el.getAttribute('data-door-progress'))-Number(el.getAttribute('data-scroll-progress'))))).toBeLessThan(.015);
+  };
+  const gap=async()=>{
+    const left=await panels.nth(0).boundingBox(),right=await panels.nth(1).boundingBox();
+    return right!.x-left!.x-left!.width;
+  };
+  await seek(0);expect(await gap()).toBeLessThan(2);
+  await seek(.1);expect(await gap()).toBeGreaterThan(80);expect(await gap()).toBeLessThan(720);
+  await page.screenshot({path:'../work/weaver-doors-slit.png'});
+  await seek(.45);expect(await gap()).toBeGreaterThan(1435);
+  await page.screenshot({path:'../work/weaver-doors-open.png'});
+  await seek(.98);expect(await gap()).toBeLessThan(2);
+  await seek(.1);expect(await gap()).toBeGreaterThan(80);expect(await gap()).toBeLessThan(720);
+  await page.setViewportSize({width:390,height:844});
+  await seek(.45);expect(await gap()).toBeGreaterThan(385);
+  expect(await host.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
+  await page.screenshot({path:'../work/weaver-doors-mobile.png'});
 });
 
 test('Weaver life journal remains readable on mobile with reduced motion',async({page})=>{
