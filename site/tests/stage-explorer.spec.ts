@@ -9,7 +9,7 @@ test('Explorer expands, darkens and reveals dawn with reversible scroll', async 
     await page.locator('.explorer-film-track').evaluate((el, value) => scrollTo({ top: el.getBoundingClientRect().top + scrollY + (el.getBoundingClientRect().height - innerHeight) * value, behavior: 'instant' }), progress);
   };
   const film = page.locator('.explorer-frame video');
-  await expect(film).toHaveAttribute('src', '/videos/explorer/fall-awakening-v3.mp4');
+  await expect(film).toHaveAttribute('src', '/videos/explorer/fall-awakening-v4.mp4');
   await seek(0);
   await expect.poll(() => page.locator('.explorer-frame').evaluate(el => Number(getComputedStyle(el).opacity))).toBeLessThan(.01);
   await seek(.13);

@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-explorer.css';
 import { StageJourney } from './StageJourney';
 
-const explorerFilm = '/videos/explorer/fall-awakening-v3.mp4';
+const explorerFilm = '/videos/explorer/fall-awakening-v4.mp4';
 export function StageExplorer({ enabled }: { enabled: boolean }) {
   const root = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -65,7 +65,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
       <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond all <em>boundaries.</em></h2></header>
       <div className="explorer-frame">
         <div className="explorer-atmosphere" />
-        {explorerFilm && <video ref={video} src={explorerFilm} poster="/videos/explorer/fall-awakening-v3-poster.jpg" muted playsInline preload="metadata" width="1280" height="720" aria-label="Explorer descent and awakening film" />}
+        {explorerFilm && <video ref={video} src={explorerFilm} poster="/videos/explorer/fall-awakening-v4-poster.jpg" muted playsInline preload="metadata" width="1280" height="720" aria-label="Explorer descent and awakening film" />}
         <div className="explorer-shade" aria-hidden="true" />
         <button className="explorer-video-play" onClick={() => { void video.current?.play().then(() => { if (root.current) root.current.dataset.videoState = 'playing'; }); }}>PLAY FILM ▷</button>
       </div>
