@@ -9,7 +9,7 @@ import './stage-weaver.css';
 export function StageWeaver({ enabled }: { enabled: boolean }) {
   const root = useRef<HTMLElement>(null);
   const [city, setCity] = useState<CityAlbumData | null>(null);
-  const doorCopy = <div className="weaver-door-copy"><p className="weaver-eyebrow">03 / THE LIFE BETWEEN CREATIONS</p><div className="weaver-door-title"><em>Weaver</em><span>LIFE IN MOMENTS</span></div><p className="weaver-door-note">Journeys, everyday rituals and small discoveries.<br />The threads that make a life my own.</p></div>;
+  const doorCopy = <div className="weaver-door-copy"><p className="weaver-eyebrow">03 / THE LIFE BETWEEN CREATIONS</p><div className="weaver-door-title"><em>Weaver</em><span>LIFE IN TAPESTRY</span></div><p className="weaver-door-note">Footsteps across cities, flavors on the palate, and an endless curiosity for the world.<br />Interlacing together to weave a full, textured life of my own.</p></div>;
   useEffect(() => {
     if (!enabled || !root.current) return;
     gsap.registerPlugin(ScrollTrigger);
@@ -36,7 +36,7 @@ export function StageWeaver({ enabled }: { enabled: boolean }) {
   }, [enabled]);
   return <section ref={root} id="stage-weaver" className="stage-weaver" aria-labelledby="weaver-title">
     <div className="weaver-viewport">
-      <h2 className="weaver-accessible-title" id="weaver-title">Weaver — Life in moments</h2>
+      <h2 className="weaver-accessible-title" id="weaver-title">Weaver — Life in tapestry</h2>
       <div className="weaver-scene">
         <CityRoseGarden onOpen={setCity} suspended={city !== null} />
       </div>

@@ -69,7 +69,7 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
         <div className="explorer-shade" aria-hidden="true" />
         <button className="explorer-video-play" onClick={() => { void video.current?.play().then(() => { if (root.current) root.current.dataset.videoState = 'playing'; }); }}>PLAY FILM ▷</button>
       </div>
-      <div className="explorer-fall-copy"><h3>The abyss is the prelude<br />to <em>ascension.</em></h3><p>Adversity never breaks the spirit; it tempers the blade.<br />From the ashes, I reforge myself with relentless intention.</p></div>
+      <div className="explorer-fall-copy"><h3><span>The abyss is the prelude to</span><em>ascension.</em></h3><p>Adversity never breaks the spirit; it tempers the blade.<br />From the ashes, I reforge myself with relentless intention.</p></div>
       <div className="explorer-dawn" aria-hidden="true" />
       <div className="explorer-rise-copy"><p>RELENTLESS EVOLUTION. INFINITE HORIZONS.</p><h3>Through the storm,<br /><em>I forge ahead.</em></h3><p>Every trial deepens my intellectual depth.<br />Every conquest expands the circumference of who I am.</p></div>
     </div>

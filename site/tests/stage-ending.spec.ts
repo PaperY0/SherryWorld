@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-test('ending fades after Weaver, provides working contact actions and returns to the top', async ({ page, context }) => {
+test('ending fades after Weaver and places contacts beside its quieter invitation', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/stage');
   const ending = page.locator('#stage-ending');
@@ -16,27 +16,25 @@ test('ending fades after Weaver, provides working contact actions and returns to
   await expect(ending.getByRole('link',{name:'WEAVE WITH ME',exact:true})).toHaveAttribute('href','mailto:19511635329@163.com');
   const email=ending.locator('.ending-email');
   expect(await email.evaluate(el=>parseFloat(getComputedStyle(el).fontSize))).toBeLessThan(13);
-  const corner=await email.boundingBox();expect(corner!.x).toBeGreaterThan(1000);expect(corner!.y).toBeGreaterThan(600);
+  const emailBox=await email.boundingBox(),cta=await ending.locator('.ending-weave').boundingBox(),github=await ending.locator('.ending-github').boundingBox();
+  expect(emailBox!.x).toBeGreaterThan(cta!.x+cta!.width);expect(emailBox!.y).toBeLessThan(github!.y);
+  expect(center!.y+center!.height/2).toBeGreaterThan(350);
+  await expect(ending.locator('.ending-footer')).toHaveCount(0);
+  await expect(page.locator('.stage-ledger')).toHaveCSS('opacity','0');
+  await expect(ending.locator('.ending-invitation')).toHaveText('Let’s craft the unseen, explore the unknown, and weave new stories together.');
   await expect(ending.getByRole('link', { name: /19511635329/ })).toHaveAttribute('href', 'mailto:19511635329@163.com');
   await expect(ending.getByRole('link', { name: /GITHUB/ })).toHaveAttribute('href', 'https://github.com/PaperY0');
-  await ending.getByRole('button', { name: 'COPY EMAIL' }).click();
-  await expect(ending.getByRole('status')).toHaveText('EMAIL COPIED');
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('19511635329@163.com');
   await page.screenshot({ path: '../work/stage-ending-desktop.png' });
-  await ending.getByRole('link', { name: 'BACK TO TOP' }).click();
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(3);
-  await expect(page.locator('#stage-heading')).toBeFocused();
+
 });
-test('ending stays readable on mobile and all chapter anchors resolve', async ({ page }) => {
+test('ending keeps its headline and contact invitation inside the mobile viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/stage'); const ending = page.locator('#stage-ending'); await ending.scrollIntoViewIfNeeded();
   expect(await ending.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
   expect(await ending.locator('.ending-heading').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
-  for (const [name, id] of [['CRAFTER', 'stage-legacy'], ['EXPLORER', 'stage-explorer'], ['WEAVER', 'stage-weaver']]) {
-    await expect(ending.getByRole('navigation').getByRole('link', { name, exact: true })).toHaveAttribute('href', `#${id}`);
-    await expect(page.locator(`#${id}`)).toHaveCount(1);
-  }
+  const row=await ending.locator('.ending-contact-row').boundingBox();expect(row!.x).toBeGreaterThanOrEqual(0);expect(row!.x+row!.width).toBeLessThanOrEqual(390);
+  await expect(ending.locator('.ending-footer')).toHaveCount(0);
+  await expect(page.locator('.stage-ledger')).toHaveCSS('opacity','0');
   await page.screenshot({ path: '../work/stage-ending-mobile.png' });
-  await ending.getByRole('navigation').getByRole('link', { name: 'WEAVER', exact: true }).click();
-  await expect(page.locator('#weaver-title')).toBeFocused();
+
 });

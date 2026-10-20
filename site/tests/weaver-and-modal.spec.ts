@@ -31,8 +31,8 @@ test('Weaver opens a city book with filtered polaroid photographs',async({page})
   const host=page.locator('.stage-weaver');
   await expect(host).toHaveAttribute('data-motion-ready','true',{timeout:12000});
   await host.evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.5,behavior:'instant'}));
-  const trigger=page.getByRole('button',{name:'Open Guangzhou city album'});
-  await trigger.click();
+  const trigger=page.getByRole('button',{name:'Guangzhou',exact:true});
+  await trigger.press('Enter');
   const album=page.getByRole('dialog',{name:/Guangzhou/});
   await expect(album).toHaveAttribute('data-phase','open');
   await expect(album.locator('.city-album-wall')).toHaveAttribute('data-ready','true');
@@ -82,8 +82,8 @@ test('Weaver opens two clipped title doors from a narrow central slit and closes
 test('city photo album fits mobile reduced motion',async({page})=>{
   await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/stage');
-  const trigger=page.getByRole('button',{name:'Open Guangzhou city album'});
-  await trigger.scrollIntoViewIfNeeded();await trigger.click();
+  const trigger=page.getByRole('button',{name:'Guangzhou',exact:true});
+  await trigger.scrollIntoViewIfNeeded();await trigger.press('Enter');
   const album=page.getByRole('dialog',{name:/Guangzhou/});
   await expect(album).toBeVisible();
   await album.getByRole('button',{name:'FOOD',exact:true}).click();

@@ -44,7 +44,7 @@ export function StageJourney({ enabled }: { enabled: boolean }) {
         <button className="journey-explore" onClick={() => setExhibition(chapter)} aria-label={`Explore ${chapter.title} photos`}>EXPLORE <span aria-hidden="true">↗</span></button>
       </div>
     </article>)}</div>
-    <footer className="journey-end"><p>CRAFTER / EXPLORER / WEAVER</p><h3 data-journey-reveal>{words('Always learning.')}<br /><em>{words('Always becoming.')}</em></h3></footer>
+    <footer className="journey-end"><p>CRAFTER / EXPLORER / WEAVER</p><h3 data-journey-reveal>{words('Always expanding.')}<br /><em>{words('Always evolving.')}</em></h3></footer>
     <SkillExhibition skill={exhibition} onClose={() => setExhibition(null)} />
   </section>;
 }

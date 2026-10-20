@@ -25,3 +25,7 @@ html[data-stage-section=explorer] body:has(.stage-page) .site-header{color:#f7ed
 .explorer-video-play{display:none;position:absolute;z-index:4;left:50%;top:50%;translate:-50% -50%;padding:16px 22px;border:1px solid #efb2ce80;background:#100c11c9;color:#efb2ce;font-size:11px;letter-spacing:.12em}
 .stage-explorer[data-video-state=blocked] .explorer-video-play{display:block}
 @media(prefers-reduced-motion:no-preference){.explorer-frame{opacity:0}}
+
+.explorer-rise-copy h3{font-size:clamp(43px,6.7vw,108px)}.explorer-rise-copy>p:first-child{font-size:clamp(10px,.9vw,14px)}.explorer-rise-copy>p:last-child{font-size:clamp(16px,1.55vw,24px)}
+.explorer-fall-copy h3>span{display:block;font-size:clamp(25px,4.7vw,78px);text-align:center}.explorer-fall-copy h3>em{display:block;font-size:clamp(76px,10vw,164px);line-height:1.05;margin-top:16px}
+@media(max-width:700px){.explorer-rise-copy h3{font-size:11vw}.explorer-rise-copy>p:last-child{font-size:15px}.explorer-fall-copy h3>span{font-size:5.9vw;white-space:nowrap}.explorer-fall-copy h3>em{font-size:23vw}}

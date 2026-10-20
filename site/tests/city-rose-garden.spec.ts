@@ -37,7 +37,7 @@ test('all five city books have independent albums and three photo categories', a
   await enter(page);
   for (const [name, title] of [['广州', 'Guangzhou'], ['深圳', 'Shenzhen'], ['青岛', 'Qingdao'], ['上海', 'Shanghai'], ['北京', 'Beijing']]) {
     await page.getByRole('button', { name: title, exact: true }).click();
-    await page.getByRole('button', { name: `Open ${title} city album`, exact: true }).click();
+    await page.getByRole('button', { name: title, exact: true }).press('Enter');
     const album = page.getByRole('dialog', { name: new RegExp(title) });
     await expect(album).toHaveAttribute('data-phase', 'open');
     for (const category of ['PORTRAITS', 'SCENERY', 'FOOD']) {
@@ -81,7 +81,7 @@ test('stage stays English with saved Chinese preferences and city covers use cen
   for(const title of ['Guangzhou','Shenzhen','Qingdao','Shanghai','Beijing'])expect(text).toContain(title);
   for(const label of ['CRAFTER · EXPLORER · WEAVER','A TEXTURED LIFE',"Sherry's Chronicles",'WHERE LIVED REALITY MEETS DIGITAL CREATION'])expect(text).toContain(label);
   expect(text.join(' ')).not.toMatch(/[\p{Script=Han}]/u);
-  await page.getByRole('button',{name:'Open Guangzhou city album'}).click();
+  await page.getByRole('button',{name:'Guangzhou',exact:true}).press('Enter');
   const album=page.getByRole('dialog',{name:/Guangzhou/});
   await expect(album).toHaveAttribute('data-phase','open');
   expect(await album.innerText()).not.toMatch(/[\p{Script=Han}]/u);
