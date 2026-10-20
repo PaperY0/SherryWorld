@@ -7,7 +7,7 @@ function bookCover(city: CityAlbumData, emblem: HTMLImageElement) {
   // Work in the supplied 380 × 540 cover coordinates, at a crisp texture resolution.
   ctx.scale(768 / 390, 1103 / 560);
   const leather = ctx.createLinearGradient(0, 0, 390, 560);
-  leather.addColorStop(0, '#20161B'); leather.addColorStop(.55, '#120C0F'); leather.addColorStop(1, '#090608');
+  leather.addColorStop(0, '#392A32'); leather.addColorStop(.55, '#291D24'); leather.addColorStop(1, '#1C1319');
   ctx.fillStyle = leather; ctx.fillRect(0, 0, 390, 560);
   const light = ctx.createRadialGradient(190, 248, 0, 190, 248, 235);
   light.addColorStop(0, '#e295b038'); light.addColorStop(.6, '#5e2b4014'); light.addColorStop(1, '#5e2b4000');
