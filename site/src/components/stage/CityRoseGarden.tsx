@@ -24,7 +24,7 @@ export function CityRoseGarden({ onOpen, suspended }: { onOpen: (city: CityAlbum
   }, []);
   const select = (index: number) => { setActive(index); engine.current?.select(index); };
   return <div className="city-rose-garden" data-status={status}>
-    <div className="city-ambient-layers" aria-hidden="true"><div className="city-aurora-veil" /><div className="city-stardust-layer" /><div className="city-film-grain" /></div>
+    <div className="city-ambient-layers constellation-stage-bg" aria-hidden="true"><div className="pink-nebula-sky" /><div className="starfield-layer" /><div className="city-film-grain" /><div className="vignette-mask" /></div>
     <div className="rose-garden-canvas" ref={host} />
     <div className="city-garden-heading"><p>WEAVER / THE PLACES I KEEP</p><h3>A constellation of <em>horizons.</em></h3></div>
     <nav className="city-book-index" aria-label="Choose a city book">{cityAlbums.map((city, index) => <button key={city.slug} aria-pressed={active === index} onClick={() => select(index)} onFocus={() => select(index)} onKeyDown={event => { if (event.key === 'Enter') { event.preventDefault(); onOpen(city); } }}><span>{city.title}</span></button>)}</nav>

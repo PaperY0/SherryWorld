@@ -10,8 +10,9 @@ test('dawn scene pans, zooms and physically picks a city book', async ({ page })
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   const canvas = await enter(page);
   await expect(canvas).toHaveAttribute('data-engine', 'three', { timeout: 15000 });
-  await expect(canvas).toHaveAttribute('data-background', 'nocturne');
-  await expect(page.locator('.city-rose-garden')).toHaveCSS('background-image', /radial-gradient/);
+  await expect(canvas).toHaveAttribute('data-background', 'constellation');
+  await expect(canvas).toHaveAttribute('data-orbit-nodes','5');
+  await expect(page.locator('.pink-nebula-sky')).toHaveCSS('background-image', /radial-gradient/);
   await page.mouse.move(720, 460);
   await expect(canvas).toHaveAttribute('data-active-city', 'qingdao');
   const before = await page.evaluate(() => scrollY);

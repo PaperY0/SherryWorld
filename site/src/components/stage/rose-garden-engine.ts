@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { journalAnchor, createJournalOrbits } from './journal-orbits';
 import { cityAlbums, type CityAlbumData } from './city-albums';
 
 function bookCover(city: CityAlbumData, emblem: HTMLImageElement) {
@@ -77,7 +78,10 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const glowTexture = new THREE.CanvasTexture(glowCanvas);
   const glintMaterial = new THREE.PointsMaterial({ map: glowTexture, color: '#ffe5bc', size: .065, transparent: true, opacity: .3, depthWrite: false });
   scene.add(new THREE.Points(glintGeometry, glintMaterial));
-  host.dataset.background = 'nocturne';
+  host.dataset.background = 'constellation';
+  const anchors = cityAlbums.map((_,index) => journalAnchor(index, cityAlbums.length));
+  const orbits = createJournalOrbits(scene, anchors);
+  host.dataset.orbitNodes = String(anchors.length);
 
   const books: THREE.Group[] = [], hitMeshes: THREE.Object3D[] = [];
   const coverGeometry = new THREE.BoxGeometry(1.54, 2.18, .055), pageGeometry = new THREE.BoxGeometry(1.45, 2.08, .15);
@@ -92,7 +96,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   auraContext.fillStyle = aura; auraContext.fillRect(0,0,128,128);
   const auraTexture = new THREE.CanvasTexture(auraCanvas);
   cityAlbums.forEach((city, index) => {
-    const group = new THREE.Group(); group.position.set((index - 2) * 2.1, 1.19, -Math.abs(index - 2) * .22); group.rotation.y = (2 - index) * .08;
+    const group = new THREE.Group(); group.position.copy(anchors[index]); group.rotation.y = ((cityAlbums.length - 1) / 2 - index) * .08;
     const texture = bookCover(city, emblem); texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
     const cloth = new THREE.MeshStandardMaterial({ color: city.color, roughness: .48, metalness: .14 });
     const front = new THREE.MeshStandardMaterial({ map: texture, roughness: .44, metalness: .16, emissiveMap: texture, emissive: '#ffffff', emissiveIntensity: .25 });
@@ -110,7 +114,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
   const pointer = new THREE.Vector2(0, 0), raycaster = new THREE.Raycaster(), look = new THREE.Vector3(0, 1.5, -.3);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fullyOpen = () => { const p = Number(host.closest('.stage-weaver')?.getAttribute('data-door-progress')); return reduced || (p > .27 && p < .69); };
-  const select = (index: number) => { selected = THREE.MathUtils.clamp(index, 0, 4); targetX = books[selected].position.x; options.onCity(selected); };
+  const select = (index: number) => { selected = THREE.MathUtils.clamp(index, 0, books.length - 1); targetX = books[selected].position.x; options.onCity(selected); };
   const fit = () => { const w = host.clientWidth, h = host.clientHeight; renderer.setSize(w, h); camera.aspect = w / Math.max(h, 1); if (camera.aspect < 1) targetX = books[selected].position.x; camera.updateProjectionMatrix(); };
   const resize = new ResizeObserver(fit); resize.observe(host); fit();
   const hit = () => { raycaster.setFromCamera(pointer, camera); const object = raycaster.intersectObjects(hitMeshes, false)[0]?.object; return typeof object?.userData.city === 'number' ? object.userData.city as number : null; };
@@ -118,7 +122,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
     if (!fullyOpen() || options.suspended()) return;
     const rect = host.getBoundingClientRect(); pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
     if (event.pointerType !== 'touch') {
-      targetX = pointer.x * (camera.aspect < 1 ? 5 : 3.6);
+      targetX = pointer.x * Math.max(camera.aspect < 1 ? 5 : 3.6, (books.length - 1) * 1.05 - .6);
       const found = hit(); renderer.domElement.style.cursor = found === null ? 'grab' : 'pointer';
       if (found !== null && found !== selected) { selected = found; options.onCity(selected); }
     }
@@ -129,7 +133,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
     if (!dragging || !fullyOpen() || options.suspended()) return;
     dragging = false;
     if (Math.abs(event.clientY - downY) > 25) return;
-    if (Math.abs(event.clientX - downX) > 35) { select((selected + (event.clientX < downX ? 1 : 4)) % 5); return; }
+    if (Math.abs(event.clientX - downX) > 35) { select((selected + (event.clientX < downX ? 1 : books.length - 1)) % books.length); return; }
     move(event); const found = hit(); if (found !== null) options.onOpen(found);
   };
   const wheel = (event: WheelEvent) => {
@@ -154,13 +158,13 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
       look.x = camera.position.x * .92; camera.lookAt(look);
       books.forEach((book, index) => {
         const active = index === selected;
-        book.position.y += ((active ? 1.32 : 1.19) - book.position.y) * ease;
-        book.rotation.y += ((2 - index) * .08 + (active ? -.18 : 0) - book.rotation.y) * ease;
+        book.rotation.y += (((books.length - 1) / 2 - index) * .08 + (active ? -.18 : 0) - book.rotation.y) * ease;
         book.rotation.x += ((active ? .065 : 0) - book.rotation.x) * ease;
         const halo = book.userData.halo as THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
         halo.material.opacity += ((active ? .85 : .4) - halo.material.opacity) * ease;
       });
       host.dataset.zoom = zoom.toFixed(3); host.dataset.cameraX = camera.position.x.toFixed(3); host.dataset.activeCity = cityAlbums[selected].slug;
+      orbits.update(now / 1000, selected, reduced);
       renderer.render(scene, camera);
     }
     if (visible && !document.hidden) raf = requestAnimationFrame(frame);
@@ -177,7 +181,7 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
       disposed = true; cancelAnimationFrame(raf); observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', schedule);
       host.removeEventListener('pointermove', move); host.removeEventListener('pointerdown', down); host.removeEventListener('pointerup', up); host.removeEventListener('pointercancel', cancel); host.removeEventListener('wheel', wheel);
       const geometries = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>();
-      scene.traverse(object => { if (object instanceof THREE.Mesh) { geometries.add(object.geometry); for (const material of Array.isArray(object.material) ? object.material : [object.material]) { materials.add(material); if ('map' in material && material.map instanceof THREE.Texture) textures.add(material.map); } } });
+      scene.traverse(object => { if (object instanceof THREE.Mesh || object instanceof THREE.Line || object instanceof THREE.Points) { geometries.add(object.geometry); for (const material of Array.isArray(object.material) ? object.material : [object.material]) { materials.add(material); if ('map' in material && material.map instanceof THREE.Texture) textures.add(material.map); } } });
       geometries.forEach(geometry => geometry.dispose()); materials.forEach(material => material.dispose()); textures.forEach(texture => texture.dispose());
       glintGeometry.dispose(); glintMaterial.dispose(); glowTexture.dispose();
       renderer.dispose(); renderer.domElement.remove(); delete host.dataset.engine;
