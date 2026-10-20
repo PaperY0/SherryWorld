@@ -50,11 +50,20 @@ export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClo
         <button autoFocus className="skill-exhibition-close" onClick={close} aria-label="Close city album">CLOSE ×</button>
         <header className="city-album-heading"><p>WEAVER / A CITY IN MY HANDS</p><h2 id="city-album-title">{city.title}<span>CITY JOURNAL</span></h2><p>{city.motif}</p></header>
         <nav className="city-album-categories" aria-label="City photo categories">{albumCategories.map(item => <button key={item.key} aria-pressed={category === item.key} onClick={() => setCategory(item.key)}>{item.label}</button>)}</nav>
-        <div className="city-album-wall skill-gallery-stage" ref={stage} aria-label={`${city.name} draggable polaroid gallery`}>
+        <div className="city-album-wall skill-gallery-stage" ref={stage} aria-label={`${city.name} draggable photo gallery`}>
           {cards.map((photo, index) => <button className={`gallery-card city-polaroid decoration-${index % 3}`} key={`${category}-${photo.src}-${index}`} aria-label={`Enlarge city photo ${index % visible.length + 1}: ${photo.alt}`} onClick={event => { photoSource.current = event.currentTarget; setSelected(photo); }}>
-            <span className="polaroid-paper"><i className="polaroid-tape" aria-hidden="true" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={photo.src} alt={photo.alt} draggable={false} /><span className="polaroid-caption">{photo.caption}</span><i className="polaroid-ribbon" aria-hidden="true">୨୧</i>
+            <span className="polaroid-paper prism-photo-frame">
+              <svg className="prism-photo-border" viewBox="0 0 346 358" preserveAspectRatio="none" fill="none" aria-hidden="true">
+                <polygon points="14,1 332,1 345,14 345,344 332,357 14,357 1,344 1,14" stroke="#E295B0" strokeWidth="1.5" opacity=".65" />
+                <polygon points="18,6 328,6 340,18 340,340 328,352 18,352 6,340 6,18" stroke="#F2EDF0" strokeWidth=".5" opacity=".25" />
+                <path d="M28 351H318" stroke="#E295B0" strokeWidth="1.5" strokeDasharray="1 6" opacity=".6" />
+              </svg>
+              <span className="prism-photo-viewport">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={photo.src} alt={photo.alt} draggable={false} className={preview ? 'prism-placeholder-image' : undefined} />
+                {preview && <span className="prism-placeholder-type" aria-hidden="true"><span>PHOTO {photo.src.match(/photo-(\d+)/)?.[1]?.padStart(2, '0')}</span><small>{photo.category === 'portrait' ? 'PORTRAIT SERIES' : photo.category === 'scenery' ? 'SCENERY ARCHIVE' : 'AT THE TABLE'}</small></span>}
+              </span>
+              <span className="polaroid-caption"><span>{photo.caption}</span><small>NO. {String(index % visible.length + 1).padStart(2, '0')}</small></span>
             </span>
           </button>)}
         </div>
