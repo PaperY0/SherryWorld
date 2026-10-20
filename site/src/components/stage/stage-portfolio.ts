@@ -28,4 +28,4 @@ export const stageWorks = [
     github: 'https://github.com/PaperY0/Realm',
   },
 ] as const;
-export type StageWork = typeof stageWorks[number];
+export type { StudioProject as StageWork } from '@/content/site-content';

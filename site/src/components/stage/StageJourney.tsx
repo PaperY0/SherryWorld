@@ -4,13 +4,10 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-journey.css';
 import { SkillExhibition } from './SkillExhibition';
-const chapters = [
-  { slug: 'mind-laurels', title: 'Mind & Laurels', label: 'INTELLECTUAL RIGOR & HONORS', text: 'Driven by an insatiable thirst for knowledge, I test my mettle in rigorous academic studies and high-stakes competitions. Every complex problem solved and every honor earned is a milestone in my relentless quest for intellectual excellence.', tags: 'CONTINUOUS LEARNING / COMPETITIONS / AWARDS & HONORS' },
-  { slug: 'sonic-resonance', title: 'Sonic Resonance', label: 'INSTRUMENTS, VOCALS & HARMONY', text: 'Beyond the realm of logic, music is where my soul speaks unbound. Across diverse instruments and vocal expressions, I explore the architecture of sound—translating raw emotion into melodies that linger in the air.', tags: 'INSTRUMENTS / VOCAL ART / MUSICAL EXPRESSION' },
-  { slug: 'kinetic-artistry', title: 'Kinetic Artistry', label: 'CHOREOGRAPHY & DIVERSE STYLES', text: 'Dance is the poetry of the physical form. Venturing through various styles and rhythms, I train my body to command space, tension, and fluidity—turning every beat into a canvas of dynamic self-expression.', tags: 'MULTI-STYLE DANCE / CHOREOGRAPHY / BODY CONTROL' },
-  { slug: 'athletic-vigor', title: 'Athletic Vigor', label: 'ENDURANCE, AGILITY & VITALITY', text: 'A sharp mind demands a formidable vessel. Whether slicing through water, pacing the track, or dueling on the court, I embrace diverse sports to push my stamina, reflexes, and willpower to their absolute peak.', tags: 'RACKET & BALL SPORTS / SWIMMING / RUNNING & CARDIO' },
-];
+import { useSiteContent } from './SiteContentProvider';
+
 export function StageJourney({ enabled }: { enabled: boolean }) {
+  const { skills: chapters } = useSiteContent();
   const root = useRef<HTMLElement>(null);
   const [exhibition, setExhibition] = useState<typeof chapters[number] | null>(null);
   useEffect(() => {

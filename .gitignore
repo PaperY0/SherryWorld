@@ -30,3 +30,6 @@ Thumbs.db
 # Blender autosave backups; keep the authored .blend only.
 *.blend1
 *.blend2
+
+# Local content studio data (back up this directory separately)
+site/data/studio/

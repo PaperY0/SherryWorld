@@ -33,7 +33,7 @@ test('each skill opens a working placeholder wall and restores focus and scroll 
 
 test('photo gallery reuses curved drag motion, steps, enlarges and returns', async ({ page }) => {
   // Verification fixtures only. These mood images are not published as skill photographs.
-  await page.route('**/images/skills/mind-laurels/photos.json', route => route.fulfill({ json: [
+  await page.route('**/api/collections/skills/mind-laurels', route => route.fulfill({ json: [
     { src: '/images/stage/capability-mood/ribbon.png', alt: 'Fixture ribbon', caption: 'Test photo one' },
     { src: '/images/stage/capability-mood/butterflies.png', alt: 'Fixture butterflies', caption: 'Test photo two' },
     { src: '/images/stage/capability-mood/roses.png', alt: 'Fixture roses', caption: 'Test photo three' },
@@ -69,7 +69,7 @@ test('photo gallery reuses curved drag motion, steps, enlarges and returns', asy
 test('mobile reduced motion collection and photo stay within viewport', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.route(`**/images/skills/${slugs[1]}/photos.json`, route => route.fulfill({ json: [{ src: '/images/stage/portfolio/zhiye-cover.png', alt: 'Fixture screenshot' }] }));
+  await page.route(`**/api/collections/skills/${slugs[1]}`, route => route.fulfill({ json: [{ src: '/images/stage/portfolio/zhiye-cover.png', alt: 'Fixture screenshot' }] }));
   await page.goto('/stage');
   const { dialog } = await openSkill(page, 1);
   const stage = dialog.locator('.skill-gallery-stage');

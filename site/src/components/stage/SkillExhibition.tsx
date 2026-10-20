@@ -1,4 +1,5 @@
 'use client';
+import { isStudioAsset } from '@/content/site-content';
 import { useEffect, useRef, useState } from 'react';
 import { mountGallery, type GalleryMotion, type GalleryStatus } from '../gallery/motion';
 import './skill-exhibition.css';
@@ -9,7 +10,7 @@ const previewPhotos: Photo[] = Array.from({ length: 6 }, (_, index) => ({ src: `
 function validPhoto(value: unknown): value is Photo {
   if (!value || typeof value !== 'object') return false;
   const photo = value as Record<string, unknown>;
-  return typeof photo.src === 'string' && photo.src.startsWith('/images/') && typeof photo.alt === 'string' && (photo.caption === undefined || typeof photo.caption === 'string');
+  return isStudioAsset(photo.src) && typeof photo.alt === 'string' && (photo.caption === undefined || typeof photo.caption === 'string');
 }
 export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClose: () => void }) {
   const stage = useRef<HTMLDivElement>(null);
@@ -27,7 +28,7 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
     const controller = new AbortController();
     reduced.current = matchMedia('(prefers-reduced-motion: reduce)').matches;
     setPaused(reduced.current); setPhotos([]); setSelected(null); setFailed(false); setPreview(false); setLoading(true); setStatus({ index: 0, mode: 'auto' });
-    void fetch(`/images/skills/${skill.slug}/photos.json`, { signal: controller.signal }).then(async response => {
+    void fetch(`/api/collections/skills/${skill.slug}`, { signal: controller.signal }).then(async response => {
       if (!response.ok) throw new Error('Unable to load collection');
       const data: unknown = await response.json();
       if (!Array.isArray(data) || !data.every(validPhoto)) throw new Error('Invalid collection');

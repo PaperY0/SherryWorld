@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { journalAnchor, createJournalOrbits } from './journal-orbits';
-import { cityAlbums, type CityAlbumData } from './city-albums';
+import type { CityAlbumData } from './city-albums';
 
 function bookCover(city: CityAlbumData, emblem: HTMLImageElement) {
   const canvas = document.createElement('canvas'); canvas.width = 768; canvas.height = 1103;
@@ -41,7 +41,7 @@ function bookCover(city: CityAlbumData, emblem: HTMLImageElement) {
   ctx.textAlign = 'left'; ctx.font = `${titleSize}px StageLoadingScript, cursive`;
   while (ctx.measureText(city.title).actualBoundingBoxLeft + ctx.measureText(city.title).actualBoundingBoxRight > 270 && titleSize > 40) { titleSize--; ctx.font = `${titleSize}px StageLoadingScript, cursive`; }
   const bounds = ctx.measureText(city.title);
-  ctx.fillStyle = '#f4b8ce'; ctx.shadowColor = '#e295b04d'; ctx.shadowBlur = 8;
+  ctx.fillStyle = city.ink; ctx.shadowColor = '#e295b04d'; ctx.shadowBlur = 8;
   ctx.fillText(city.title, center + (bounds.actualBoundingBoxLeft - bounds.actualBoundingBoxRight) / 2, 398 + (bounds.actualBoundingBoxAscent - bounds.actualBoundingBoxDescent) / 2);
   ctx.shadowBlur = 0; ctx.textAlign = 'center';
   ctx.font = '29px StageLoadingScript, cursive'; ctx.fillText("Sherry's Chronicles", center, 492);
@@ -56,11 +56,11 @@ export async function loadJournalEmblem() {
 }
 
 export type RoseGardenEngine = { select: (index: number) => void; zoom: (amount: number) => void; dispose: () => void };
-export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: number) => void; onOpen: (index: number) => void; suspended: () => boolean }, emblem: HTMLImageElement): RoseGardenEngine {
+export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: number) => void; onOpen: (index: number) => void; suspended: () => boolean }, emblem: HTMLImageElement, cityAlbums: CityAlbumData[]): RoseGardenEngine {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
-  renderer.domElement.setAttribute('aria-label', 'Five city journals in a dark rose-gold atelier'); host.append(renderer.domElement);
+  renderer.domElement.setAttribute('aria-label', `${cityAlbums.length} city journals in a dark rose-gold atelier`); host.append(renderer.domElement);
   const scene = new THREE.Scene(); scene.background = null; scene.fog = new THREE.FogExp2('#190f18', .03);
   const camera = new THREE.PerspectiveCamera(42, 1, .1, 70);
   scene.add(new THREE.HemisphereLight('#ffe9df', '#24131f', 1.3));

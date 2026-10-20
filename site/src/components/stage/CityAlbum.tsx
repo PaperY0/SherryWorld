@@ -1,4 +1,5 @@
 'use client';
+import { isStudioAsset } from '@/content/site-content';
 import { useEffect, useRef, useState } from 'react';
 import { mountGallery, type GalleryMotion, type GalleryStatus } from '../gallery/motion';
 import { useFadingDialog } from './useFadingDialog';
@@ -9,7 +10,7 @@ import './city-rose-garden.css';
 function validPhoto(value: unknown): value is CityPhoto {
   if (!value || typeof value !== 'object') return false;
   const photo = value as Record<string, unknown>;
-  return typeof photo.src === 'string' && photo.src.startsWith('/images/') && typeof photo.alt === 'string' && typeof photo.caption === 'string' && ['portrait', 'scenery', 'food'].includes(String(photo.category));
+  return isStudioAsset(photo.src) && typeof photo.alt === 'string' && typeof photo.caption === 'string' && ['portrait', 'scenery', 'food'].includes(String(photo.category));
 }
 export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClose: () => void }) {
   const [photos, setPhotos] = useState<CityPhoto[]>([]), [preview, setPreview] = useState(true);
@@ -24,7 +25,7 @@ export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClo
     if (!city) return;
     const controller = new AbortController();
     setCategory('all'); setSelected(null); setPaused(matchMedia('(prefers-reduced-motion: reduce)').matches); setPreview(true); setPhotos(placeholderCityPhotos(city));
-    void fetch(`/images/life/${city.slug}/photos.json`, { signal: controller.signal }).then(async response => {
+    void fetch(`/api/collections/cities/${city.slug}`, { signal: controller.signal }).then(async response => {
       if (!response.ok) return;
       const items: unknown = await response.json();
       if (Array.isArray(items) && items.length && items.every(validPhoto)) {

@@ -9,7 +9,7 @@ export function WorkDetail({ work, onClose }: { work: StageWork | null; onClose:
     {work && <>
       <button className="stage-work-detail-close" autoFocus onClick={close} aria-label="Close project details">CLOSE ×</button>
       <div className="stage-work-detail-cover"><WorkCover work={work} eager /></div>
-      <div className="stage-work-detail-copy"><p>{work.category}</p><h2 id="work-detail-title">{work.name}</h2><p>{work.detail}</p><ul>{work.tags.map(tag => <li key={tag}>{tag}</li>)}</ul><a href={work.github} target="_blank" rel="noopener noreferrer">EXPLORE ON GITHUB ↗</a></div>
+      <div className="stage-work-detail-copy"><p>{work.category}</p><h2 id="work-detail-title">{work.name}</h2><p>{work.detail}</p><ul>{work.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>{work.github && <a href={work.github} target="_blank" rel="noopener noreferrer">EXPLORE ON GITHUB ↗</a>}</div>
     </>}
   </dialog>;
 }
