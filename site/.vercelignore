@@ -1,0 +1,12 @@
+.env*
+!.env.example
+data/
+tests/
+test-results/
+playwright-report/
+.next/
+node_modules/
+*.tsbuildinfo
+public/videos/welcome/closed-light.png
+public/videos/welcome/gesture-end.jpg
+public/videos/welcome/gesture-start.jpg

@@ -33,3 +33,4 @@ Thumbs.db
 
 # Local content studio data (back up this directory separately)
 site/data/studio/
+.vercel/
