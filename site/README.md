@@ -1,5 +1,16 @@
 # Sherry World · 正式网站
 
+## 当前线上版本与自动部署
+
+- GitHub：<https://github.com/PaperY0/SherryWorld>，正式分支 `main`。
+- 网站：<https://sherry-world.vercel.app>；后台：<https://sherry-world.vercel.app/admin>。
+- Vercel：团队 `sherry-7c67` → 项目 `sherry-world`，GitHub 仓库已连接；构建根目录为 `site`，使用 Next.js、Node.js 24。
+- 推送 `main` 后由 Vercel 自动构建并更新正式网站。部署状态可在 GitHub 提交检查或 Vercel Deployments 查看。
+- 后台资料保存在 Supabase；后台保存内容后刷新前台即可查看，无需推送代码。图片上传到 Storage 的 `sherry-media` 桶。
+- 本地 `.env.local` 与 Vercel 服务端环境变量保管密钥，不提交到 GitHub。
+
+下文保留早期工程说明；当前正式入口为 `/stage`，线上根路径会自动跳转。
+
 已实现：Next.js / React / TypeScript 工程、中英切换、LIGHT / DARK、设置记忆、静态人物序幕、欢迎入口、各栏目骨架与正式曲面项目画廊。
 
 在本目录执行：
