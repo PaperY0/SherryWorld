@@ -88,3 +88,26 @@ test('stage stays English with saved Chinese preferences and city covers use cen
   expect(await album.innerText()).not.toMatch(/[\p{Script=Han}]/u);
   await expect(album.getByRole('button',{name:'PORTRAITS',exact:true})).toBeVisible();
 });
+
+
+test('star rails extend beyond both screen edges at pan and zoom limits',async({page})=>{
+  test.setTimeout(90000);
+  const canvas=await enter(page);
+  await expect(canvas).toHaveAttribute('data-engine','three',{timeout:15000});
+  for(const width of [1440,2560,390]){
+    await page.setViewportSize({width,height:900});
+    const root=page.locator('.stage-weaver');
+    await root.evaluate(el=>scrollTo({top:el.getBoundingClientRect().top+scrollY+(el.getBoundingClientRect().height-innerHeight)*.45,behavior:'instant'}));
+    for(const city of ['Guangzhou','Beijing']){
+      await page.getByRole('button',{name:city,exact:true}).click();
+      await expect.poll(()=>canvas.getAttribute('data-camera-x').then(Number)).toBeCloseTo(city==='Guangzhou'?-4.2:4.2,1);
+      for(const delta of [-1000,1000]){
+        await page.locator('.rose-garden-canvas').dispatchEvent('wheel',{deltaY:delta,bubbles:true,cancelable:true});
+        await expect.poll(()=>canvas.getAttribute('data-zoom').then(Number)).toBeCloseTo(delta<0?0:1,1);
+        await expect.poll(()=>canvas.getAttribute('data-orbit-left').then(Number)).toBeLessThan(-1.15);
+        await expect.poll(()=>canvas.getAttribute('data-orbit-right').then(Number)).toBeGreaterThan(1.15);
+        await page.screenshot({path:`../work/orbit-edge-${width}-${city}-${delta<0?'far':'near'}.png`});
+      }
+    }
+  }
+});

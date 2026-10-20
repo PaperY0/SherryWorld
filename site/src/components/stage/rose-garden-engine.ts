@@ -164,7 +164,9 @@ export function mountRoseGarden(host: HTMLElement, options: { onCity: (index: nu
         halo.material.opacity += ((active ? .85 : .4) - halo.material.opacity) * ease;
       });
       host.dataset.zoom = zoom.toFixed(3); host.dataset.cameraX = camera.position.x.toFixed(3); host.dataset.activeCity = cityAlbums[selected].slug;
-      orbits.update(now / 1000, selected, reduced);
+      camera.updateMatrixWorld();
+      const coverage = orbits.update(now / 1000, selected, reduced, camera);
+      host.dataset.orbitLeft = coverage.left.toFixed(3); host.dataset.orbitRight = coverage.right.toFixed(3);
       renderer.render(scene, camera);
     }
     if (visible && !document.hidden) raf = requestAnimationFrame(frame);

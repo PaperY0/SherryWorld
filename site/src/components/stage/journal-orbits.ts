@@ -7,29 +7,40 @@ export function journalAnchor(index: number, count: number) {
 }
 
 export function createJournalOrbits(scene: THREE.Scene, anchors: THREE.Vector3[]) {
-  const extent = Math.max(8, Math.abs(anchors[0]?.x ?? 0) + 4);
-  const points = Array.from({ length: 25 }, (_, i) => {
-    const x = -extent + extent * 2 * i / 24;
-    return new THREE.Vector3(x, 1.19 - .005 * x * x, -Math.abs(x) * .105 - .32);
-  });
-  const path = new THREE.CatmullRomCurve3(points);
+  const bookExtent = Math.max(...anchors.map(anchor => Math.abs(anchor.x)), 1);
+  const tracks = new THREE.Group(); scene.add(tracks);
+  let extent = 0, path: THREE.CatmullRomCurve3;
+  const railPoint = (x: number) => {
+    // Continue the end tangent rather than letting an unbounded parabola dive out of view.
+    const distance = Math.abs(x), inner = Math.min(distance, bookExtent);
+    return new THREE.Vector3(x, 1.19 - .005 * inner * inner - .01 * bookExtent * Math.max(0,distance-bookExtent), -inner * .105 - .32);
+  };
   const line = (curve: THREE.Curve<THREE.Vector3>, opacity: number, dashed = false) => {
     const geometry = new THREE.BufferGeometry().setFromPoints(curve.getPoints(256));
     const material = dashed
       ? new THREE.LineDashedMaterial({ color: '#e69aba', transparent: true, opacity, dashSize: .055, gapSize: .09, depthWrite: false })
       : new THREE.LineBasicMaterial({ color: '#f4a2c6', transparent: true, opacity, depthWrite: false });
-    const object = new THREE.Line(geometry, material); object.computeLineDistances(); scene.add(object); return object;
+    const object = new THREE.Line(geometry, material); object.computeLineDistances(); tracks.add(object);
   };
-  line(path, .8);
-  scene.add(new THREE.Mesh(new THREE.TubeGeometry(path, 200, .025, 5, false), new THREE.MeshBasicMaterial({ color: '#f3a1c6', transparent: true, opacity: .08, blending: THREE.AdditiveBlending, depthWrite: false })));
-  for (const [radius, rise, tilt] of [[extent,.94,-.055],[extent*.84,.58,.045]]) {
-    const ellipse = new THREE.CatmullRomCurve3(Array.from({ length: 129 }, (_, i) => {
-      const angle = i / 128 * Math.PI * 2;
-      const x = Math.cos(angle) * radius;
-      return new THREE.Vector3(x, 1.19 + Math.sin(angle) * rise + x * tilt, -1.05);
-    }));
-    line(ellipse, .22, true);
-  }
+  const extend = (required: number) => {
+    if (required <= extent) return;
+    extent = Math.ceil(required * 1.25);
+    for (const object of [...tracks.children]) {
+      if (object instanceof THREE.Line || object instanceof THREE.Mesh) { object.geometry.dispose(); (object.material as THREE.Material).dispose(); }
+      tracks.remove(object);
+    }
+    path = new THREE.CatmullRomCurve3(Array.from({length:65},(_,i)=>railPoint(-extent+extent*2*i/64)));
+    line(path,.8);
+    tracks.add(new THREE.Mesh(new THREE.TubeGeometry(path,256,.025,5,false),new THREE.MeshBasicMaterial({color:'#f3a1c6',transparent:true,opacity:.08,blending:THREE.AdditiveBlending,depthWrite:false})));
+    for(const [radius,rise,tilt] of [[extent,1.35,-.035],[extent*.94,.8,.025]]) {
+      const ellipse = new THREE.CatmullRomCurve3(Array.from({length:257},(_,i)=>{
+        const angle=i/256*Math.PI*2,x=Math.cos(angle)*radius;
+        return new THREE.Vector3(x,1.19+Math.sin(angle)*rise+x*tilt,-1.05);
+      }));
+      line(ellipse,.22,true);
+    }
+  };
+  extend(bookExtent+14);
   const nodes = anchors.map(anchor => {
     const group = new THREE.Group(); group.position.copy(anchor); group.position.z -= .3;
     const ellipse = new THREE.EllipseCurve(0,0,1.04,.52,0,Math.PI*2,false,0);
@@ -41,7 +52,10 @@ export function createJournalOrbits(scene: THREE.Scene, anchors: THREE.Vector3[]
   });
   const comet = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(48 * 3),3)),new THREE.PointsMaterial({ color:'#ffe8f5',size:.035,transparent:true,opacity:.7,depthWrite:false,blending:THREE.AdditiveBlending })); scene.add(comet);
   return {
-    update(time: number, active: number, reduced: boolean) {
+    update(time: number, active: number, reduced: boolean, camera: THREE.PerspectiveCamera) {
+      // Cover the furthest horizontal frustum edge, with generous off-screen reserves.
+      const halfView = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * (camera.position.z + 3) * camera.aspect;
+      extend(Math.abs(camera.position.x) + halfView * 1.5 + bookExtent + 3);
       nodes.forEach((node,index) => {
         node.axis.material.opacity = index === active ? .32 : 0;
         node.ring.material.opacity = index === active ? .55 : .25;
@@ -50,6 +64,8 @@ export function createJournalOrbits(scene: THREE.Scene, anchors: THREE.Vector3[]
       const position = comet.geometry.getAttribute('position');
       for (let i=0;i<48;i++) { const p=path.getPointAt(((reduced ? .5 : time / 14) - i*.0015 + 1) % 1); position.setXYZ(i,p.x,p.y,p.z); }
       position.needsUpdate=true;
+      const left = path.getPoint(0).project(camera), right = path.getPoint(1).project(camera);
+      return { left: left.x, right: right.x };
     },
   };
 }
