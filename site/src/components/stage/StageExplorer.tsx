@@ -62,16 +62,16 @@ export function StageExplorer({ enabled }: { enabled: boolean }) {
   return <section className="stage-explorer" id="stage-explorer" ref={root} aria-labelledby="explorer-title" data-film={explorerFilm ? 'connected' : 'awaiting-film'}>
     <div className="explorer-continuous-light" aria-hidden="true" />
     <div className="explorer-film-track"><div className="explorer-viewport">
-      <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond the <em>known.</em></h2></header>
+      <header className="explorer-heading"><p>EXPLORER</p><h2 id="explorer-title">Beyond all <em>boundaries.</em></h2></header>
       <div className="explorer-frame">
         <div className="explorer-atmosphere" />
         {explorerFilm && <video ref={video} src={explorerFilm} poster="/videos/explorer/fall-awakening-v3-poster.jpg" muted playsInline preload="metadata" width="1280" height="720" aria-label="Explorer descent and awakening film" />}
         <div className="explorer-shade" aria-hidden="true" />
         <button className="explorer-video-play" onClick={() => { void video.current?.play().then(() => { if (root.current) root.current.dataset.videoState = 'playing'; }); }}>PLAY FILM ▷</button>
       </div>
-      <div className="explorer-fall-copy"><h3>The fall is part<br />of the journey.</h3><p>Setbacks are part of life.<br />I carry what they teach me forward.</p></div>
+      <div className="explorer-fall-copy"><h3>The abyss is the prelude<br />to <em>ascension.</em></h3><p>Adversity never breaks the spirit; it tempers the blade.<br />From the ashes, I reforge myself with relentless intention.</p></div>
       <div className="explorer-dawn" aria-hidden="true" />
-      <div className="explorer-rise-copy"><p>STILL CURIOUS. STILL BECOMING.</p><h3>From the unknown,<br /><em>I build forward.</em></h3><p>Every attempt deepens what I understand.<br />Every lesson expands what I can create.</p></div>
+      <div className="explorer-rise-copy"><p>RELENTLESS EVOLUTION. INFINITE HORIZONS.</p><h3>Through the storm,<br /><em>I forge ahead.</em></h3><p>Every trial deepens my intellectual depth.<br />Every conquest expands the circumference of who I am.</p></div>
     </div>
     </div>
     <StageJourney enabled={enabled} />

@@ -5,10 +5,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './stage-journey.css';
 import { SkillExhibition } from './SkillExhibition';
 const chapters = [
-  { slug: 'ai-exploration', title: 'AI Exploration', label: 'IMAGINATION INTO POSSIBILITY', text: 'I use AI to explore ideas, shape visual worlds and build intelligent interactions. Curiosity becomes a workflow: imagine, experiment, refine—and give an idea its first tangible form.', tags: 'AI WORKFLOWS / GENERATIVE VISUALS / INTELLIGENT INTERACTION' },
-  { slug: 'motion-interfaces', title: 'Motion & Interfaces', label: 'DETAILS THAT MAKE IT FEEL ALIVE', text: 'With Vue and motion, I turn structure into an experience. Typography, transitions and small interactions work together to make each interface feel considered, fluid and inviting to explore.', tags: 'VUE.JS / INTERACTION / MOTION ENGINEERING' },
-  { slug: 'systems-intelligence', title: 'Systems & Intelligence', label: 'A FOUNDATION BENEATH THE SURFACE', text: 'Behind the experience, I build with Java, Spring Boot and Python. APIs, backend services and AI integration connect what people see with the systems that make it work.', tags: 'JAVA / SPRING BOOT / PYTHON / AI SERVICES' },
-  { slug: 'connected-creation', title: 'Connected Creation', label: 'FROM THE FIRST IDEA TO THE WORKING WHOLE', text: 'I bring the pieces together—from the interface to the service behind it. Each project is a chance to test what I know, discover what I do not, and build something more complete.', tags: 'FULL-STACK ARCHITECTURE / INTEGRATION / CONTINUOUS LEARNING' },
+  { slug: 'mind-laurels', title: 'Mind & Laurels', label: 'INTELLECTUAL RIGOR & HONORS', text: 'Driven by an insatiable thirst for knowledge, I test my mettle in rigorous academic studies and high-stakes competitions. Every complex problem solved and every honor earned is a milestone in my relentless quest for intellectual excellence.', tags: 'CONTINUOUS LEARNING / COMPETITIONS / AWARDS & HONORS' },
+  { slug: 'sonic-resonance', title: 'Sonic Resonance', label: 'INSTRUMENTS, VOCALS & HARMONY', text: 'Beyond the realm of logic, music is where my soul speaks unbound. Across diverse instruments and vocal expressions, I explore the architecture of sound—translating raw emotion into melodies that linger in the air.', tags: 'INSTRUMENTS / VOCAL ART / MUSICAL EXPRESSION' },
+  { slug: 'kinetic-artistry', title: 'Kinetic Artistry', label: 'CHOREOGRAPHY & DIVERSE STYLES', text: 'Dance is the poetry of the physical form. Venturing through various styles and rhythms, I train my body to command space, tension, and fluidity—turning every beat into a canvas of dynamic self-expression.', tags: 'MULTI-STYLE DANCE / CHOREOGRAPHY / BODY CONTROL' },
+  { slug: 'athletic-vigor', title: 'Athletic Vigor', label: 'ENDURANCE, AGILITY & VITALITY', text: 'A sharp mind demands a formidable vessel. Whether slicing through water, pacing the track, or dueling on the court, I embrace diverse sports to push my stamina, reflexes, and willpower to their absolute peak.', tags: 'RACKET & BALL SPORTS / SWIMMING / RUNNING & CARDIO' },
 ];
 export function StageJourney({ enabled }: { enabled: boolean }) {
   const root = useRef<HTMLElement>(null);
@@ -31,9 +31,9 @@ export function StageJourney({ enabled }: { enabled: boolean }) {
   const words = (text: string) => text.split(/(\s+)/).map((word, index) => /^\s+$/.test(word) ? word : <span className="journey-word-mask" key={index}><span data-journey-word>{word}</span></span>);
   return <section ref={root} className="stage-journey" aria-labelledby="journey-title" id="stage-journey">
     <header className="journey-intro">
-      <p className="journey-eyebrow">EXPLORER / WHAT I BRING FORWARD</p>
-      <h2 id="journey-title" data-journey-reveal>{words('Every experience becomes')}<br /><em>{words('something I can create.')}</em></h2>
-      <p className="journey-intro-note" data-journey-reveal>{words('The unknown asks me to learn. The setbacks ask me to adapt. What remains is a growing ability to turn curiosity into something real.')}</p>
+      <p className="journey-eyebrow">EXPLORER / MULTI-DIMENSIONAL SELF</p>
+      <h2 id="journey-title" data-journey-reveal>{words('Every discipline becomes')}<br /><em>{words('a realm I master.')}</em></h2>
+      <p className="journey-intro-note" data-journey-reveal>{words('My pursuit of excellence refuses to be confined to a single lane. From the rigor of academic arenas and competitive honors, to the resonance of music, the kinetic art of dance, and the vitality of athletics—I explore the full spectrum of human potential.')}</p>
     </header>
     <div className="journey-chapters">{chapters.map((chapter, index) => <article className={`journey-chapter chapter-${index}`} key={chapter.title}>
       <div className="journey-chapter-copy">

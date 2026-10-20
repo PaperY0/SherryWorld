@@ -7,3 +7,7 @@
 .journey-end{padding:16svh 0 0;text-align:center}.journey-end>p{font-size:10px;letter-spacing:.2em;color:#b88a9f}.journey-end h3{font-size:clamp(36px,4vw,65px);font-weight:400;line-height:1.2;margin:35px 0}
 @media(max-width:700px){.stage-journey{padding:10svh 7vw 14svh}.journey-intro{min-height:65svh}.journey-intro>.journey-eyebrow{margin-left:0}.journey-intro h2{margin:0;max-width:100%;font-size:37px}.journey-intro-note{width:85%;margin-top:10svh;font-size:15px}.journey-chapter{min-height:65svh}.journey-chapter-copy{width:90%}.journey-chapter h3{font-size:49px;margin-bottom:26px}.journey-description{font-size:16px;line-height:1.55}.journey-tags{font-size:9px}.journey-eyebrow{font-size:9px}.journey-chapter:nth-child(even) .journey-chapter-copy{margin-left:10%}}
 @media(prefers-reduced-motion:reduce){.journey-word-mask>[data-journey-word]{will-change:auto}}
+
+/* Give the longer multidisciplinary introduction room before the first chapter. */
+.journey-intro-note{width:min(82%,1100px);text-wrap:pretty}.journey-intro{padding-bottom:7svh}.journey-intro>.journey-eyebrow{margin-left:0}.journey-intro h2{margin:0 auto;max-width:100%;text-align:center}
+@media(max-width:700px){.journey-intro-note{width:100%}.journey-chapter{padding:35px 0}}

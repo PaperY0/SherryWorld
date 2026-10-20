@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-const names = ['AI Exploration', 'Motion & Interfaces', 'Systems & Intelligence', 'Connected Creation'];
-const slugs = ['ai-exploration', 'motion-interfaces', 'systems-intelligence', 'connected-creation'];
+const names = ['Mind & Laurels', 'Sonic Resonance', 'Kinetic Artistry', 'Athletic Vigor'];
+const slugs = ['mind-laurels', 'sonic-resonance', 'kinetic-artistry', 'athletic-vigor'];
 async function openSkill(page: import('@playwright/test').Page, index = 0) {
   const button = page.getByRole('button', { name: `Explore ${names[index]} photos`, exact: true });
   await button.scrollIntoViewIfNeeded();
@@ -33,7 +33,7 @@ test('each skill opens a working placeholder wall and restores focus and scroll 
 
 test('photo gallery reuses curved drag motion, steps, enlarges and returns', async ({ page }) => {
   // Verification fixtures only. These mood images are not published as skill photographs.
-  await page.route('**/images/skills/ai-exploration/photos.json', route => route.fulfill({ json: [
+  await page.route('**/images/skills/mind-laurels/photos.json', route => route.fulfill({ json: [
     { src: '/images/stage/capability-mood/ribbon.png', alt: 'Fixture ribbon', caption: 'Test photo one' },
     { src: '/images/stage/capability-mood/butterflies.png', alt: 'Fixture butterflies', caption: 'Test photo two' },
     { src: '/images/stage/capability-mood/roses.png', alt: 'Fixture roses', caption: 'Test photo three' },

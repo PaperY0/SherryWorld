@@ -22,7 +22,7 @@ test('long composition is readable in reduced motion on desktop and mobile', asy
   await page.goto('/stage');
   const journey = page.locator('.stage-journey');
   await journey.scrollIntoViewIfNeeded();
-  await expect(journey.getByRole('heading', { name: 'Connected Creation' })).toBeVisible();
+  await expect(journey.getByRole('heading', { name: 'Athletic Vigor' })).toBeVisible();
   await journey.screenshot({ path: '../work/stage-journey-long.png', style: '.site-header,.stage-ledger{visibility:hidden!important}' });
   await page.setViewportSize({ width: 390, height: 844 });
   for (const heading of await journey.locator('h3').all()) {

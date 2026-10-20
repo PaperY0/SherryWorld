@@ -2,12 +2,12 @@ import { test, expect } from '@playwright/test';
 
 test('skill dialog holds its final transparent frame and preserves document geometry across repeated opens', async ({page})=>{
   await page.goto('/stage');
-  const trigger=page.getByRole('button',{name:'Explore AI Exploration photos',exact:true});
+  const trigger=page.getByRole('button',{name:'Explore Mind & Laurels photos',exact:true});
   await trigger.scrollIntoViewIfNeeded();
   for(let i=0;i<2;i++){
     const before=await page.evaluate(()=>({width:document.documentElement.clientWidth,y:scrollY}));
     await trigger.click();
-    const dialog=page.getByRole('dialog',{name:'AI Exploration',exact:true});
+    const dialog=page.getByRole('dialog',{name:'Mind & Laurels',exact:true});
     await expect(dialog).toHaveAttribute('data-phase','open');
     await expect(dialog.locator('.skill-gallery-stage')).toHaveAttribute('data-ready','true');
     const fill=await dialog.evaluate(el=>el.getAnimations().filter(a=>(a.effect as KeyframeEffect).target===el).map(a=>(a.effect as KeyframeEffect).getTiming().fill));
