@@ -40,13 +40,13 @@ export function SkillExhibition({ skill, onClose }: { skill: Skill | null; onClo
   }, [skill]);
   useEffect(() => {
     if (!skill || !wallReady || !stage.current || !photos.length) return;
-    const controller = mountGallery(stage.current, { count: photos.length, suspended: () => pausedRef.current || reduced.current, reduced: () => reduced.current, onStatus: setStatus });
+    const controller = mountGallery(stage.current, { count: photos.length, loop: false, suspended: () => pausedRef.current || reduced.current, reduced: () => reduced.current, onStatus: setStatus });
     motion.current = controller;
     return () => { controller.dispose(); motion.current = null; };
   }, [skill, photos, wallReady]);
   useEffect(() => { if (selected !== null) photoClose.current?.focus(); }, [selected]);
   const closePhoto = () => { setSelected(null); requestAnimationFrame(() => photoTrigger.current?.focus()); };
-  const cards = photos.length < 8 ? [...photos, ...photos, ...photos] : photos;
+  const cards = photos;
   return <dialog ref={dialog} className="skill-exhibition" aria-labelledby="skill-exhibition-title" onCancel={event => { event.preventDefault(); if (selected !== null) closePhoto(); else close(); }} onKeyDown={event => {
     if (selected === null || !photos.length) return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); setSelected((selected + (event.key === 'ArrowLeft' ? -1 : 1) + photos.length) % photos.length); }

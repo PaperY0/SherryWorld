@@ -43,7 +43,7 @@ test('all five city books have independent albums and three photo categories', a
     await expect(album).toHaveAttribute('data-phase', 'open');
     for (const category of ['PORTRAITS', 'SCENERY', 'FOOD']) {
       await album.getByRole('button', { name: category, exact: true }).click();
-      await expect(album.locator('.city-polaroid')).toHaveCount(6);
+      await expect(album.locator('.city-polaroid')).toHaveCount(2);
     }
     await page.keyboard.press('Escape'); await expect(album).not.toBeVisible();
   }

@@ -36,9 +36,9 @@ test('Weaver opens a city book with filtered polaroid photographs',async({page})
   const album=page.getByRole('dialog',{name:/Guangzhou/});
   await expect(album).toHaveAttribute('data-phase','open');
   await expect(album.locator('.city-album-wall')).toHaveAttribute('data-ready','true');
-  await expect(album.locator('.city-polaroid')).toHaveCount(18);
-  await album.getByRole('button',{name:'PORTRAITS',exact:true}).click();
   await expect(album.locator('.city-polaroid')).toHaveCount(6);
+  await album.getByRole('button',{name:'PORTRAITS',exact:true}).click();
+  await expect(album.locator('.city-polaroid')).toHaveCount(2);
   await album.getByRole('button',{name:'Pause city gallery',exact:true}).click();
   await album.locator('.city-polaroid[aria-hidden=false]').first().click();
   await expect(album.getByRole('region',{name:'Enlarged city photo'})).toBeVisible();
@@ -87,7 +87,7 @@ test('city photo album fits mobile reduced motion',async({page})=>{
   const album=page.getByRole('dialog',{name:/Guangzhou/});
   await expect(album).toBeVisible();
   await album.getByRole('button',{name:'FOOD',exact:true}).click();
-  await expect(album.locator('.city-polaroid')).toHaveCount(6);
+  await expect(album.locator('.city-polaroid')).toHaveCount(2);
   expect(await album.evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
   await page.screenshot({path:'../work/weaver-city-album-mobile.png'});
   await page.keyboard.press('Escape');await expect(album).not.toBeVisible();

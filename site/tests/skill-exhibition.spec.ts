@@ -18,7 +18,7 @@ test('each skill opens a working placeholder wall and restores focus and scroll 
   for (let index = 0; index < 4; index++) {
     const { button, dialog } = await openSkill(page, index);
     await expect(dialog.locator('.skill-gallery-stage')).toHaveAttribute('data-ready', 'true');
-    await expect(dialog.locator('.gallery-card')).toHaveCount(18);
+    await expect(dialog.locator('.gallery-card')).toHaveCount(6);
     await expect(dialog.locator('.skill-gallery-hint')).toContainText('PREVIEW PLACEHOLDERS');
     await expect(dialog.locator('svg')).toHaveCount(0);
     if(index === 0) await page.screenshot({path:'../work/skill-placeholder-wall.png'});
@@ -42,6 +42,9 @@ test('photo gallery reuses curved drag motion, steps, enlarges and returns', asy
   const { dialog } = await openSkill(page);
   const stage = dialog.locator('.skill-gallery-stage');
   await expect(stage).toHaveAttribute('data-ready', 'true');
+  await expect(stage.locator('.skill-photo-card')).toHaveCount(3);
+  const sources = await stage.locator('.skill-photo-card img').evaluateAll(images => images.map(image => image.getAttribute('src')));
+  expect(new Set(sources).size).toBe(3);
   await dialog.getByRole('button', { name: 'Pause photo gallery', exact: true }).click();
   const before = Number(await stage.getAttribute('data-offset'));
   await dialog.getByRole('button', { name: 'Next photo', exact: true }).click();
@@ -74,6 +77,7 @@ test('mobile reduced motion collection and photo stay within viewport', async ({
   const { dialog } = await openSkill(page, 1);
   const stage = dialog.locator('.skill-gallery-stage');
   await expect(stage).toHaveAttribute('data-ready', 'true');
+  await expect(stage.locator('.skill-photo-card')).toHaveCount(1);
   const photo = stage.locator('.skill-photo-card[aria-hidden="false"]').first();
   await photo.focus(); await page.keyboard.press('Enter');
   await expect(dialog.locator('.skill-photo-lightbox')).toBeVisible();

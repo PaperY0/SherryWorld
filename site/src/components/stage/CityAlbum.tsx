@@ -38,13 +38,13 @@ export function CityAlbum({ city, onClose }: { city: CityAlbumData | null; onClo
   const visible = category === 'all' ? photos : photos.filter(photo => photo.category === category);
   useEffect(() => {
     if (!city || !ready || !stage.current || !visible.length) return;
-    const controller = mountGallery(stage.current, { count: visible.length, suspended: () => suspend.current, reduced: () => matchMedia('(prefers-reduced-motion: reduce)').matches, onStatus: setStatus });
+    const controller = mountGallery(stage.current, { count: visible.length, loop: false, suspended: () => suspend.current, reduced: () => matchMedia('(prefers-reduced-motion: reduce)').matches, onStatus: setStatus });
     motion.current = controller;
     return () => { controller.dispose(); motion.current = null; };
   }, [city, ready, photos, category]);
   useEffect(() => { if (selected) back.current?.focus(); }, [selected]);
   const closePhoto = () => { setSelected(null); requestAnimationFrame(() => photoSource.current?.focus({ preventScroll: true })); };
-  const cards = [...visible, ...visible, ...visible];
+  const cards = visible;
   return <dialog ref={dialog} className="city-album skill-exhibition" aria-labelledby="city-album-title" onCancel={event => { event.preventDefault(); if (selected) closePhoto(); else close(); }}>
     {city && <>
       <div className="city-album-content" inert={!!selected}>

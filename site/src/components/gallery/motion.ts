@@ -4,9 +4,12 @@ export type GalleryMotion = { step: (amount: number) => void; dispose: () => voi
 const wrap = (n: number, total: number) => ((n + total / 2) % total + total) % total - total / 2;
 
 export function mountGallery(stage: HTMLElement, options: {
-  count: number; suspended: () => boolean; reduced: () => boolean; onStatus: (status: GalleryStatus) => void;
+  count: number; loop?: boolean; suspended: () => boolean; reduced: () => boolean; onStatus: (status: GalleryStatus) => void;
 }): GalleryMotion {
   const cards = Array.from(stage.querySelectorAll<HTMLButtonElement>('.gallery-card'));
+  const loop = options.loop !== false;
+  const limit = (value: number) => loop ? (value + cards.length) % cards.length : Math.max(0, Math.min(cards.length - 1, value));
+  let autoDirection = 1;
   let offset = 0, velocity = .12, target = .12, lastTime = performance.now(), enteredAt = 0;
   let visible = false, dragging = false, pointerX: number | null = null, dragStart = 0, dragDistance = 0;
   let lastMove = 0, keyboardFocus = false, lastInput = 'pointer', raf = 0, disposed = false, statusKey = '';
@@ -15,7 +18,7 @@ export function mountGallery(stage: HTMLElement, options: {
     const mobile = stage.clientWidth < 700, space = spacing();
     const width = mobile ? 204 : space - 20, height = mobile ? 300 : Math.min(420, Math.max(350, width * 1.2));
     cards.forEach((card, i) => {
-      const delta = wrap(i - offset, cards.length), angle = delta * .13;
+      const delta = loop ? wrap(i - offset, cards.length) : i - offset, angle = delta * .13;
       const shown = Math.abs(delta) < (mobile ? 1.6 : 3.1);
       const progress = options.reduced() ? 1 : enteredAt ? Math.max(0, Math.min(1, (now - enteredAt - Math.min(Math.abs(wrap(i, cards.length)), 4) * 85) / 700)) : 0;
       const eased = 1 - (1 - progress) ** 3, edge = Math.min(delta * delta, 9);
@@ -27,7 +30,7 @@ export function mountGallery(stage: HTMLElement, options: {
       card.style.pointerEvents = shown ? '' : 'none'; card.tabIndex = shown ? 0 : -1;
       card.setAttribute('aria-hidden', String(!shown));
     });
-    const paused = options.suspended() || keyboardFocus || !visible || document.hidden;
+    const paused = cards.length < 2 || options.suspended() || keyboardFocus || !visible || document.hidden;
     const mode: GalleryMode = paused ? 'paused' : dragging ? 'drag' : now - lastMove > 1100 ? 'auto' : target >= 0 ? 'left' : 'right';
     const index = ((Math.round(offset) % options.count) + options.count) % options.count;
     const nextKey = `${index}:${mode}`;
@@ -38,10 +41,15 @@ export function mountGallery(stage: HTMLElement, options: {
   function frame(now: number) {
     raf = 0; if (disposed) return;
     const dt = Math.min((now - lastTime) / 1000, .05); lastTime = now;
-    if (!dragging && !options.suspended() && !keyboardFocus && visible && !document.hidden) {
-      if (now - lastMove > 1100) target = .12;
+    if (cards.length > 1 && !dragging && !options.suspended() && !keyboardFocus && visible && !document.hidden) {
+      if (now - lastMove > 1100) target = .12 * autoDirection;
       velocity += (target - velocity) * (1 - Math.exp(-dt * 4));
-      offset = (offset + velocity * dt + cards.length) % cards.length;
+      const next = offset + velocity * dt;
+      offset = limit(next);
+      if (!loop && (next <= 0 || next >= cards.length - 1)) {
+        autoDirection = next <= 0 ? 1 : -1;
+        target = .12 * autoDirection; velocity = 0;
+      }
     }
     render(now);
     if (visible && !document.hidden) raf = requestAnimationFrame(frame);
@@ -57,7 +65,7 @@ export function mountGallery(stage: HTMLElement, options: {
     if (dragging) {
       dragDistance = Math.max(dragDistance, Math.abs(e.clientX - dragStart));
       if (dragDistance > 6 && !stage.hasPointerCapture(e.pointerId)) stage.setPointerCapture(e.pointerId);
-      offset = (offset - dx / spacing() + cards.length) % cards.length; velocity = 0; lastMove = 0;
+      offset = limit(offset - dx / spacing()); velocity = 0; lastMove = 0;
       render(performance.now());
     } else if (e.pointerType !== 'touch' && Math.abs(dx) >= 2) {
       target = (dx > 0 ? -1 : 1) * Math.min(.8, .24 + Math.abs(dx) * .018); lastMove = performance.now();
@@ -78,7 +86,7 @@ export function mountGallery(stage: HTMLElement, options: {
   const blur = () => { keyboardFocus = false; };
   const visibility = () => { if (!document.hidden) schedule(); };
   const resize = () => render(performance.now());
-  function step(amount: number) { offset = (offset + amount + cards.length) % cards.length; lastMove = 0; render(performance.now()); }
+  function step(amount: number) { offset = limit(offset + amount); lastMove = 0; render(performance.now()); }
   stage.addEventListener('pointerdown', down); stage.addEventListener('pointermove', move);
   stage.addEventListener('pointerleave', leave); stage.addEventListener('click', click, true);
   stage.addEventListener('focusin', focus); stage.addEventListener('focusout', blur);
