@@ -1,4 +1,4 @@
-import { test,expect,type APIRequestContext } from '@playwright/test';
+import { test,expect,type APIRequestContext,type Page } from '@playwright/test';
 import type { SiteContent } from '../src/content/site-content';
 test.describe.configure({mode:'serial'});
 let original:SiteContent;
@@ -8,6 +8,49 @@ async function current(request:APIRequestContext){return (await request.get('/ap
 async function reset(request:APIRequestContext){const snapshot=await current(request);const response=await request.put('/api/admin/content',{headers,data:{revision:snapshot.revision,content:original}});expect(response.ok()).toBe(true);}
 test.beforeAll(async({request})=>{original=(await current(request)).content;});
 test.afterEach(async({request})=>{await reset(request);});
+
+async function dropImages(page:Page,label:string,names:string[],invalid=false){
+  const data=await page.evaluateHandle(({names,bytes,invalid})=>{
+    const transfer=new DataTransfer();
+    for(const name of names)transfer.items.add(new File([invalid?'not an image':new Uint8Array(bytes)],name,{type:invalid?'text/plain':'image/png'}));
+    return transfer;
+  },{names,bytes:Array.from(png),invalid});
+  const zone=page.getByRole('group',{name:label,exact:true});
+  await zone.dispatchEvent('dragenter',{dataTransfer:data});
+  await expect(zone).toHaveClass(/is-dragging/);
+  await zone.dispatchEvent('drop',{dataTransfer:data});
+  await expect(zone).not.toHaveClass(/is-dragging/);
+  await data.dispose();
+}
+
+test('images can be dropped into project covers and multi-photo city and skill collections',async({page,request})=>{
+  await page.goto('/admin');
+  await dropImages(page,'项目封面拖拽区',['cover.png']);
+  await expect(page.locator('.studio-cover img')).toHaveAttribute('src',/api\/media/);
+  await expect(page.locator('.studio-editor')).toHaveAttribute('aria-busy','false');
+  await page.getByRole('button',{name:/城市与生活/}).click();
+  const originalCount=await page.locator('.studio-photo-row').count();
+  await dropImages(page,'展览照片拖拽区',['city-one.png','city-two.png']);
+  await expect(page.locator('.studio-photo-row')).toHaveCount(originalCount+2);
+  await expect(page.locator('.studio-editor')).toHaveAttribute('aria-busy','false');
+  await dropImages(page,'展览照片拖拽区',['notes.txt'],true);
+  await expect(page.locator('.studio-messages').getByRole('alert')).toContainText('15MB以内');
+  await expect(page.locator('.studio-photo-row')).toHaveCount(originalCount+2);
+  await page.getByRole('button',{name:/技能与照片/}).click();
+  const skillCount=await page.locator('.studio-photo-row').count();
+  await dropImages(page,'展览照片拖拽区',['skill.png']);
+  await expect(page.locator('.studio-photo-row')).toHaveCount(skillCount+1);
+  await expect(page.locator('.studio-editor')).toHaveAttribute('aria-busy','false');
+  await page.getByRole('button',{name:'保存全部修改',exact:true}).click();
+  await expect(page.getByRole('status')).toContainText('已保存');
+  const saved=await current(request);expect(saved.content.cities[0].photos).toHaveLength(originalCount+2);
+  await page.reload();await page.getByRole('button',{name:/城市与生活/}).click();
+  await expect(page.locator('.studio-photo-row')).toHaveCount(originalCount+2);
+  await page.setViewportSize({width:390,height:844});
+  await expect(page.getByRole('group',{name:'展览照片拖拽区'})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:'../work/admin-drag-drop-mobile.png',fullPage:true});
+});
 
 test('studio saves an uploaded project and the live stage reads it without rebuilding',async({page,context,request})=>{
   await page.goto('/admin');await expect(page.getByRole('heading',{name:'项目',exact:true})).toBeVisible();
