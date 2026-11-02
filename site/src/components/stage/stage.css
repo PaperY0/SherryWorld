@@ -10,7 +10,18 @@ body:has(.stage-page) .skip-link{display:none}
 .stage-rail{display:flex;width:max-content;will-change:transform;color:var(--stage-fg)}
 .stage-rail span{display:block;flex-shrink:0;white-space:nowrap;font-size:clamp(120px,18.5vw,330px);line-height:1.05;font-weight:300;letter-spacing:-.065em;padding-right:50px}
 .stage-portrait{position:absolute;inset:0;z-index:2;pointer-events:none;will-change:transform}
+/* Broad reflected light connects the cutout's warm hair highlights to the scene. */
+.stage-portrait::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 29% 42% at 65% 39%,#e6adc05c,transparent 78%),radial-gradient(ellipse 24% 36% at 32% 57%,#d696b03d,transparent 80%);pointer-events:none}
 .stage-portrait img{display:block;position:absolute;height:88%;width:auto;max-width:none;left:50%;bottom:0;transform:translateX(-50%);object-fit:contain;filter:url(#stage-solid-alpha);mask-image:linear-gradient(to bottom,#000 0%,#000 76%,transparent 100%)}
+/* Match the PNG geometry, tinting outer hair/shoulders without washing out the face. */
+.stage-portrait::after{content:"";position:absolute;height:88%;aspect-ratio:1671/941;left:50%;bottom:0;transform:translateX(-50%);background:radial-gradient(ellipse 10% 32% at 70% 44%,#e6aec0a3,transparent 100%),radial-gradient(ellipse 10% 28% at 31% 61%,#d996b080,transparent 100%);mask-image:url('/images/stage/sherry-cutout-v1.png'),linear-gradient(to bottom,#000 0%,#000 76%,transparent 100%);mask-size:100% 100%;mask-repeat:no-repeat;mask-composite:intersect;mix-blend-mode:soft-light;--stage-rim-opacity:.42;opacity:var(--stage-rim-opacity);pointer-events:none}
+[data-theme=dark] .stage-portrait::before{opacity:.55}
+[data-theme=dark] .stage-portrait::after{--stage-rim-opacity:.25}
+.stage-page[data-intro=signing] .stage-portrait::after,.stage-page[data-loading=true] .stage-portrait::after{visibility:hidden}
+.stage-page[data-intro=entering] .stage-portrait::after{animation:stage-rim-in 2.5s .6s cubic-bezier(.45,0,.55,1) both}
+@keyframes stage-rim-in{from{visibility:hidden;opacity:0}1%{visibility:visible}to{visibility:visible;opacity:var(--stage-rim-opacity)}}
+@media(max-width:700px){.stage-portrait::before{background:radial-gradient(ellipse 45% 33% at 76% 47%,#e6adc052,transparent 80%),radial-gradient(ellipse 40% 28% at 17% 60%,#d696b033,transparent 80%)}.stage-portrait::after{height:65%;bottom:8%;left:49%}}
+@media(prefers-reduced-motion:reduce){.stage-page .stage-portrait::after{animation:none!important;visibility:visible!important}}
 .stage-floor{position:absolute;inset:70% 0 0;z-index:3;pointer-events:none;background:linear-gradient(transparent,#171217 100%)}
 .stage-intro{position:absolute;left:3.5%;top:21%;z-index:4;font-size:13px;line-height:1.7;letter-spacing:.03em;max-width:260px;animation:stage-type-in 1s .4s both}
 .stage-nav{position:absolute;right:3.5%;top:18%;z-index:5;display:flex;flex-direction:column;gap:11px;font-size:11px;letter-spacing:.07em;min-width:170px;animation:stage-type-in 1s .4s both}
